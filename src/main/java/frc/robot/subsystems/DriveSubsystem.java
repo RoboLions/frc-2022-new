@@ -349,6 +349,7 @@ public class DriveSubsystem extends SubsystemBase {
     double leftSpeed = (linearTravelSpeed + rotateSpeed);
     double rightSpeed = (linearTravelSpeed - rotateSpeed);
 
+    /* acceleration concept:
     double leftAccel = (leftSpeed - lastVelocityLeft)/0.02;
     double rightAccel = (rightSpeed - lastVelocityRight)/0.02;
 
@@ -375,7 +376,7 @@ public class DriveSubsystem extends SubsystemBase {
       rightSpeed = 0;
       lastVelocityLeft = 0;
       lastVelocityRight = 0;
-    }
+    }*/
 
     straightDrive(leftSpeed, rightSpeed);
   }
