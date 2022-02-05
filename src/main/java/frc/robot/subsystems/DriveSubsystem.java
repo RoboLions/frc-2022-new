@@ -70,6 +70,9 @@ public class DriveSubsystem extends SubsystemBase {
   public double left_speed_cmd;
   public double right_speed_cmd;
 
+  static double lastVelocityLeft = 0;
+  static double lastVelocityRight = 0;
+
   /*
   public static final double LLAIMINGCONSTANT = 0; //  limelight aiming constant TODO: change
   public static final double MOTORGAIN = 0; //TODO: change
@@ -345,6 +348,35 @@ public class DriveSubsystem extends SubsystemBase {
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
     double leftSpeed = (linearTravelSpeed + rotateSpeed);
     double rightSpeed = (linearTravelSpeed - rotateSpeed);
+
+    double leftAccel = (leftSpeed - lastVelocityLeft)/0.02;
+    double rightAccel = (rightSpeed - lastVelocityRight)/0.02;
+
+    double accelLimit = 1; //meters per second
+    if (leftAccel > accelLimit) {
+      leftSpeed = lastVelocityLeft + accelLimit*0.02;
+    } 
+    else if (leftAccel < -accelLimit) {
+      leftSpeed = lastVelocityLeft - accelLimit*0.02;
+    }
+
+    if (rightAccel > accelLimit) {
+      rightSpeed = lastVelocityRight + accelLimit*0.02;
+    } 
+    else if (rightAccel < -accelLimit) {
+      rightSpeed = lastVelocityRight - accelLimit*0.02;
+    }
+
+    lastVelocityLeft = leftSpeed;
+    lastVelocityRight = rightSpeed;
+
+    if (Math.abs(linearTravelSpeed) < 0.25) {
+      leftSpeed = 0;
+      rightSpeed = 0;
+      lastVelocityLeft = 0;
+      lastVelocityRight = 0;
+    }
+
     straightDrive(leftSpeed, rightSpeed);
   }
 
