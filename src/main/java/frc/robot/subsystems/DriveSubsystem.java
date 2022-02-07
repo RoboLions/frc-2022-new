@@ -72,6 +72,13 @@ public class DriveSubsystem extends SubsystemBase {
   static double lastVelocityLeft = 0;
   static double lastVelocityRight = 0;
 
+/*
+  static double lastLinearVelocityLeft = 0;
+  static double lastLinearVelocityRight = 0;
+  static double lastRotateVelocityLeft = 0;
+  static double lastRotateVelocityRight = 0;
+  */
+
   /*
   public static final double LLAIMINGCONSTANT = 0; //  limelight aiming constant TODO: change
   public static final double MOTORGAIN = 0; //TODO: change
@@ -345,10 +352,34 @@ public class DriveSubsystem extends SubsystemBase {
     // input speed is meters per second, input rotation is bot rotation 
     // speed in meters per second
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
+
+    /*
+    double leftLinearSpeedAccel = (linearTravelSpeed - lastLinearVelocityLeft)/0.02;
+    double rightLinearSpeedAccel = (linearTravelSpeed - lastLinearVelocityRight)/0.02;
+
+    double leftRotateSpeedAccel = (rotateSpeed - lastRotateVelocityLeft)/0.02;
+    double rightRotateSpeedAccel = (rotateSpeed - lastRotateVelocityRight)/0.02;
+
+    double accelLimit = 1; //meters per second
+    if (leftLinearSpeedAccel > accelLimit) {
+      linearTravelSpeed = lastLinearVelocityLeft + accelLimit*0.02;
+    } 
+    else if (leftLinearSpeedAccel < -accelLimit) {
+      linearTravelSpeed = lastLinearVelocityLeft - accelLimit*0.02;
+    }
+
+    if (rightLinearSpeedAccel > accelLimit) {
+      linearTravelSpeed = lastLinearVelocityRight + accelLimit*0.02;
+    } 
+    else if (rightLinearSpeedAccel < -accelLimit) {
+      linearTravelSpeed = lastLinearVelocityRight - accelLimit*0.02;
+    }*/
+
+    
     double leftSpeed = (linearTravelSpeed + rotateSpeed);
     double rightSpeed = (linearTravelSpeed - rotateSpeed);
 
-    /* acceleration concept:
+    // acceleration concept:
     double leftAccel = (leftSpeed - lastVelocityLeft)/0.02;
     double rightAccel = (rightSpeed - lastVelocityRight)/0.02;
 
@@ -370,12 +401,12 @@ public class DriveSubsystem extends SubsystemBase {
     lastVelocityLeft = leftSpeed;
     lastVelocityRight = rightSpeed;
 
-    if (Math.abs(linearTravelSpeed) < 0.25) {
+    if (Math.abs(linearTravelSpeed) < 0.25 && Math.abs(rotateSpeed) < 0.25) {
       leftSpeed = 0;
       rightSpeed = 0;
       lastVelocityLeft = 0;
       lastVelocityRight = 0;
-    }*/
+    }
 
     straightDrive(leftSpeed, rightSpeed);
   }

@@ -26,7 +26,7 @@ public class AutoPath1 extends SequentialCommandGroup {
   public AutoPath1(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
       // move forwards
-      new AutoMove(driveSubsystem, 2.7),
+      new AutoMove(driveSubsystem, 2.7), //TODO: what's the distance to ball
 
       new StopNWait(driveSubsystem, 0.1),
 
