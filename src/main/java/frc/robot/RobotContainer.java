@@ -9,20 +9,18 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
-/*
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.SimpleShootShooter;
 import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
-import frc.robot.commands.Autonomous.DefaultAutoPath;*/
+import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.subsystems.DriveSubsystem;
-/*
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SimpleShooterSubsystem;*/
+import frc.robot.subsystems.SimpleShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -33,9 +31,8 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
 
-  /*
   public final static SimpleShooterSubsystem simpleShooterSubsystem = new SimpleShooterSubsystem();
-  public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();*/
+  public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   
   /*public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -59,6 +56,10 @@ public class RobotContainer {
 
     driveSubsystem.setDefaultCommand(
       new JoystickDrive(driveSubsystem)
+    );
+
+    simpleShooterSubsystem.setDefaultCommand(
+      new SimpleShootShooter(simpleShooterSubsystem)
     );
 
     /*
