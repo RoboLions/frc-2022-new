@@ -2,32 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*
 package frc.robot.commands;
 
-//import frc.robot.commands.MotorIntake;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.IntakeSubsystem;
-
-import edu.wpi.first.wpilibj2.command.CommandBase;
+// import edu.wpi.first.wpilibj.XboxController;
+// import frc.robot.commands.AutoMove.Mode;
 
 public class AutoIntake extends CommandBase {
+  /** Creates a new Intake. */
+  private final IntakeSubsystem intakeSubsystem;
+  // private static final int DEFAULT_TIME = 1;
 
-  //remember true is take in false is take out
-  public AutoIntake(boolean OutOrIn) {
+  public AutoIntake(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    if(OutOrIn == true) {
-      IntakeSubsystem.intakeBalls();
-    }
-    else if(OutOrIn == false) {
-      IntakeSubsystem.outtakeBalls();
-    }
-
-
+    intakeSubsystem = intake;
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,11 +27,15 @@ public class AutoIntake extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intakeSubsystem.intakeBalls();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.stop();
+  }
 
   // Returns true when the command should end.
   @Override
@@ -48,4 +43,3 @@ public class AutoIntake extends CommandBase {
     return false;
   }
 }
-*/
