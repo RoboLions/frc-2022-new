@@ -323,7 +323,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
     //SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
     
-
     leftBackMotor.set(LVoltagePercentCommand);
     rightBackMotor.set(RVoltagePercentCommand);
 
@@ -352,30 +351,7 @@ public class DriveSubsystem extends SubsystemBase {
     // input speed is meters per second, input rotation is bot rotation 
     // speed in meters per second
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
-
-    /*
-    double leftLinearSpeedAccel = (linearTravelSpeed - lastLinearVelocityLeft)/0.02;
-    double rightLinearSpeedAccel = (linearTravelSpeed - lastLinearVelocityRight)/0.02;
-
-    double leftRotateSpeedAccel = (rotateSpeed - lastRotateVelocityLeft)/0.02;
-    double rightRotateSpeedAccel = (rotateSpeed - lastRotateVelocityRight)/0.02;
-
-    double accelLimit = 1; //meters per second
-    if (leftLinearSpeedAccel > accelLimit) {
-      linearTravelSpeed = lastLinearVelocityLeft + accelLimit*0.02;
-    } 
-    else if (leftLinearSpeedAccel < -accelLimit) {
-      linearTravelSpeed = lastLinearVelocityLeft - accelLimit*0.02;
-    }
-
-    if (rightLinearSpeedAccel > accelLimit) {
-      linearTravelSpeed = lastLinearVelocityRight + accelLimit*0.02;
-    } 
-    else if (rightLinearSpeedAccel < -accelLimit) {
-      linearTravelSpeed = lastLinearVelocityRight - accelLimit*0.02;
-    }*/
-
-    
+  
     double leftSpeed = (linearTravelSpeed + rotateSpeed);
     double rightSpeed = (linearTravelSpeed - rotateSpeed);
 
