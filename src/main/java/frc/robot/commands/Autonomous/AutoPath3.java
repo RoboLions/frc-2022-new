@@ -1,4 +1,5 @@
-package frc.robot.commands.Autopaths;
+
+package frc.robot.commands.Autonomous;
 
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoMove;

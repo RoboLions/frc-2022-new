@@ -34,11 +34,10 @@ public class RobotContainer {
   public final static SimpleShooterSubsystem simpleShooterSubsystem = new SimpleShooterSubsystem();
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
-  
-  /*public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   //public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();*/
+  public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
 
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
@@ -61,11 +60,6 @@ public class RobotContainer {
     simpleShooterSubsystem.setDefaultCommand(
       new SimpleShootShooter(simpleShooterSubsystem)
     );
-
-    /*
-    simpleShooterSubsystem.setDefaultCommand(
-      new SimpleShootShooter(simpleShooterSubsystem)
-    );*/
   }
 
   /**
