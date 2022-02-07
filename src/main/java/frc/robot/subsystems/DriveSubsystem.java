@@ -10,7 +10,6 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
-
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,8 +18,8 @@ import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.RobotMap;
-/*import frc.robot.Constants.OIConstants;
-import frc.robot.lib.RoboLionsMotionProfile;*/
+import frc.robot.Constants.OIConstants;
+import frc.robot.lib.RoboLionsMotionProfile;
 import frc.robot.lib.RoboLionsPID;
 
 public class DriveSubsystem extends SubsystemBase {
