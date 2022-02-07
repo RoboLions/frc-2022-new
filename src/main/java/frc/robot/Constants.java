@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -12,4 +14,40 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    //TODO: find the right values
+
+    public static final class OIConstants {
+        public static final int DRIVER_CONTROLLER_PORT = 0;
+        public static final int MANIPULATOR_CONTROLLER_PORT = 1;
+    }
+
+    public static final class ShooterConstants {
+        public static final double angleOfLimelight = 0; 
+        public static final double heightOfUpperHub = 2.6416; // meters
+        public static final int heightOfLimelight = 0;
+    }
+
+    public static final class LimelightConstants {
+        //modes for limelight led light
+        public static final double FORCE_OFF = 1;
+        public static final double FORCE_BLINK = 2;
+        public static final double FORCE_ON = 3;
+    
+        //modes for limelight camera 
+        public static final double VISION_PROCESSOR = 0;
+        public static final double DRIVER_CAMERA = 1;
+        public static final double LLAIMING = 0.035;
+        public static final double MOTORGAIN = 0.75; //0.8  //0.7; //0.6
+    }
+
+    public static final class LIDARConstants {
+        public static final double offset  = 0; //offset for sensor. test with tape measure
+    }
+
+    public static final String BUTTON_X = null;
+
+    public static GenericHID getDriverJoystick() {
+        return null;
+    }
+}
