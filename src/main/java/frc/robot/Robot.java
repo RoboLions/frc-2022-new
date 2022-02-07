@@ -4,9 +4,22 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.lib.RoboLionsPID;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LIDARLiteSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,15 +32,47 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private RoboLionsPID leftDrivetrainPID = m_robotContainer.driveSubsystem.leftForwardPID;
+  private RoboLionsPID rightDrivetrainPID = m_robotContainer.driveSubsystem.rightForwardPID;
+
+  private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
+  private IntakeSubsystem intakeSubsystem = m_robotContainer.intakeSubsystem;
+  private LIDARLiteSubsystem lidarLiteSubsystem = m_robotContainer.lidarLiteSubsystem;
+  private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
+  private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
+  
+  private final static XboxController driverController = RobotContainer.driverController;  
+  
+  private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
+  private static final WPI_TalonFX rightBackMotor = RobotMap.rightBackDriveMotor;
+  private static final WPI_TalonFX leftFrontMotor = RobotMap.leftFrontDriveMotor;
+  private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+
+  // SendableChooser<Command> m_chooser = new SendableChooser<>();
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    leftFrontMotor.configFactoryDefault();
+    rightFrontMotor.configFactoryDefault();
+    leftBackMotor.configFactoryDefault();
+    rightBackMotor.configFactoryDefault();
+
+    m_robotContainer.limelightSubsystem.setVisionProcessor();
+    m_robotContainer.limelightSubsystem.turn_LED_ON();
+    /*
+    m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
+    m_chooser.addOption("cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
+    m_chooser.addOption("cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem));
+    */
   }
 
   /**
@@ -44,6 +89,33 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    //shooterSubsystem.getDistance();
+
+    //SmartDashboard.putNumber("Shooter Distance Meters", shooterSubsystem.getDistance());
+
+    SmartDashboard.putNumber("Throttle", driverController.getLeftY());
+    
+    //SmartDashboard.putNumber("throttle 2", );
+    
+    SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Front Velocity", rightFrontMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Left Back Velocity", leftBackMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());
+    
+    SmartDashboard.putNumber("Right Encoder MPS", driveSubsystem.getBackRightEncoderVelocityMetersPerSecond());
+
+    /*
+    SmartDashboard.putNumber("Left Front Error", JoystickDrive.TARGET_VELOCITY - leftFrontMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Left Back Error", JoystickDrive.TARGET_VELOCITY - leftBackMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Front Error", JoystickDrive.TARGET_VELOCITY - rightFrontMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Back Error", JoystickDrive.TARGET_VELOCITY - rightBackMotor.getSelectedSensorVelocity());
+    */
+
+    SmartDashboard.putNumber("Left Front Position", leftFrontMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Front Position", rightFrontMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Back Position", leftBackMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -56,7 +128,8 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    // m_autonomousCommand = m_chooser.getSelected();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -92,12 +165,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
-
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {}
-
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {}
 }
