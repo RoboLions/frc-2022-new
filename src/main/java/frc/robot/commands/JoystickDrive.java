@@ -34,7 +34,7 @@ public class JoystickDrive extends CommandBase {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 6); // 3 made slower for testing purposes
+      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 5); // 3 made slower for testing purposes
     }
 
     //System.out.println("JoystickDrive throttle value: " + throttle);
@@ -42,7 +42,7 @@ public class JoystickDrive extends CommandBase {
     if ((rotate > 0 && rotate < 0.25) || (rotate < 0 && rotate > -0.25)) {
       rotate = 0;
     } else {
-      rotate = rotate*0.5;
+      rotate = rotate*0.7;
     }
 
     // rotation speed scaler

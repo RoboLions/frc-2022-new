@@ -69,8 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
   public double left_speed_cmd;
   public double right_speed_cmd;
 
-  static double lastVelocityLeft = 0;
-  static double lastVelocityRight = 0;
+  /*static double lastVelocityLeft = 0;
+  static double lastVelocityRight = 0;*/
+
+  static double lastLinearVelocity = 0;
 
 /*
   static double lastLinearVelocityLeft = 0;
@@ -280,6 +282,7 @@ public class DriveSubsystem extends SubsystemBase {
   } 
 
   public void straightDrive(double leftSpeed, double rightSpeed) {
+    // TODO: change
     left_speed_cmd = leftSpeed; // actual speed command passed 
     right_speed_cmd = rightSpeed;
     
@@ -351,15 +354,42 @@ public class DriveSubsystem extends SubsystemBase {
     // input speed is meters per second, input rotation is bot rotation 
     // speed in meters per second
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
-  
-    double leftSpeed = (linearTravelSpeed + rotateSpeed);
-    double rightSpeed = (linearTravelSpeed - rotateSpeed);
 
+    double leftSpeed = 0;
+    double rightSpeed = 0;
+
+    // reset speeds to 0 when throttle and rotate < 0.25
+    if ((Math.abs(linearTravelSpeed) < 0.25) && 
+        (Math.abs(rotateSpeed) < 0.25)) {
+      leftSpeed = 0;
+      rightSpeed = 0;
+      /*lastVelocityLeft = 0;
+      lastVelocityRight = 0;*/
+      lastLinearVelocity = 0;
+    }
+
+    double linearAccel = (linearTravelSpeed - lastLinearVelocity)/0.02;
+    //System.out.println("Linear accel: " + linearAccel);
+  
+    double accelLimit = 1; //meters per second
+    if (linearAccel > accelLimit) {
+      linearTravelSpeed = lastLinearVelocity + accelLimit*0.01;
+    }
+    else if (linearAccel < -accelLimit) {
+      linearTravelSpeed = lastLinearVelocity - accelLimit*0.01;
+    }
+
+    lastLinearVelocity = linearTravelSpeed;
+    //System.out.println("Linear travel speed: " + linearTravelSpeed);
+
+    leftSpeed = (linearTravelSpeed + rotateSpeed);
+    rightSpeed = (linearTravelSpeed - rotateSpeed);
+
+    /*
     // acceleration concept:
     double leftAccel = (leftSpeed - lastVelocityLeft)/0.02;
     double rightAccel = (rightSpeed - lastVelocityRight)/0.02;
 
-    double accelLimit = 1; //meters per second
     if (leftAccel > accelLimit) {
       leftSpeed = lastVelocityLeft + accelLimit*0.02;
     } 
@@ -375,14 +405,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     lastVelocityLeft = leftSpeed;
-    lastVelocityRight = rightSpeed;
-
-    if (Math.abs(linearTravelSpeed) < 0.25 && Math.abs(rotateSpeed) < 0.25) {
-      leftSpeed = 0;
-      rightSpeed = 0;
-      lastVelocityLeft = 0;
-      lastVelocityRight = 0;
-    }
+    lastVelocityRight = rightSpeed;*/
 
     straightDrive(leftSpeed, rightSpeed);
   }
