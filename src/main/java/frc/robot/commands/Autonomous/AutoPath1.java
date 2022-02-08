@@ -29,15 +29,15 @@ public class AutoPath1 extends SequentialCommandGroup {
       // move forwards
       new AutoMove(driveSubsystem, 2.7), //TODO: what's the distance to ball
 
-      new StopNWait(driveSubsystem, 0.1),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Target hub
       new AlignShooter(limelightSubsystem, driveSubsystem),
 
-      new StopNWait(driveSubsystem, 0.1),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Shoot balls
-      new AutoShoot(shooterSubsystem).withTimeout(10)
+      new AutoShoot(shooterSubsystem).withTimeout(6)
     );
   }
 }

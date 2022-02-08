@@ -31,25 +31,25 @@ public class AutoPath2 extends SequentialCommandGroup {
       new AlignWithLIDAR(lidar, driveSubsystem), 
       // new AutoTurn(driveSubsystem, 90),
 
-      new StopNWait(driveSubsystem, 0.1),
+      new StopNWait(driveSubsystem, 0.5),
       
       // Drive to ball on field
       new AutoMove(driveSubsystem, (lidar.getDistance() * 100)), // convert to meters
 
-      new StopNWait(driveSubsystem, 0.04),
+      new StopNWait(driveSubsystem, 0.5),
       
       // a crumb of intake command pls
-      new AutoIntake(intakeSubsystem).withTimeout(10),
+      new AutoIntake(intakeSubsystem).withTimeout(2),
 
-      new StopNWait(driveSubsystem, 0.04),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Target hub
       new AlignShooter(limelightSubsystem, driveSubsystem),
 
-      new StopNWait(driveSubsystem, 0.1),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Shoot balls
-      new AutoShoot(shooterSubsystem).withTimeout(10)
+      new AutoShoot(shooterSubsystem).withTimeout(6)
     );
   }
 }

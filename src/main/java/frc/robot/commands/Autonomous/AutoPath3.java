@@ -18,42 +18,45 @@ import frc.robot.subsystems.SimpleShooterSubsystem;
 public class AutoPath3 extends SequentialCommandGroup {
     
   /** 
-   * TODO: path description here
+   * pre-loaded with 1 ball, move forward to intake ball, 
   */
 
   public AutoPath3(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   ShooterSubsystem shootSubsystem, LIDARLiteSubsystem lidar, LimelightSubsystem limelightSubsystem){
     super(
-      // TODO: consider lidar aiming
+
+      // Target ball on field
+      new AlignWithLIDAR(lidar, driveSubsystem), 
+
       // Move forward
-      new AutoMove(driveSubsystem, null, 2.577, 5),
-      new StopNWait(driveSubsystem, 0.2),
+      new AutoMove(driveSubsystem, 2.7),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Intake a ball
-      new AutoIntake(intakeSubsystem),
-      new StopNWait(driveSubsystem, 0.2),
+      new AutoIntake(intakeSubsystem).withTimeout(2),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Align to hub
       new AlignShooter(limelightSubsystem, driveSubsystem),
 
       // Shoot balls 
-      new AutoShoot(shootSubsystem),
-      new StopNWait(driveSubsystem, 0.2),
+      new AutoShoot(shootSubsystem).withTimeout(6),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Move forward
-      new AutoMove(driveSubsystem, null,6.711,5),
-      new StopNWait(driveSubsystem, 0.2),
+      new AutoMove(driveSubsystem, 2.7),
+      new StopNWait(driveSubsystem, 0.5),
 
       // Intake ball
-      new AutoIntake(intakeSubsystem),
-      new StopNWait(driveSubsystem, 0.2),
+      new AutoIntake(intakeSubsystem).withTimeout(2),
+      new StopNWait(driveSubsystem, 0.5),
 
       // ALign to hub
       new AlignShooter(limelightSubsystem, driveSubsystem),
 
       // Shoot
-      new AutoShoot(shootSubsystem),
-      new StopNWait(driveSubsystem, 0.2)
+      new AutoShoot(shootSubsystem).withTimeout(6),
+      new StopNWait(driveSubsystem, 0.5)
     );
   }
 }
