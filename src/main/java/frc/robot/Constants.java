@@ -13,7 +13,6 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //TODO: find the right values
 
     public static final class OIConstants {
         public static final int DRIVER_CONTROLLER_PORT = 0;
@@ -21,9 +20,17 @@ public final class Constants {
     }
 
     public static final class ShooterConstants {
-        public static final double angleOfLimelight = 0; 
-        public static final double heightOfUpperHub = 2.6416; // meters
-        public static final int heightOfLimelight = 0;
+        //TODO: find the right values
+        public static final double angleOfLimelight = 33; // degrees, mounting angle of LL
+
+        public static final double heightOfUpperHubMeters = 2.6416; // meters
+        public static final double heightOfUpperHubFeet = 8.6666; // feet
+
+        public static final double heightOfLimelightFeet = 3.5; // feet from top of LL to ground
+        public static final double heightOfLimelightMeters = 1.0668; // meters from top of LL to ground
+
+        public static final double angleOfShooter = 40; // degrees, angle ball is shooting out
+        public static final double heightOfShooterMeters = 1.09728; // meeters from ground to shooter
     }
 
     public static final class LimelightConstants {

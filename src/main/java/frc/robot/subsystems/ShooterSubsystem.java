@@ -228,23 +228,28 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getDistance() {
-    double distance = (ShooterConstants.heightOfUpperHub - ShooterConstants.heightOfLimelight) 
-    / Math.tan(Math.toRadians(ShooterConstants.angleOfLimelight + LimelightSubsystem.getLimelightY()));
+    // https://docs.limelightvision.io/en/latest/cs_estimating_distance.html
 
-    return distance; // meters
+    double distance = (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfLimelightMeters) 
+    / Math.tan(ShooterConstants.angleOfLimelight + LimelightSubsystem.getLimelightY());
+
+    return distance; // horizontal distance in meters
   }
 
-  public double getIntialVelocityMP100MS() {
-    double initialVelocityMPS = (1/Math.cos(ShooterConstants.angleOfLimelight)) * 
-    Math.sqrt( (0.5 * 9.8 * Math.pow(getDistance(), 2)) / 
-    (getDistance() * Math.tan(ShooterConstants.angleOfLimelight) + ShooterConstants.heightOfLimelight));
+  public double getInitialVelocityMP100MS() {
+    double initialVelocityMPS = 
+    Math.sqrt( 
+      (4.9 * Math.pow(getDistance(), 2)) / 
+      (((Math.tan(ShooterConstants.angleOfShooter) * getDistance()) - 
+      (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfShooterMeters))
+      * Math.pow(Math.cos(ShooterConstants.angleOfShooter), 2))
+    );
 
-    double initialVelocityMP100MS = initialVelocityMPS / 10;
-    return initialVelocityMP100MS;
+    return (initialVelocityMPS / 10); // divide by 10 to get to 100 MS unit
   }
 
   public void shootUpperHub() {
-    steadyShoot(getIntialVelocityMP100MS());
+    steadyShoot(getInitialVelocityMP100MS());
   }
 
   public void shootLowerHub() {
