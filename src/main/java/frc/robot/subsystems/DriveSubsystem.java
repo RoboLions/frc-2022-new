@@ -91,11 +91,13 @@ public class DriveSubsystem extends SubsystemBase {
     //ZeroYaw();
     resetEncoders();
 
-    leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
-    rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
+    //leftFrontMotor.set(ControlMode.Follower, leftBackMotor.getDeviceID());
+    //rightFrontMotor.set(ControlMode.Follower, rightBackMotor.getDeviceID());
 
     leftBackMotor.setNeutralMode(NeutralMode.Coast);
     rightBackMotor.setNeutralMode(NeutralMode.Coast);
+    leftFrontMotor.setNeutralMode(NeutralMode.Coast);
+    rightFrontMotor.setNeutralMode(NeutralMode.Coast);
 
     rightBackMotor.setInverted(false);
     rightFrontMotor.setInverted(false);
@@ -276,14 +278,27 @@ public class DriveSubsystem extends SubsystemBase {
     rightFrontMotor.setSelectedSensorPosition(0);
   }
 
+  public double limit_output(double motorCommandValue) {
+
+    if (motorCommandValue > 1) {
+      motorCommandValue = 1;
+    }
+    else if (motorCommandValue < -1) {
+      motorCommandValue = -1;
+    }
+
+    return motorCommandValue;
+  }
+
   // feedforward calculation
   public double calculateNew(double velocity, double acceleration, double ks, double kv, double ka) {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
   public void straightDrive(double leftSpeed, double rightSpeed) {
-    // TODO: change
-    left_speed_cmd = leftSpeed; // actual speed command passed 
+
+    // actual speed command passed 
+    left_speed_cmd = leftSpeed; 
     right_speed_cmd = rightSpeed;
     
     // calculate rate feedforward term
@@ -293,42 +308,56 @@ public class DriveSubsystem extends SubsystemBase {
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
     if (batteryVoltage < 1) {
-        batteryVoltage = 1;
+      batteryVoltage = 1;
     }
 
     // output to compensate for speed error, the PID block
     double leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
     double rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
-    
+
+    double torque_bias = 0.1;
+
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
-    /*double LVoltagePercentCommand = ((leftOutput + leftFeedforward) / batteryVoltage);
-    double RVoltagePercentCommand = ((rightOutput + rightFeedforward) / batteryVoltage);*/
+    double LVoltagePercentCommand = ((leftFeedforward) / batteryVoltage); //((leftOutput + leftFeedforward) / batteryVoltage);
+    double RVoltagePercentCommand = ((rightFeedforward) / batteryVoltage); //((rightOutput + rightFeedforward) / batteryVoltage);
 
-    //eliminate jerk test
-    double LVoltagePercentCommand = ((leftFeedforward) / batteryVoltage);
-    double RVoltagePercentCommand = ((rightFeedforward) / batteryVoltage);
-
+    /*
     // should never have value above 1 or -1, always inbetween
     if (LVoltagePercentCommand > 1.0) {
-        LVoltagePercentCommand = 1.0;
+      LVoltagePercentCommand = 1.0;
     }
     else if (LVoltagePercentCommand < -1.0) {
-        LVoltagePercentCommand = -1.0;
+      LVoltagePercentCommand = -1.0;
     }
 
     if (RVoltagePercentCommand > 1.0) {
-        RVoltagePercentCommand = 1.0;
+      RVoltagePercentCommand = 1.0;
     }
     else if (RVoltagePercentCommand < -1.0) {
-        RVoltagePercentCommand = -1.0;
-    }
+      RVoltagePercentCommand = -1.0;
+    }*/
+
+    //compute the command to each motor to use torque bias
+    double left_front_motor_command = LVoltagePercentCommand + torque_bias;
+    double left_back_motor_command = LVoltagePercentCommand - torque_bias;
+    double right_front_motor_command = RVoltagePercentCommand + torque_bias;
+    double right_back_motor_command = RVoltagePercentCommand - torque_bias;
+
+    //limit the commands… its best to use a function, limit the min and max to +/-1.0 bad behavior happens if you don’t
+    left_front_motor_command = limit_output(left_front_motor_command);
+    left_back_motor_command = limit_output(left_back_motor_command);
+    right_front_motor_command = limit_output(right_front_motor_command);
+    right_back_motor_command = limit_output(right_back_motor_command);
+
+    //now command each motor individually
+    leftFrontMotor.set(left_front_motor_command);
+    leftBackMotor.set(left_back_motor_command);
+    rightFrontMotor.set(right_front_motor_command);
+    rightBackMotor.set(right_back_motor_command);
 
     SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
     //SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
     
-    leftBackMotor.set(LVoltagePercentCommand);
-    rightBackMotor.set(RVoltagePercentCommand);
-
     SmartDashboard.putNumber("leftSpeed", leftSpeed);
     //System.out.println("Left speed: " + leftSpeed);
     SmartDashboard.putNumber("rightSpeed", rightSpeed);

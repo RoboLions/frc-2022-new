@@ -237,12 +237,18 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getInitialVelocityMP100MS() {
+    // big thanks to Crawford's physics brain
     double initialVelocityMPS = 
     Math.sqrt( 
       (4.9 * Math.pow(getDistance(), 2)) / 
-      (((Math.tan(ShooterConstants.angleOfShooter) * getDistance()) - 
-      (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfShooterMeters))
-      * Math.pow(Math.cos(ShooterConstants.angleOfShooter), 2))
+      (
+        (
+          (Math.tan(ShooterConstants.angleOfShooter) * getDistance()) 
+          - 
+          (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfShooterMeters)
+        )
+      * Math.pow(Math.cos(ShooterConstants.angleOfShooter), 2)
+      )
     );
 
     return (initialVelocityMPS / 10); // divide by 10 to get to 100 MS unit
