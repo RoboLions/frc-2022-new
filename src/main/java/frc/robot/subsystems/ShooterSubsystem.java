@@ -58,11 +58,15 @@ public class ShooterSubsystem extends SubsystemBase {
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     resetEncoders();
+    
+    //rightShooterMotor.set(ControlMode.Follower, leftShooterMotor.getDeviceID());
 
     leftShooterMotor.setNeutralMode(NeutralMode.Coast);
     rightShooterMotor.setNeutralMode(NeutralMode.Coast);
+
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
+
     leftHopperMotor.setNeutralMode(NeutralMode.Coast);
     rightHopperMotor.setNeutralMode(NeutralMode.Coast);
 
@@ -179,7 +183,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
     if (batteryVoltage < 1) {
-        batteryVoltage = 1;
+      batteryVoltage = 1;
     }
 
     // output to compensate for speed error, the PID block
@@ -207,9 +211,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
     SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
+
+    // motors need to move in opposite directions
+    if (LVoltagePercentCommand > 0) {
+      if (RVoltagePercentCommand > 0) {
+        RVoltagePercentCommand = RVoltagePercentCommand * -1;
+      }
+    }
+    else if (LVoltagePercentCommand < 0) {
+      if (RVoltagePercentCommand < 0) {
+        RVoltagePercentCommand = RVoltagePercentCommand * -1;
+      }
+    }
     
     leftShooterMotor.set(LVoltagePercentCommand);
-    rightShooterMotor.set(RVoltagePercentCommand);
+    //rightShooterMotor.set(RVoltagePercentCommand);
     
     //SmartDashboard.putNumber("Left Encoder Counts", getLeftEncoderPosition());
     //SmartDashboard.putNumber("Right Encoder Counts", getRightEncoderPosition());
@@ -229,15 +245,20 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getDistance() {
     // https://docs.limelightvision.io/en/latest/cs_estimating_distance.html
+    // TODO: physically measure the distance
 
-    double distance = (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfLimelightMeters) 
-    / Math.tan(ShooterConstants.angleOfLimelight + LimelightSubsystem.getLimelightY());
+    /*double distance = (ShooterConstants.heightOfUpperHubMeters - ShooterConstants.heightOfLimelightMeters) 
+    / Math.tan(ShooterConstants.angleOfLimelight + LimelightSubsystem.getLimelightY());*/
 
-    return distance; // horizontal distance in meters
+    /*
+    double distance = 2.286;
+*/
+    return 0; // horizontal distance in meters
+    
   }
 
-  public double getInitialVelocityMP100MS() {
-    // big thanks to Crawford's physics brain
+  public double getVelocityOfWheel() {
+    // big thanks to Crawford's physics brain, finding velocity of ball
     double initialVelocityMPS = 
     Math.sqrt( 
       (4.9 * Math.pow(getDistance(), 2)) / 
@@ -251,11 +272,15 @@ public class ShooterSubsystem extends SubsystemBase {
       )
     );
 
-    return (initialVelocityMPS / 10); // divide by 10 to get to 100 MS unit
+    //double initialVelocityMP100MS = (initialVelocityMPS / 10); // divide by 10 to get to 100 MS unit
+
+    // convert to angular speed
+    double velocityOfWheel = (initialVelocityMPS / ShooterConstants.radiusOfWheel);
+    return (velocityOfWheel / 0.1); // divide by 10 to get 100 MS unit
   }
 
   public void shootUpperHub() {
-    steadyShoot(getInitialVelocityMP100MS());
+    steadyShoot(0.5);
   }
 
   public void shootLowerHub() {

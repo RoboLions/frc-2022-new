@@ -29,14 +29,14 @@ public class ShootShooter extends CommandBase {
   @Override
   public void execute() {
 
-    shooterSubsystem.getDistance();
+    //shooterSubsystem.getDistance();
 
     if (manipulatorController.getXButtonPressed()) {
-      shooterSubsystem.moveBeltUp();
+      //shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootUpperHub();
-    } else if (manipulatorController.getBButtonPressed()) {
+    /*} else if (manipulatorController.getBButtonPressed()) {
       shooterSubsystem.moveBeltUp();
-      shooterSubsystem.shootLowerHub();
+      shooterSubsystem.shootLowerHub();*/
     } else {
       shooterSubsystem.stopBelt();
       shooterSubsystem.stopShooter();

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
@@ -57,8 +58,12 @@ public class RobotContainer {
       new JoystickDrive(driveSubsystem)
     );
 
-    simpleShooterSubsystem.setDefaultCommand(
+    /*simpleShooterSubsystem.setDefaultCommand(
       new SimpleShootShooter(simpleShooterSubsystem)
+    );*/
+
+    shooterSubsystem.setDefaultCommand(
+      new ShootShooter(shooterSubsystem)
     );
   }
 

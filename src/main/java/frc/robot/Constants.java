@@ -31,6 +31,8 @@ public final class Constants {
 
         public static final double angleOfShooter = 72; // degrees, angle ball is shooting out
         public static final double heightOfShooterMeters = 1.09728; // meeters from ground to shooter
+
+        public static final double radiusOfWheel = 0.0508; // 2 inches to meters
     }
 
     public static final class LimelightConstants {
