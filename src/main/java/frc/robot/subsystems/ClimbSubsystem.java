@@ -13,19 +13,17 @@ import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
   /** Creates a new ClimbSubsystem. */
-  climbMotor.setNeutralMode(NeutralMode.Brake);
-
+ 
   private static WPI_TalonSRX climbMotor = RobotMap.climbMotor;
   public double climb_enc_readout = 0;
 
+
   public ClimbSubsystem() {
+
+  climbMotor.setNeutralMode(NeutralMode.Brake);
 
   climbMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
   resetEncoder();
-  }
-
-  public void resetEncoder() {
-    climbMotor.setSelectedSensorPosition(0);
   }
 
   public void moveClimbToPosition(double target_position) {
@@ -34,14 +32,25 @@ public class ClimbSubsystem extends SubsystemBase {
         climbMotor.set(arm_cmd); // need to invert command to close the loop
     }
 
-  public double getEncoderPosition() {
-    return climbMotor.getSelectedSensorPosition();
-  }
-
   public void setClimbtoMax() {
     moveClimbToPosition(ClimbConstants.MAX_POSITION);
   }
 
+  public void setClimbMinimum() {
+    moveClimbToPosition(ClimbConstants.DOWN_POSITION);
+  }
+
+  public void resetEncoder() {
+    climbMotor.setSelectedSensorPosition(0);
+  }
+
+  public double getEncoderPosition() {
+    return climbMotor.getSelectedSensorPosition();
+  }
+
+  public void setClimbPower(double power) {
+    climbMotor.set(power);
+  }
 
   @Override
   public void periodic() {

@@ -34,7 +34,7 @@ public class JoystickDrive extends CommandBase {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 6); // 3 made slower for testing purposes
+      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 4); // 3 made slower for testing purposes
     }
 
     //System.out.println("JoystickDrive throttle value: " + throttle);
