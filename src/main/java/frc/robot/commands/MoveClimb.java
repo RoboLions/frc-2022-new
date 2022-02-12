@@ -44,11 +44,11 @@ public class MoveClimb extends CommandBase {
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
 
-    if(climbEncoderCounts > MIN_ENCODER_COUNT) {
+    if(left_bumper && (climbEncoderCounts > MIN_ENCODER_COUNT)) {
       climbPower = EXTEND_POWER; // moving inwards
   } 
   // Pull up climber
-  else if(climbEncoderCounts < MAX_ENCODER_COUNT) {
+  else if(right_bumper && (climbEncoderCounts < MAX_ENCODER_COUNT)) {
       climbPower = RETRACT_POWER; // moving outwards
   } 
   
