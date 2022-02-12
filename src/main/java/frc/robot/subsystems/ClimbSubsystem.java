@@ -34,7 +34,7 @@ public class ClimbSubsystem extends SubsystemBase {
         0.0, // Derivative Gain
         0.0, // Cage Limit 
         0.0, // Deadband 
-        12,// MaxOutput Volts TODO: max output voltage value
+        12, // MaxOutput Volts
         false, //enableCage
         false //enableDeadband
     );
