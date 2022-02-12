@@ -4,7 +4,7 @@ Once upon a time, Ananya failed the calc test.
 Once upon a time, vertically challenged Maika had to use a stool to reach the laptops.
 Once upon a time, Pranav ended the world.
 Once upon a time, Nate abandoned the team for half of the meetings.
-Once upon a time, traumatized Katie ran away from the bot when it started moving.
+Once upon a time, Katie got her ice cream from Chick-fil-a.
 */
 
 package frc.robot;
