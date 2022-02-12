@@ -12,7 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
 public class AutoPath3 extends SequentialCommandGroup {
@@ -22,7 +22,7 @@ public class AutoPath3 extends SequentialCommandGroup {
   */
 
   public AutoPath3(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
-  ShooterSubsystem shootSubsystem, LIDARLiteSubsystem lidar, LimelightSubsystem limelightSubsystem){
+  OldShooterSubsystem shootSubsystem, LIDARLiteSubsystem lidar, LimelightSubsystem limelightSubsystem){
     super(
 
       // Target ball on field

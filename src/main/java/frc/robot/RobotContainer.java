@@ -16,11 +16,12 @@ import frc.robot.commands.SimpleShootShooter;
 import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
-import frc.robot.subsystems.ClimbSubsystem;
+//import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,7 +41,7 @@ public class RobotContainer {
   //public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
-  public static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  //public static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
@@ -60,13 +61,16 @@ public class RobotContainer {
       new JoystickDrive(driveSubsystem)
     );
 
-    /*simpleShooterSubsystem.setDefaultCommand(
+    simpleShooterSubsystem.setDefaultCommand(
       new SimpleShootShooter(simpleShooterSubsystem)
-    );*/
+    );
 
+    /*
     shooterSubsystem.setDefaultCommand(
       new ShootShooter(shooterSubsystem)
-    );
+    );*/
+
+
   }
 
   /**

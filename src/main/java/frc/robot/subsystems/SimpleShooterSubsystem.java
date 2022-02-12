@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -28,10 +29,15 @@ public class SimpleShooterSubsystem extends SubsystemBase {
   public static final double RIGHT_MOVE_BELT_UP_POWER = -0.3;
   public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
 
+  public static final double TICKS_PER_METER = (2048 * 12.75 * 10) / (5.0);
+  private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
+
   private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
   private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;
   private static WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
   private static WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
+  private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+  private static WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
   
   /** Creates a new SimpleShooterSubsystem. */
   public SimpleShooterSubsystem() {
@@ -49,8 +55,10 @@ public class SimpleShooterSubsystem extends SubsystemBase {
   }
 
   public void shootUpperHub() {
-    RobotMap.leftShooterMotor.set(LEFT_UPPER_HUB_SHOOTER_POWER);
-    RobotMap.rightShooterMotor.set(RIGHT_UPPER_HUB_SHOOTER_POWER);
+    /*RobotMap.leftShooterMotor.set(LEFT_UPPER_HUB_SHOOTER_POWER);
+    RobotMap.rightShooterMotor.set(RIGHT_UPPER_HUB_SHOOTER_POWER);*/
+    RobotMap.leftShooterMotor.set(0.2);
+    RobotMap.rightShooterMotor.set(-0.2);
   }
 
   public void stopShooter() {
@@ -79,8 +87,41 @@ public class SimpleShooterSubsystem extends SubsystemBase {
     rightHopperMotor.set(0);
 	}
 
+  public double getLeftEncoderVelocity() {
+    return leftShooterMotor.getSelectedSensorVelocity();
+  }
+
+  public double getRightEncoderVelocity() {
+    return rightShooterMotor.getSelectedSensorVelocity();
+  }
+
+  public double getLeftEncoderVelocityMetersPerSecond() {
+    // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
+    double leftVelocityMPS = (leftShooterMotor.getSelectedSensorVelocity() * 10); // /10
+    // since getQuadVelocity is in encoder ticks, we have to convert it to meters
+    leftVelocityMPS = leftVelocityMPS * METERS_PER_TICKS;
+    return (leftVelocityMPS);
+  }
+
+  public double getRightEncoderVelocityMetersPerSecond() {
+    // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
+    double rightVelocityMPS = (rightShooterMotor.getSelectedSensorVelocity() * 10); // /10
+    // since getQuadVelocity is in encoder ticks, we have to convert it to meters
+    // Need to have a negative for right velocity since the motors are reversed on
+    // the opposite side
+    rightVelocityMPS = rightVelocityMPS * METERS_PER_TICKS;
+    return (rightVelocityMPS);
+  }
+
+  public double getAverageEncoderVelocityMPS() {
+    double velocityMPS = (getRightEncoderVelocityMetersPerSecond() + getLeftEncoderVelocityMetersPerSecond())
+                          * 0.5;
+    return (velocityMPS);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println("Encoder Velocity: " + getAverageEncoderVelocityMPS());
   }
 }

@@ -29,8 +29,8 @@ public class SimpleShootShooter extends CommandBase {
   @Override
   public void execute() {
 
-    if (manipulatorController.getAButtonPressed()) {
-      shooterSubsystem.moveBeltUp();
+    if (manipulatorController.getAButton()) {
+      //shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootUpperHub();
     } else if (manipulatorController.getBButtonPressed()) {
       shooterSubsystem.moveBeltUp();

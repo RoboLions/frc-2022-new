@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -12,7 +13,6 @@ import frc.robot.RobotMap;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-  /** Creates a new ClimbSubsystem. */
   climbMotor.setNeutralMode(NeutralMode.Brake);
 
   private static WPI_TalonSRX climbMotor = RobotMap.climbMotor;
@@ -48,3 +48,4 @@ public class ClimbSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 }
+*/

@@ -29,10 +29,14 @@ public final class Constants {
         public static final double heightOfLimelightFeet = 3.5; // feet from top of LL to ground
         public static final double heightOfLimelightMeters = 1.0668; // meters from top of LL to ground
 
-        public static final double angleOfShooter = 72; // degrees, angle ball is shooting out
+        public static final double angleOfShooter = 70; // degrees, angle ball is shooting out
         public static final double heightOfShooterMeters = 1.09728; // meeters from ground to shooter
 
         public static final double radiusOfWheel = 0.0508; // 2 inches to meters
+
+        public static final double kShooterFreeRPS = 106.33;
+        public static final double kShooterToleranceRPS = 50;
+
     }
 
     public static final class LimelightConstants {

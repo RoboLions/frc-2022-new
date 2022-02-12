@@ -24,6 +24,7 @@ import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**
@@ -50,6 +51,9 @@ public class Robot extends TimedRobot {
   private static final WPI_TalonFX leftFrontMotor = RobotMap.leftFrontDriveMotor;
   private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
 
+  private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+  private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -67,6 +71,8 @@ public class Robot extends TimedRobot {
     rightFrontMotor.configFactoryDefault();
     leftBackMotor.configFactoryDefault();
     rightBackMotor.configFactoryDefault();
+    leftShooterMotor.configFactoryDefault();
+    rightShooterMotor.configFactoryDefault();
 
     m_robotContainer.limelightSubsystem.setVisionProcessor();
     m_robotContainer.limelightSubsystem.turn_LED_ON();
@@ -98,6 +104,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
     
     //SmartDashboard.putNumber("throttle 2", );
+
+    SmartDashboard.putNumber("Left Shooter Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
     
     SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Front Velocity", rightFrontMotor.getSelectedSensorVelocity());

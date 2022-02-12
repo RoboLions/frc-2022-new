@@ -31,9 +31,11 @@ public class ShootShooter extends CommandBase {
 
     //shooterSubsystem.getDistance();
 
-    if (manipulatorController.getXButtonPressed()) {
-      //shooterSubsystem.moveBeltUp();
-      shooterSubsystem.shootUpperHub();
+    shooterSubsystem.setSpeed(0.05);
+
+    if (manipulatorController.getXButton()) {
+      shooterSubsystem.moveBeltUp();
+      shooterSubsystem.setSpeed(0);
     /*} else if (manipulatorController.getBButtonPressed()) {
       shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootLowerHub();*/
