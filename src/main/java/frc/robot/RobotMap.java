@@ -26,6 +26,8 @@ public class RobotMap {
 
     public static final int DIGITAL_INPUT_LIDAR_LITE_PORT = 15;
 
+    public static final int CLIMB_PORT = 16; //change later
+
     // TODO: type of motor
     public static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(INTAKE_PORT);
     
