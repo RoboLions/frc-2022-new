@@ -27,14 +27,14 @@ public class JoystickDrive extends CommandBase {
   @Override
   public void execute() {
 
-    double throttle = driverController.getLeftY();
+    double throttle = driverController.getLeftY(); //driverController.getRightTriggerAxis() - driverController.getLeftTriggerAxis();
     double rotate = driverController.getRightX();
 
     if ((throttle > 0 && throttle < 0.25) || (throttle < 0 && throttle > -0.25)) {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 4); // 3 made slower for testing purposes
+      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 5); // 3 made slower for testing purposes
     }
 
     //System.out.println("JoystickDrive throttle value: " + throttle);

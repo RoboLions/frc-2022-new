@@ -64,15 +64,15 @@ public class RobotContainer {
       new JoystickDrive(driveSubsystem)
     );
 
+    /*
     simpleShooterSubsystem.setDefaultCommand(
       new SimpleShootShooter(simpleShooterSubsystem)
-    );
+    );*/
 
     /*
     shooterSubsystem.setDefaultCommand(
       new ShootShooter(shooterSubsystem)
     );*/
-
 
   }
 

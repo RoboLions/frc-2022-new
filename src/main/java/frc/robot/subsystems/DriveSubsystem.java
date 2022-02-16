@@ -413,8 +413,8 @@ public class DriveSubsystem extends SubsystemBase {
     double rightSpeed = 0;
 
     // reset speeds to 0 when throttle and rotate < 0.25
-    if ((Math.abs(linearTravelSpeed) < 0.25) && 
-        (Math.abs(rotateSpeed) < 0.25)) {
+    if ((Math.abs(linearTravelSpeed) < 0.5) && 
+        (Math.abs(rotateSpeed) < 0.5)) {
       leftSpeed = 0;
       rightSpeed = 0;
       /*lastVelocityLeft = 0;
