@@ -26,7 +26,7 @@ public class RobotMap {
 
     public static final int DIGITAL_INPUT_LIDAR_LITE_PORT = 15;
 
-    public static final int CLIMB_PORT = 16; //change later
+    public static final int CLIMB_PORT = 8; 
 
     // TODO: type of motor
     public static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(INTAKE_PORT);
@@ -45,7 +45,7 @@ public class RobotMap {
     public static WPI_VictorSPX frontElevatorMotor = new WPI_VictorSPX(FRONT_ELEVATOR_PORT);
     public static WPI_VictorSPX backElevatorMotor = new WPI_VictorSPX(BACK_ELEVATOR_PORT);
 
-    public static WPI_TalonSRX climbMotor = new WPI_TalonSRX(BACK_ELEVATOR_PORT);
+    public static WPI_TalonFX climbMotor = new WPI_TalonFX(CLIMB_PORT);
 
-    public static PigeonIMU drive_imu = new PigeonIMU(climbMotor);
+    //public static PigeonIMU drive_imu = new PigeonIMU(climbMotor);
 }

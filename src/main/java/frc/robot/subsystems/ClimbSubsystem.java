@@ -5,30 +5,30 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.lib.RoboLionsPID;
 
 public class ClimbSubsystem extends SubsystemBase {
-  /** Creates a new ClimbSubsystem. */
- 
-  private static WPI_TalonSRX climbMotor = RobotMap.climbMotor;
+
+  private static WPI_TalonFX climbMotor = RobotMap.climbMotor;
   public double climb_enc_readout = 0;
   
-  public RoboLionsPID climbPID = new RoboLionsPID();
-
+  //public RoboLionsPID climbPID = new RoboLionsPID();
 
   public ClimbSubsystem() {
 
-  climbMotor.setNeutralMode(NeutralMode.Brake);
+    climbMotor.setNeutralMode(NeutralMode.Brake);
 
-  climbMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-  resetEncoder();
+    climbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
 
-  climbPID.initialize2(
+/*
+    climbPID.initialize2(
         0.0, // Proportional Gain
         0.0, // Integral Gain 
         0.0, // Derivative Gain
@@ -37,9 +37,10 @@ public class ClimbSubsystem extends SubsystemBase {
         12, // MaxOutput Volts
         false, //enableCage
         false //enableDeadband
-    );
+    );*/
   }
 
+  /*
   public void moveClimbToPosition(double target_position) {
         climb_enc_readout = getEncoderPosition();
         double arm_cmd = climbPID.execute((double)target_position, (double)climb_enc_readout);
@@ -52,7 +53,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   public void setClimbMinimum() {
     moveClimbToPosition(ClimbConstants.DOWN_POSITION);
-  }
+  }*/
 
   public void resetEncoder() {
     climbMotor.setSelectedSensorPosition(0);
@@ -66,8 +67,13 @@ public class ClimbSubsystem extends SubsystemBase {
     climbMotor.set(power);
   }
 
+  public void stopClimb() {
+    climbMotor.set(0.0);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
   }
 }

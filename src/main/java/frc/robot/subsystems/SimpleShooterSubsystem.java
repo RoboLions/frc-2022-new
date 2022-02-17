@@ -122,6 +122,6 @@ public class SimpleShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    System.out.println("Encoder Velocity: " + getAverageEncoderVelocityMPS());
+    //System.out.println("Encoder Velocity: " + getAverageEncoderVelocityMPS());
   }
 }
