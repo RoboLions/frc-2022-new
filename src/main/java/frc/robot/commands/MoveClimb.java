@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
@@ -23,11 +22,10 @@ public class MoveClimb extends CommandBase {
   private final XboxController driverController = RobotContainer.driverController;
 
   public static int climb_motion_state = 0;
+
   public static double climbPower = 0;
   public static double climbEncoderCounts;
   public static double climbEncoderCountsNow;
-  public static boolean left_bumper;
-  public static boolean right_bumper;
 
   /** Creates a new MoveClimb. */
   public MoveClimb(ClimbSubsystem climb) {
@@ -39,7 +37,7 @@ public class MoveClimb extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climbSubsystem.stopClimb();
+    //climbSubsystem.stopClimb();
 
     climbEncoderCounts = climbSubsystem.getEncoderPosition();
   }
@@ -54,22 +52,12 @@ public class MoveClimb extends CommandBase {
 
     System.out.println("Encoder Position:" + climbEncoderCountsNow);
 
-    if (left_bumper) {
-
-      if ((climbEncoderCounts + 100000) > climbEncoderCountsNow) {
-        climbPower = 0.1;
-      } else {
-        climbPower = 0;
-      }
-
-    } else if (right_bumper) {
-      
-      if ((climbEncoderCounts - 10000) < climbEncoderCountsNow) {
-        climbPower = -0.1;
-      } else {
-        climbPower = 0;
-      }
-
+    if (left_bumper && ((climbEncoderCounts + 50000) > climbEncoderCountsNow )) {
+      climbPower = 0.1;
+    } else if (right_bumper && ((climbEncoderCounts - 50000) < climbEncoderCountsNow)) {
+      climbPower = -0.1;
+    } else if (!left_bumper && !right_bumper) {
+      climbPower = 0;
     }
 
     /*
@@ -92,7 +80,6 @@ public class MoveClimb extends CommandBase {
     }*/
 
     climbSubsystem.setClimbPower(climbPower);
-
   }
 
   // Called once the command ends or is interrupted.
