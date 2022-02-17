@@ -412,20 +412,37 @@ public class DriveSubsystem extends SubsystemBase {
     double leftSpeed = 0;
     double rightSpeed = 0;
 
-    // reset speeds to 0 when throttle and rotate < 0.25
-    if ((Math.abs(linearTravelSpeed) < 0.5) && 
-        (Math.abs(rotateSpeed) < 0.5)) {
-      leftSpeed = 0;
-      rightSpeed = 0;
-      /*lastVelocityLeft = 0;
-      lastVelocityRight = 0;*/
-      lastLinearVelocity = 0;
-    }
+    
+
+
+
+    // 1 - decide accel or decel rn
+    // 2 - limit commanded velocity based on computed accel limit
 
     double linearAccel = (linearTravelSpeed - lastLinearVelocity)/0.02;
+
+    double accelLimit = 1; //meters per second
+
+    // are we accel or decel? part 1
+    if (lastLinearVelocity > 0) {
+      if (linearAccel < 0) {
+        // velocity pos, accel negative, speed dec (slowing down), use decel
+        accelLimit = 2; // meters per second
+      } else {
+        accelLimit = 1;
+      }
+    } else { // we have negative velocity command
+      if (linearAccel > 0) {
+        // velocity neg, accel pos, speed dec, decel
+        accelLimit = 2;
+      } else {
+        accelLimit = 1;
+      }
+    }
+
     //System.out.println("Linear accel: " + linearAccel);
   
-    double accelLimit = 1; //meters per second
+    // part 2: limit velocity based on accelLimit
     if (linearAccel > accelLimit) {
       linearTravelSpeed = lastLinearVelocity + accelLimit*0.01;
     }
@@ -438,6 +455,16 @@ public class DriveSubsystem extends SubsystemBase {
 
     leftSpeed = (linearTravelSpeed + rotateSpeed);
     rightSpeed = (linearTravelSpeed - rotateSpeed);
+
+    // part 3: reset speeds to 0 when throttle and rotate < 0.25
+    /*if ((Math.abs(linearTravelSpeed) < 0.5) && 
+        (Math.abs(rotateSpeed) < 0.5)) {
+      leftSpeed = 0;
+      rightSpeed = 0;
+      lastVelocityLeft = 0;
+      lastVelocityRight = 0;
+      lastLinearVelocity = 0;
+    }*/
 
     /*
     // acceleration concept:

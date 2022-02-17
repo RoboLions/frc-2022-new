@@ -24,8 +24,7 @@ public class MoveClimb extends CommandBase {
   public static int climb_motion_state = 0;
 
   public static double climbPower = 0;
-  public static double climbEncoderCounts;
-  public static double climbEncoderCountsNow;
+  public static double startingPosition;
 
   /** Creates a new MoveClimb. */
   public MoveClimb(ClimbSubsystem climb) {
@@ -38,23 +37,29 @@ public class MoveClimb extends CommandBase {
   @Override
   public void initialize() {
     //climbSubsystem.stopClimb();
-
-    climbEncoderCounts = climbSubsystem.getEncoderPosition();
+    startingPosition = Math.abs(climbSubsystem.getEncoderPosition());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climbEncoderCountsNow = climbSubsystem.getEncoderPosition();
+    double currentPosition = Math.abs(climbSubsystem.getEncoderPosition());
     
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
 
-    System.out.println("Encoder Position:" + climbEncoderCountsNow);
+    double targetPosition = startingPosition + 10000.0;
+    //currentPosition = Math.abs(currentPosition);
+    
+    System.out.println("Encoder starting Position:" + startingPosition);
+    System.out.println("Encoder target Position:" + targetPosition);
+    System.out.println("Encoder Position:" + currentPosition);
 
-    if (left_bumper && ((climbEncoderCounts + 50000) > climbEncoderCountsNow )) {
+    if (left_bumper && 
+       (currentPosition <= targetPosition)) {
+         // if encoder counts right now <= starting encoder counts + 10,000 counts, keep going down
       climbPower = 0.1;
-    } else if (right_bumper && ((climbEncoderCounts - 50000) < climbEncoderCountsNow)) {
+    } else if (right_bumper) {//&& ((Math.abs(climbEncoderCounts - climbEncoderCountsNow)) <= 2)) {
       climbPower = -0.1;
     } else if (!left_bumper && !right_bumper) {
       climbPower = 0;
