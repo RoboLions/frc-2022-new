@@ -31,16 +31,16 @@ public class ShootShooter extends CommandBase {
 
     //shooterSubsystem.getDistance();
 
-    shooterSubsystem.setSpeed(0.05);
+    //shooterSubsystem.setSpeed(0.05);
 
     if (manipulatorController.getXButton()) {
-      shooterSubsystem.moveBeltUp();
+      //shooterSubsystem.moveBeltUp();
       shooterSubsystem.setSpeed(0);
     /*} else if (manipulatorController.getBButtonPressed()) {
       shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootLowerHub();*/
     } else {
-      shooterSubsystem.stopBelt();
+      //shooterSubsystem.stopBelt();
       shooterSubsystem.stopShooter();
     }
   

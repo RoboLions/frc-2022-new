@@ -32,8 +32,8 @@ public class SimpleShooterSubsystem extends SubsystemBase {
   public static final double TICKS_PER_METER = (2048 * 12.75 * 10) / (5.0);
   private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
 
-  private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
-  private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;
+  //private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
+  //private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;
   private static WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
   private static WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
   private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
@@ -45,8 +45,8 @@ public class SimpleShooterSubsystem extends SubsystemBase {
     RobotMap.rightShooterMotor.setNeutralMode(NeutralMode.Coast);
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
-    leftHopperMotor.setNeutralMode(NeutralMode.Coast);
-    rightHopperMotor.setNeutralMode(NeutralMode.Coast);
+    //leftHopperMotor.setNeutralMode(NeutralMode.Coast);
+    //rightHopperMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   public void shootLowerHub() {
@@ -66,6 +66,7 @@ public class SimpleShooterSubsystem extends SubsystemBase {
     RobotMap.rightShooterMotor.set(0);
   }
 
+  /*
   public void moveBeltUp() {
     leftHopperMotor.set(LEFT_HOPPER_IN_POWER);
     rightHopperMotor.set(RIGHT_HOPPER_IN_POWER);
@@ -85,7 +86,7 @@ public class SimpleShooterSubsystem extends SubsystemBase {
     backElevatorMotor.set(0);
     leftHopperMotor.set(0);
     rightHopperMotor.set(0);
-	}
+	}*/
 
   public double getLeftEncoderVelocity() {
     return leftShooterMotor.getSelectedSensorVelocity();

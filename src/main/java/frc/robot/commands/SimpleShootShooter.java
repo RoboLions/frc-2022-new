@@ -33,10 +33,10 @@ public class SimpleShootShooter extends CommandBase {
       //shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootUpperHub();
     } else if (manipulatorController.getBButtonPressed()) {
-      shooterSubsystem.moveBeltUp();
+      //shooterSubsystem.moveBeltUp();
       shooterSubsystem.shootLowerHub();
     } else {
-      shooterSubsystem.stopBelt();
+      //shooterSubsystem.stopBelt();
       shooterSubsystem.stopShooter();
     }
   

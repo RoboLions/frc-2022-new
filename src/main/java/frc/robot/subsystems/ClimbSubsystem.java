@@ -15,15 +15,18 @@ import frc.robot.lib.RoboLionsPID;
 
 public class ClimbSubsystem extends SubsystemBase {
 
-  private static WPI_TalonFX climbMotor = RobotMap.climbMotor;
+  private static WPI_TalonFX rightClimbMotor = RobotMap.rightClimbMotor;
+  private static WPI_TalonFX leftClimbMotor = RobotMap.leftClimbMotor;
   public double climb_enc_readout = 0;
   
   //public RoboLionsPID climbPID = new RoboLionsPID();
 
   public ClimbSubsystem() {
 
-    climbMotor.setNeutralMode(NeutralMode.Brake);
-    climbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    rightClimbMotor.setNeutralMode(NeutralMode.Brake);
+    leftClimbMotor.setNeutralMode(NeutralMode.Brake);
+    rightClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    leftClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     //resetEncoder();
 
 /*
@@ -43,7 +46,7 @@ public class ClimbSubsystem extends SubsystemBase {
   public void moveClimbToPosition(double target_position) {
         climb_enc_readout = getEncoderPosition();
         double arm_cmd = climbPID.execute((double)target_position, (double)climb_enc_readout);
-        climbMotor.set(arm_cmd); // need to invert command to close the loop
+        rightClimbMotor.set(arm_cmd); // need to invert command to close the loop
     }
 
   public void setClimbtoMax() {
@@ -55,19 +58,24 @@ public class ClimbSubsystem extends SubsystemBase {
   }*/
 
   public void resetEncoder() {
-    climbMotor.setSelectedSensorPosition(0);
+    rightClimbMotor.setSelectedSensorPosition(0);
+    leftClimbMotor.setSelectedSensorPosition(0);
   }
 
   public double getEncoderPosition() {
-    return climbMotor.getSelectedSensorPosition();
+    return rightClimbMotor.getSelectedSensorPosition();
   }
 
   public void setClimbPower(double power) {
-    climbMotor.set(power);
+    rightClimbMotor.set(power);
   }
 
   public void stopClimb() {
-    climbMotor.set(0.0);
+    rightClimbMotor.set(0.0);
+  }
+
+  public int getLimitSwitchValue() {
+    return rightClimbMotor.getSensorCollection().isFwdLimitSwitchClosed(); // 1 if closed, 0 if open
   }
 
   @Override

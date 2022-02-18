@@ -11,12 +11,16 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
 
-  public static final double EXTEND_POWER = 0.1; 
-  public static final double RETRACT_POWER = -0.1; 
+  public static final double UP_POWER = -0.4; 
+  public static final double DOWN_POWER = 1; 
 
-  /*
-  public static final double MAX_ENCODER_COUNT = 296461;
-  public static final double MIN_ENCODER_COUNT = 380000;*/
+  public static final double SLOW_UP_POWER = -0.2;
+  public static final double SLOW_DOWN_POWER = 0.2;
+
+  public static final double MAX_ENCODER_COUNT = 330000;
+  public static final double MIN_ENCODER_COUNT = 0;
+  public static final double MID_TARGET_ENCODER_COUNT = 211000;
+  public static final double CLIMB_TARGET_ENCODER_COUNT = 70000;
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
@@ -48,6 +52,9 @@ public class MoveClimb extends CommandBase {
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
 
+    boolean start_button = driverController.getStartButton();
+    boolean back_button = driverController.getBackButton();
+
     double targetPosition = startingPosition + 10000.0;
     //currentPosition = Math.abs(currentPosition);
     
@@ -55,27 +62,64 @@ public class MoveClimb extends CommandBase {
     System.out.println("Encoder target Position:" + targetPosition);
     System.out.println("Encoder Position:" + currentPosition);
 
+    if (climbSubsystem.getLimitSwitchValue() == 1) {
+      climbSubsystem.resetEncoder();
+    }
+/*
+    if (left_bumper) {
+      climbPower = 0.1;
+    } else if (right_bumper) {
+      climbPower = -0.1;
+    } else if (!left_bumper && !right_bumper) {
+      climbPower = 0;
+    }*/
+
+    /*if (climbSubsystem.getLimitSwitchValue() == 0) { // if open
+      climbPower = 0.1;
+    } else {
+      climbPower = 0;
+    }
+*/
+    /*
     if (left_bumper && 
        (currentPosition <= targetPosition)) {
          // if encoder counts right now <= starting encoder counts + 10,000 counts, keep going down
       climbPower = 0.1;
-    } else if (right_bumper) {//&& ((Math.abs(climbEncoderCounts - climbEncoderCountsNow)) <= 2)) {
-      climbPower = -0.1;
-    } else if (!left_bumper && !right_bumper) {
+    } else {
       climbPower = 0;
     }
+    
+    if (right_bumper) {//&& ((Math.abs(climbEncoderCounts - climbEncoderCountsNow)) <= 2)) {
+      climbPower = -0.1;
+    } else {
+      climbPower = 0;
+    }
+    
+    if (!left_bumper && !right_bumper) {
+      climbPower = 0;
+    }*/
 
-    /*
-    if (left_bumper && (climbEncoderCounts > MIN_ENCODER_COUNT)) {
-      climbPower = EXTEND_POWER; // moving inwards
+    // Pull down climber DURING COMPETITION (climbing)
+    if (left_bumper && (currentPosition > CLIMB_TARGET_ENCODER_COUNT)) {
+      climbPower = DOWN_POWER; // moving inwards
+    }
+    // Pull up climber to target position DURING COMPETITION
+    else if (right_bumper && (currentPosition < MID_TARGET_ENCODER_COUNT)) {
+      climbPower = UP_POWER;
     } 
-    // Pull up climber
-    else if (right_bumper && (climbEncoderCounts < MAX_ENCODER_COUNT)) {
-      climbPower = RETRACT_POWER; // moving outwards
+    // Pull down climber to reset (home)
+    else if (back_button && (currentPosition > MIN_ENCODER_COUNT)) {
+      climbPower = SLOW_DOWN_POWER;
+    }
+    // Pull up climber to max position
+    else if (start_button && (currentPosition < MAX_ENCODER_COUNT)) {
+      climbPower = UP_POWER; // moving outwards
     } 
     else if (!left_bumper && !right_bumper ) {
       climbPower = 0; // not moving based on bumpers
-    }*/
+    } else {
+      climbPower = 0;
+    }
 
     /*
     if (left_bumper) {
