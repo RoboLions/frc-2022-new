@@ -412,10 +412,7 @@ public class DriveSubsystem extends SubsystemBase {
     double leftSpeed = 0;
     double rightSpeed = 0;
 
-    
-
-
-
+    // Steps:
     // 1 - decide accel or decel rn
     // 2 - limit commanded velocity based on computed accel limit
 

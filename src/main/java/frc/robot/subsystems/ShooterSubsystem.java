@@ -46,6 +46,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final int MOTOR_ENCODER_COUNTS_PER_REV = 2048;
   
   public RoboLionsPID shooterPID = new RoboLionsPID();
+
+  public static double lastShootVelocity = 0;
   
   public double shoot_speed_cmd;
 
@@ -113,9 +115,49 @@ public class ShooterSubsystem extends SubsystemBase {
   } 
 
   public void steadyShoot(double velocity) {
-    // actual speed command passed 
-    // implement accel limit here in future
+    // actual speed command passed
+
     shoot_speed_cmd = velocity;
+
+    // Steps:
+    // 1 - decide accel or decel rn
+    // 2 - limit commanded velocity based on computed accel limit
+
+    double linearAccel = (velocity - lastShootVelocity)/0.02;
+
+    double accelLimit = 1; //meters per second
+
+    // Steps:
+    // 1 - decide accel or decel rn
+    // 2 - limit commanded velocity based on computed accel limit
+
+    // are we accel or decel? part 1
+    if (lastShootVelocity > 0) {
+      if (linearAccel < 0) {
+        // velocity pos, accel negative, speed dec (slowing down), use decel
+        accelLimit = 2; // meters per second
+      } else {
+        accelLimit = 1;
+      }
+    } else { // we have negative velocity command
+      if (linearAccel > 0) {
+        // velocity neg, accel pos, speed dec, decel
+        accelLimit = 2;
+      } else {
+        accelLimit = 1;
+      }
+    }
+
+    // part 2: limit velocity based on accelLimit
+    if (linearAccel > accelLimit) {
+      velocity = lastShootVelocity + accelLimit*0.01;
+    }
+    else if (linearAccel < -accelLimit) {
+      velocity = lastShootVelocity - accelLimit*0.01;
+    }
+
+    lastShootVelocity = velocity;
+    //System.out.println("Shooter speed: " + velocity);
     
     // calculate rate feedforward term
     final double shootFeedforward = calculateNew(velocity, 0, 0.68, 2.5, 0); //0.19, 2.4
@@ -130,7 +172,7 @@ public class ShooterSubsystem extends SubsystemBase {
     double shootOutputPID = shooterPID.execute(velocity, getShooterEncoderVelocity());
 
     double error1 = velocity - getShooterEncoderVelocity();
-    System.out.println(error1);
+    System.out.println("error" + error1);
     
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
     shoot_speed_cmd = ((shootOutputPID + shootFeedforward) / batteryVoltage);
