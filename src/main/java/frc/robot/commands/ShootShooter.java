@@ -29,20 +29,40 @@ public class ShootShooter extends CommandBase {
   @Override
   public void execute() {
 
-    //shooterSubsystem.getDistance();
+    shooterSubsystem.steadyShoot(2.5); // meters per second
 
+    // function: 0.09x+1.7
+    // after adding in P value:
+    // 0.75 good for low goal
+    // 1.8 good for 1 feet
+    // 2 good for 3 feet
+    // 2.3 good for 6 feet
+    // 2.5 good for 9 feet
+    // 2.65 good for 11 feet
+    
+    //shooterSubsystem.getDistance();
     //shooterSubsystem.setSpeed(0.05);
 
     if (manipulatorController.getXButton()) {
+      shooterSubsystem.moveBeltUp();
+    } else if (manipulatorController.getBButton()) {
+      shooterSubsystem.moveBeltDown();
+    } else {
+      shooterSubsystem.stopBelt();
+    }
+    
+    /*
+    if (manipulatorController.getXButton()) {
       //shooterSubsystem.moveBeltUp();
       shooterSubsystem.setSpeed(0);
-    /*} else if (manipulatorController.getBButtonPressed()) {
-      shooterSubsystem.moveBeltUp();
-      shooterSubsystem.shootLowerHub();*/
+    // } else if (manipulatorController.getBButtonPressed()) {
+    //   shooterSubsystem.moveBeltUp();
+    //   shooterSubsystem.shootLowerHub();
     } else {
       //shooterSubsystem.stopBelt();
       shooterSubsystem.stopShooter();
     }
+    */
   
   }
 

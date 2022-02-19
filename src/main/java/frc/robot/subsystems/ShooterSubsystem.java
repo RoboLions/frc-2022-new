@@ -5,9 +5,11 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.Constants.ShooterConstants;
+import frc.robot.lib.RoboLionsPID;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -17,8 +19,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  //private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
-  //private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;
+  private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
+  private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;
   private static WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
   private static WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
   private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
@@ -27,14 +29,14 @@ public class ShooterSubsystem extends SubsystemBase {
   public static final double RIGHT_LOW_HUB_SHOOTER_POWER = 0.24;
   public static final double LEFT_LOW_HUB_SHOOTER_POWER = -0.24;
   
-  public static final double LEFT_HOPPER_IN_POWER = -0.3;
-  public static final double RIGHT_HOPPER_IN_POWER = 0.3;
+  public static final double LEFT_HOPPER_IN_POWER = -0.5;
+  public static final double RIGHT_HOPPER_IN_POWER = 0.5;
   public static final double LEFT_HOPPER_OUT_POWER = 0.2;
   public static final double RIGHT_HOPPER_OUT_POWER = -0.2;
 
-  public static final double LEFT_MOVE_BELT_UP_POWER = 0.3;
+  public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
-  public static final double RIGHT_MOVE_BELT_UP_POWER = -0.3;
+  public static final double RIGHT_MOVE_BELT_UP_POWER = -0.5;
   public static final double RIGHT_MOVE_BELT_DOWN_POWER = 0.3;
 
   // Conversion Factor to turn encoder ticks/100ms into Meters per Second
@@ -42,15 +44,19 @@ public class ShooterSubsystem extends SubsystemBase {
   private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
 
   private static final int MOTOR_ENCODER_COUNTS_PER_REV = 2048;
+  
+  public RoboLionsPID shooterPID = new RoboLionsPID();
+  
+  public double shoot_speed_cmd;
 
-  public static final double P = 0.0;
-  public static final double I = 0.0;
-  public static final double D = 0.0; 
-  public static final double F = 0.0; 
+  // public static final double P = 0.0;
+  // public static final double I = 0.0;
+  // public static final double D = 0.0; 
+  // public static final double F = 0.0; 
 
-  public static final double kS = 0.19;
-  public static final double kV = 2.4;
-  public static final double kA = 0;
+  // public static final double kS = 0.19;
+  // public static final double kV = 2.4;
+  // public static final double kA = 0;
 
   private double targetVelocity = 0;
 
@@ -62,8 +68,8 @@ public class ShooterSubsystem extends SubsystemBase {
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
 
-    //leftHopperMotor.setNeutralMode(NeutralMode.Coast);
-    //rightHopperMotor.setNeutralMode(NeutralMode.Coast);
+    leftHopperMotor.setNeutralMode(NeutralMode.Coast);
+    rightHopperMotor.setNeutralMode(NeutralMode.Coast);
 
     leftShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     rightShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
@@ -88,15 +94,57 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooterMotor.configAllowableClosedloopError(0, 0, 10);
     rightShooterMotor.configAllowableClosedloopError(0, 0, 10);
 
-    leftShooterMotor.config_kF(0, F, 10);
-    leftShooterMotor.config_kP(0, P, 10);
-    leftShooterMotor.config_kI(0, I, 10);
-    leftShooterMotor.config_kD(0, D, 10);
+    shooterPID.initialize2(
+      3.15, // Proportional Gain 0.31 s at 7, 3.15
+      12.19, // Integral Gain 12.19
+      0, // Derivative Gain //0
+      0.0, // Cage Limit 0.3 //0
+      0.0, // Deadband //0
+      12,// MaxOutput Volts 0.25 //100 //12
+      false, //enableCage
+      false //enableDeadband
+    );
+  }
 
-    rightShooterMotor.config_kF(0, F, 10);
-    rightShooterMotor.config_kP(0, P, 10);
-    rightShooterMotor.config_kI(0, I, 10);
-    rightShooterMotor.config_kD(0, D, 10);
+  
+  // feedforward calculation
+  public double calculateNew(double velocity, double acceleration, double ks, double kv, double ka) {
+    return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
+  } 
+
+  public void steadyShoot(double velocity) {
+    // actual speed command passed 
+    // implement accel limit here in future
+    shoot_speed_cmd = velocity;
+    
+    // calculate rate feedforward term
+    final double shootFeedforward = calculateNew(velocity, 0, 0.68, 2.5, 0); //0.19, 2.4
+
+    double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
+
+    if (batteryVoltage < 1) {
+      batteryVoltage = 1;
+    }
+
+    // output to compensate for speed error, the PID block
+    double shootOutputPID = shooterPID.execute(velocity, getShooterEncoderVelocity());
+
+    double error1 = velocity - getShooterEncoderVelocity();
+    System.out.println(error1);
+    
+    // final voltage command going to falcon or talon (percent voltage, max 12 V)
+    shoot_speed_cmd = ((shootOutputPID + shootFeedforward) / batteryVoltage);
+
+    // should never have value above 1 or -1, always in-between
+    if (shoot_speed_cmd > 1.0) {
+      shoot_speed_cmd = 1.0;
+    }
+    else if (shoot_speed_cmd < -1.0) {
+      shoot_speed_cmd = -1.0;
+    }
+    
+    leftShooterMotor.set(-shoot_speed_cmd);
+    rightShooterMotor.set(shoot_speed_cmd);
   }
 
   public void setRPM(double RPM) {
@@ -108,37 +156,17 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.set(TalonFXControlMode.Velocity, targetVelocity);
   }
 
+  /*
   public void setSpeed(double speed) {
     leftShooterMotor.set(speed);
     rightShooterMotor.set(speed);
   }
+  */
 
   public void stopShooter() {
     leftShooterMotor.set(0);
     rightShooterMotor.set(0);
   }
-  /*
-
-  public void moveBeltUp() {
-    leftHopperMotor.set(LEFT_HOPPER_IN_POWER);
-    rightHopperMotor.set(RIGHT_HOPPER_IN_POWER);
-    frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
-    backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
-  }
-
-  public void moveBeltDown() {
-    leftHopperMotor.set(LEFT_HOPPER_OUT_POWER);
-    rightHopperMotor.set(RIGHT_HOPPER_OUT_POWER);
-    frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
-    backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
-  }
-  
-  public void stopBelt() {
-		frontElevatorMotor.set(0);
-    backElevatorMotor.set(0);
-    leftHopperMotor.set(0);
-    rightHopperMotor.set(0);
-	}*/
 
   public double getLeftEncoderVelocity() {
     return leftShooterMotor.getSelectedSensorVelocity();
@@ -147,7 +175,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getRightEncoderVelocity() {
     return rightShooterMotor.getSelectedSensorVelocity();
   }
-
+  
   public double getLeftEncoderVelocityMetersPerSecond() {
     // getQuadVelocity is in 100 ms so we have to divide it by 10 to get seconds
     double leftVelocityMPS = (leftShooterMotor.getSelectedSensorVelocity() * 10); // /10
@@ -166,10 +194,69 @@ public class ShooterSubsystem extends SubsystemBase {
     return (rightVelocityMPS);
   }
 
+  public double getShooterEncoderVelocity() {
+    double shooterEncoderVelocity = ((getLeftEncoderVelocityMetersPerSecond() * -1) + getRightEncoderVelocityMetersPerSecond())/2;
+    return shooterEncoderVelocity;
+  }
+
   public double getAverageEncoderVelocityMPS() {
     double velocityMPS = (getRightEncoderVelocityMetersPerSecond() + getLeftEncoderVelocityMetersPerSecond())
                           * 0.5;
     return (velocityMPS);
+  }
+
+  public double getAverageEncoderVelocity100MS() {
+    double velocity100MS = (getLeftEncoderVelocity() + getRightEncoderVelocity()) / 2;
+    return velocity100MS;
+  }
+
+  public double getRPMOfLeftFalcon() {
+    double RPMOfLFalcon = getLeftEncoderVelocity() / 3.413;
+    return RPMOfLFalcon;
+  }
+
+  public double getRPMOfRightFalcon() {
+    double RPMOfRFalcon = getRightEncoderVelocity() / 3.413;
+    return RPMOfRFalcon;
+  }
+
+  public double getRPMOfLeftShooterWheels() {
+    double RPMOfLShooterWheels = getRPMOfLeftFalcon() * 1.33;
+    return RPMOfLShooterWheels;
+  }
+
+  public double getRPMOfRightShooterWheels() {
+    double RPMOfRShooterWheels = getRPMOfRightFalcon() * 1.33;
+    return RPMOfRShooterWheels;
+  }
+
+  public double getVelocityOfFElevator() {
+    return frontElevatorMotor.getSelectedSensorVelocity();
+  }
+
+  public double getVelocityOfBElevator() {
+    return backElevatorMotor.getSelectedSensorVelocity();
+  }
+
+  public void moveBeltUp() {
+    leftHopperMotor.set(LEFT_HOPPER_IN_POWER);
+    rightHopperMotor.set(RIGHT_HOPPER_IN_POWER);
+    frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
+    backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
+  }
+  
+  public void stopBelt() {
+		frontElevatorMotor.set(0);
+    backElevatorMotor.set(0);
+    leftHopperMotor.set(0);
+    rightHopperMotor.set(0);
+	}
+  
+  public void moveBeltDown() {
+    leftHopperMotor.set(LEFT_HOPPER_OUT_POWER);
+    rightHopperMotor.set(RIGHT_HOPPER_OUT_POWER);
+    frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
+    backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
   }
 
   @Override
