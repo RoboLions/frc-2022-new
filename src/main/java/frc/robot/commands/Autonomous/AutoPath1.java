@@ -14,7 +14,7 @@ import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.OldShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
 public class AutoPath1 extends SequentialCommandGroup {
@@ -24,7 +24,7 @@ public class AutoPath1 extends SequentialCommandGroup {
   */
 
   public AutoPath1(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
-  LimelightSubsystem limelightSubsystem, OldShooterSubsystem shooterSubsystem) {
+  LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
       // move forwards
       new AutoMove(driveSubsystem, 2.7), //TODO: what's the distance to ball

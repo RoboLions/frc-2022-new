@@ -127,10 +127,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     double accelLimit = 1; //meters per second
 
-    // Steps:
-    // 1 - decide accel or decel rn
-    // 2 - limit commanded velocity based on computed accel limit
-
     // are we accel or decel? part 1
     if (lastShootVelocity > 0) {
       if (linearAccel < 0) {

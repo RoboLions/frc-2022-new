@@ -15,7 +15,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.OldShooterSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
 public class AutoPath2 extends SequentialCommandGroup {
@@ -25,7 +25,7 @@ public class AutoPath2 extends SequentialCommandGroup {
   */
 
   public AutoPath2(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
-  LimelightSubsystem limelightSubsystem, OldShooterSubsystem shooterSubsystem, LIDARLiteSubsystem lidar) {
+  LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, LIDARLiteSubsystem lidar) {
     super(
       // Target ball on field
       new AlignWithLIDAR(lidar, driveSubsystem), 

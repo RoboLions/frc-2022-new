@@ -26,7 +26,6 @@ import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**

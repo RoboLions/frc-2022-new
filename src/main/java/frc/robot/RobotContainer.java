@@ -24,7 +24,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;

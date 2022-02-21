@@ -5,16 +5,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.OldShooterSubsystem;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
 public class AutoShoot extends CommandBase {
   /** Creates a new AutoShoot. */
-  private final OldShooterSubsystem shooterSubsystem;
+  private final ShooterSubsystem shooterSubsystem;
   // private static final int DEFAULT_TIME = 1;
 
-  public AutoShoot(OldShooterSubsystem shooter) {
+  public AutoShoot(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
   }
@@ -29,8 +29,8 @@ public class AutoShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //shooterSubsystem.moveBeltUp();
-    shooterSubsystem.shootUpperHub();
+    shooterSubsystem.moveBeltUp();
+    shooterSubsystem.steadyShoot(1);
   }
 
   // Called once the command ends or is interrupted.
