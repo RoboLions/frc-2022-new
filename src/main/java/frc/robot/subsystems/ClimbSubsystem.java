@@ -62,20 +62,30 @@ public class ClimbSubsystem extends SubsystemBase {
     leftClimbMotor.setSelectedSensorPosition(0);
   }
 
-  public double getEncoderPosition() {
+  public double getRightEncoderPosition() {
     return rightClimbMotor.getSelectedSensorPosition();
+  }
+
+  public double getLeftEncoderPosition() {
+    return leftClimbMotor.getSelectedSensorPosition();
   }
 
   public void setClimbPower(double power) {
     rightClimbMotor.set(power);
+    leftClimbMotor.set(power);
   }
 
   public void stopClimb() {
     rightClimbMotor.set(0.0);
+    leftClimbMotor.set(0.0);
   }
 
-  public int getLimitSwitchValue() {
+  public int getRightLimitSwitchValue() {
     return rightClimbMotor.getSensorCollection().isFwdLimitSwitchClosed(); // 1 if closed, 0 if open
+  }
+
+  public int getLeftLimitSwitchValue() {
+    return leftClimbMotor.getSensorCollection().isFwdLimitSwitchClosed(); // 1 if closed, 0 if open
   }
 
   @Override

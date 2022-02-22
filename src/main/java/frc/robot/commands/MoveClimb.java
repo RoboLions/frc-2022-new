@@ -17,10 +17,18 @@ public class MoveClimb extends CommandBase {
   public static final double SLOW_UP_POWER = -0.2;
   public static final double SLOW_DOWN_POWER = 0.2;
 
-  public static final double MAX_ENCODER_COUNT = 330000;
-  public static final double MIN_ENCODER_COUNT = 0;
-  public static final double MID_TARGET_ENCODER_COUNT = 211000;
-  public static final double CLIMB_TARGET_ENCODER_COUNT = 70000;
+  public static final double TEST_UP_POWER = -0.1;
+  public static final double TEST_DOWN_POWER = 0.1;
+
+  public static final double R_MAX_ENCODER_COUNT = 330000;
+  public static final double R_MIN_ENCODER_COUNT = 0;
+  public static final double R_MID_TARGET_ENCODER_COUNT = 211000;
+  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 50000;
+
+  public static final double L_MAX_ENCODER_COUNT = 330000;
+  public static final double L_MIN_ENCODER_COUNT = 0;
+  public static final double L_MID_TARGET_ENCODER_COUNT = 211000;
+  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 50000;  
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
@@ -28,7 +36,8 @@ public class MoveClimb extends CommandBase {
   public static int climb_motion_state = 0;
 
   public static double climbPower = 0;
-  public static double startingPosition;
+  public static double rightStartingPosition;
+  public static double leftStartingPosition;
 
   /** Creates a new MoveClimb. */
   public MoveClimb(ClimbSubsystem climb) {
@@ -41,28 +50,26 @@ public class MoveClimb extends CommandBase {
   @Override
   public void initialize() {
     //climbSubsystem.stopClimb();
-    startingPosition = Math.abs(climbSubsystem.getEncoderPosition());
+    rightStartingPosition = Math.abs(climbSubsystem.getRightEncoderPosition());
+    leftStartingPosition = Math.abs(climbSubsystem.getLeftEncoderPosition());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentPosition = Math.abs(climbSubsystem.getEncoderPosition());
+    double rightCurrentPosition = Math.abs(climbSubsystem.getRightEncoderPosition());
+    double leftCurrentPosition = Math.abs(climbSubsystem.getLeftEncoderPosition());
     
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
 
     boolean start_button = driverController.getStartButton();
     boolean back_button = driverController.getBackButton();
-
-    double targetPosition = startingPosition + 10000.0;
-    //currentPosition = Math.abs(currentPosition);
     
-    System.out.println("Encoder starting Position:" + startingPosition);
-    System.out.println("Encoder target Position:" + targetPosition);
-    System.out.println("Encoder Position:" + currentPosition);
+    System.out.println("Right Encoder Position:" + rightCurrentPosition);
+    System.out.println("Left Encoder Position:" + leftCurrentPosition);
 
-    if (climbSubsystem.getLimitSwitchValue() == 1) {
+    if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
       climbSubsystem.resetEncoder();
     }
 /*
@@ -100,19 +107,27 @@ public class MoveClimb extends CommandBase {
     }*/
 
     // Pull down climber DURING COMPETITION (climbing)
-    if (left_bumper && (currentPosition > CLIMB_TARGET_ENCODER_COUNT)) {
+    if (left_bumper && 
+       (rightCurrentPosition > R_CLIMB_TARGET_ENCODER_COUNT) && 
+       (leftCurrentPosition > L_CLIMB_TARGET_ENCODER_COUNT)) {
       climbPower = DOWN_POWER; // moving inwards
     }
     // Pull up climber to target position DURING COMPETITION
-    else if (right_bumper && (currentPosition < MID_TARGET_ENCODER_COUNT)) {
+    else if (right_bumper && 
+            (rightCurrentPosition < R_MID_TARGET_ENCODER_COUNT) &&
+            (leftCurrentPosition < L_MID_TARGET_ENCODER_COUNT)) {
       climbPower = UP_POWER;
     } 
     // Pull down climber to reset (home)
-    else if (back_button && (currentPosition > MIN_ENCODER_COUNT)) {
+    else if (back_button && 
+            (rightCurrentPosition > R_MIN_ENCODER_COUNT) &&
+            (leftCurrentPosition > L_MIN_ENCODER_COUNT)) {
       climbPower = SLOW_DOWN_POWER;
     }
     // Pull up climber to max position
-    else if (start_button && (currentPosition < MAX_ENCODER_COUNT)) {
+    else if (start_button && 
+            (rightCurrentPosition < R_MAX_ENCODER_COUNT) &&
+            (leftCurrentPosition < L_MAX_ENCODER_COUNT)) {
       climbPower = UP_POWER; // moving outwards
     } 
     else if (!left_bumper && !right_bumper ) {
