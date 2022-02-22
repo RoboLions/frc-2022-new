@@ -51,6 +51,7 @@ public class JoystickDrive extends CommandBase {
     // slow mode
     if (driverController.getXButton()) {
       throttle = Math.signum(throttle) * 0.35;
+      rotate = Math.signum(rotate) * 0.5;
     }
 
     driveSubsystem.driveWithRotation(throttle, -rotate);
