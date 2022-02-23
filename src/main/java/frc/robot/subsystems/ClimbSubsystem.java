@@ -88,12 +88,6 @@ public class ClimbSubsystem extends SubsystemBase {
     return leftClimbMotor.getSensorCollection().isFwdLimitSwitchClosed(); // 1 if closed, 0 if open
   }
 
-  public boolean isRobotReadyToClimb() {
-    boolean robotReadyToClimb = false;
-    
-    return robotReadyToClimb;
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -9,8 +9,13 @@ import frc.robot.RobotMap;
 
 public class LaserSubsystem extends SubsystemBase {
   /** Creates a new LaserSubsystem. */
+  // TODO: these are all placeholder values atm
 
-  // TODO: make values right
+  private static final double MIN_DIST = 0;
+
+  private static final double MAX_DIST = 0;
+
+
   // this is the proportion for how many inches there are to each volt
   public static double INCHES_PER_VOLT_DIRECT_CURRENT = 0; 
   
@@ -23,6 +28,18 @@ public class LaserSubsystem extends SubsystemBase {
   double volts = RobotMap.laserVision.getAverageVoltage(); // voltage data from the laser
     double distanceOfLaser = (volts * INCHES_PER_VOLT_DIRECT_CURRENT) + CONSTANT_OF_ZERO_VOLTS;
     return (distanceOfLaser);
+  }
+  
+  public boolean isRobotReadyToClimb() {
+    boolean robotReadyToClimb = false;
+    double distance = getLaserDistance();
+    if (distance > MIN_DIST && distance < MAX_DIST) {
+      robotReadyToClimb = false;
+    } else {
+      robotReadyToClimb = true;
+    }
+    
+    return robotReadyToClimb;
   }
 
   @Override

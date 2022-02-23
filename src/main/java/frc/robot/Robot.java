@@ -129,7 +129,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Back Position", leftBackMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Laser DIstance", laserSubsystem.getLaserDistance());
+    SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
+    SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
