@@ -23,6 +23,7 @@ import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LIDARLiteSubsystem;
+import frc.robot.subsystems.LaserSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
@@ -40,6 +41,7 @@ public class RobotContainer {
   public final static ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public final static LaserSubsystem laserSubsystem = new LaserSubsystem();
   //public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();

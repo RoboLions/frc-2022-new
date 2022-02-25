@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+
 public class RobotMap {
 
     //TODO: change ports
@@ -29,6 +31,8 @@ public class RobotMap {
     public static final int RIGHT_CLIMB_PORT = 8; 
     public static final int LEFT_CLIMB_PORT = 9; 
 
+    public static final int LASER_PORT = 16; // TODO: set to right port
+
     // TODO: type of motor
     public static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(INTAKE_PORT);
     
@@ -48,6 +52,8 @@ public class RobotMap {
 
     public static WPI_TalonFX rightClimbMotor = new WPI_TalonFX(RIGHT_CLIMB_PORT);
     public static WPI_TalonFX leftClimbMotor = new WPI_TalonFX(LEFT_CLIMB_PORT);
+
+    public static AnalogInput laserVision = new AnalogInput(LASER_PORT);
 
     //public static PigeonIMU drive_imu = new PigeonIMU(climbMotor);
 }
