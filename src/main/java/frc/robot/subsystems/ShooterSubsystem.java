@@ -108,23 +108,18 @@ public class ShooterSubsystem extends SubsystemBase {
     );
   }
 
-  
   // feedforward calculation
   public double calculateNew(double velocity, double acceleration, double ks, double kv, double ka) {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
   public void steadyShoot(double velocity) {
-    // actual speed command passed
-
-    shoot_speed_cmd = velocity;
 
     // Steps:
     // 1 - decide accel or decel rn
     // 2 - limit commanded velocity based on computed accel limit
 
     double linearAccel = (velocity - lastShootVelocity)/0.02;
-
     double accelLimit = 1; //meters per second
 
     // are we accel or decel? part 1
@@ -154,6 +149,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     lastShootVelocity = velocity;
     //System.out.println("Shooter speed: " + velocity);
+
+    // actual speed command passed
+    shoot_speed_cmd = velocity;
     
     // calculate rate feedforward term
     final double shootFeedforward = calculateNew(velocity, 0, 0.68, 2.5, 0); //0.19, 2.4
@@ -167,8 +165,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // output to compensate for speed error, the PID block
     double shootOutputPID = shooterPID.execute(velocity, getShooterEncoderVelocity());
 
-    double error1 = velocity - getShooterEncoderVelocity();
-    System.out.println("error" + error1);
+    //double error1 = velocity - getShooterEncoderVelocity();
+    //System.out.println("error" + error1);
     
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
     shoot_speed_cmd = ((shootOutputPID + shootFeedforward) / batteryVoltage);
@@ -185,14 +183,14 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.set(shoot_speed_cmd);
   }
 
-  public void setRPM(double RPM) {
+  /*public void setRPM(double RPM) {
     double angularVelocity = (RPM / 60) * (2 * Math.PI); // convert RPM to angular velocity
     double speed = angularVelocity / ShooterConstants.radiusOfWheel;
 
     targetVelocity = speed;
     leftShooterMotor.set(TalonFXControlMode.Velocity, targetVelocity);
     rightShooterMotor.set(TalonFXControlMode.Velocity, targetVelocity);
-  }
+  }*/
 
   /*
   public void setSpeed(double speed) {

@@ -22,13 +22,13 @@ public class MoveClimb extends CommandBase {
 
   public static final double R_MAX_ENCODER_COUNT = 330000;
   public static final double R_MIN_ENCODER_COUNT = 0;
-  public static final double R_MID_TARGET_ENCODER_COUNT = 211000;
-  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 50000;
+  public static final double R_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
+  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 16000; // to pull the robot up
 
   public static final double L_MAX_ENCODER_COUNT = 330000;
   public static final double L_MIN_ENCODER_COUNT = 0;
-  public static final double L_MID_TARGET_ENCODER_COUNT = 211000;
-  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 50000;  
+  public static final double L_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
+  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 16000; // to pull the robot up
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
@@ -72,39 +72,6 @@ public class MoveClimb extends CommandBase {
     if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
       climbSubsystem.resetEncoder();
     }
-/*
-    if (left_bumper) {
-      climbPower = 0.1;
-    } else if (right_bumper) {
-      climbPower = -0.1;
-    } else if (!left_bumper && !right_bumper) {
-      climbPower = 0;
-    }*/
-
-    /*if (climbSubsystem.getLimitSwitchValue() == 0) { // if open
-      climbPower = 0.1;
-    } else {
-      climbPower = 0;
-    }
-*/
-    /*
-    if (left_bumper && 
-       (currentPosition <= targetPosition)) {
-         // if encoder counts right now <= starting encoder counts + 10,000 counts, keep going down
-      climbPower = 0.1;
-    } else {
-      climbPower = 0;
-    }
-    
-    if (right_bumper) {//&& ((Math.abs(climbEncoderCounts - climbEncoderCountsNow)) <= 2)) {
-      climbPower = -0.1;
-    } else {
-      climbPower = 0;
-    }
-    
-    if (!left_bumper && !right_bumper) {
-      climbPower = 0;
-    }*/
 
     // Pull down climber DURING COMPETITION (climbing)
     if (left_bumper && 

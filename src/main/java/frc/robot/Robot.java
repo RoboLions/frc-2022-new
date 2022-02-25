@@ -38,12 +38,10 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private RoboLionsPID leftDrivetrainPID = m_robotContainer.driveSubsystem.leftForwardPID;
-  private RoboLionsPID rightDrivetrainPID = m_robotContainer.driveSubsystem.rightForwardPID;
-
+  
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
+  private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
   
   private final static XboxController driverController = RobotContainer.driverController;  
   
@@ -75,11 +73,9 @@ public class Robot extends TimedRobot {
     leftShooterMotor.configFactoryDefault();
     rightShooterMotor.configFactoryDefault();
 
-    
-
     m_robotContainer.limelightSubsystem.setVisionProcessor();
     m_robotContainer.limelightSubsystem.turn_LED_ON();
-    
+
     // m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
     // m_chooser.addOption("cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
     // m_chooser.addOption("cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem);
@@ -100,13 +96,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    //shooterSubsystem.getDistance();
-
-    //SmartDashboard.putNumber("Shooter Distance Meters", shooterSubsystem.getDistance());
-
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
-    
-    //SmartDashboard.putNumber("throttle 2", );
 
     SmartDashboard.putNumber("Left Shooter Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
     
@@ -115,19 +105,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Back Velocity", leftBackMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());
     
-    SmartDashboard.putNumber("Right Encoder MPS", driveSubsystem.getBackRightEncoderVelocityMetersPerSecond());
-
-    /*
-    SmartDashboard.putNumber("Left Front Error", JoystickDrive.TARGET_VELOCITY - leftFrontMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Left Back Error", JoystickDrive.TARGET_VELOCITY - leftBackMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Front Error", JoystickDrive.TARGET_VELOCITY - rightFrontMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Back Error", JoystickDrive.TARGET_VELOCITY - rightBackMotor.getSelectedSensorVelocity());
-    */
-
     SmartDashboard.putNumber("Left Front Position", leftFrontMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Front Position", rightFrontMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Back Position", leftBackMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("Horizontal Distance From Goal", limelightSubsystem.getHorizontalDistance());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

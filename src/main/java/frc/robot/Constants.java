@@ -55,16 +55,4 @@ public final class Constants {
     public static final class LIDARConstants {
         public static final double offset  = 0; //offset for sensor. test with tape measure
     }
-    
-    public static final class ClimbConstants {
-   /* public static final int TIMEOUT_MS = 10;
-    public static final double kP = 1;
-    public static final double kI = 0;
-    public static final double kD = 0;*/
-
-    //change values after testing
-    public static final double MAX_POSITION = 30; 
-    public static final double READY_POSITION = 40;
-    public static final double DOWN_POSITION = 0;
-    }
 }
