@@ -25,7 +25,7 @@ import frc.robot.commands.Autonomous.AutoPath2;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.LaserSubsystem;
+// import frc.robot.subsystems.LaserSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   private DriveSubsystem driveSubsystem = m_robotContainer.driveSubsystem;
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
   private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
-  private LaserSubsystem laserSubsystem = m_robotContainer.laserSubsystem;
+  // private LaserSubsystem laserSubsystem = m_robotContainer.laserSubsystem;
   
   private final static XboxController driverController = RobotContainer.driverController;  
   
@@ -113,8 +113,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
 
     SmartDashboard.putNumber("Horizontal Distance From Goal", limelightSubsystem.getHorizontalDistance());
-    SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
-    SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
+    // SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
+    // SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
 
   }
 

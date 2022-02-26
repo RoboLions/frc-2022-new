@@ -23,12 +23,12 @@ public class MoveClimb extends CommandBase {
   public static final double R_MAX_ENCODER_COUNT = 330000;
   public static final double R_MIN_ENCODER_COUNT = 0;
   public static final double R_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
-  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 16000; // to pull the robot up
+  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
 
   public static final double L_MAX_ENCODER_COUNT = 330000;
   public static final double L_MIN_ENCODER_COUNT = 0;
   public static final double L_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
-  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 16000; // to pull the robot up
+  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
