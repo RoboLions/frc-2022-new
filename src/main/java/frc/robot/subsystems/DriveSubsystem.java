@@ -62,7 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
   public RoboLionsPID rightForwardPID = new RoboLionsPID();
 	public RoboLionsPID headingPID = new RoboLionsPID();
   public RoboLionsPID positionPID = new RoboLionsPID();
-  //public RoboLionsPID limelightPID = new RoboLionsPID();
+  public RoboLionsPID limelightRotationPID = new RoboLionsPID();
   //public RoboLionsMotionProfile positionMotionProfile = new RoboLionsMotionProfile();
   //public RoboLionsMotionProfile headingMotionProfile = new RoboLionsMotionProfile();
 
@@ -191,6 +191,18 @@ public class DriveSubsystem extends SubsystemBase {
         true, //enableCage
         false //enableDeadband
     );
+
+    limelightRotationPID.initialize2(
+      0.02, // Proportional Gain 0.02
+      0.05, // Integral Gain 0.05
+      -0.0008, // Derivative Gain -0.0008 
+      2, // Cage Limit degrees/sec
+      0.0, // Deadband
+      0.4, // MaxOutput Degrees/sec 
+      true, //enableCage
+      false //enableDeadband
+  );
+    
   }
 
   public void stop() {
@@ -384,8 +396,7 @@ public class DriveSubsystem extends SubsystemBase {
     //SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
     
     SmartDashboard.putNumber("leftSpeed", leftSpeed);
-    //System.out.println("Left speed: " + leftSpeed);
-    SmartDashboard.putNumber("rightSpeed", rightSpeed);
+    SmartDashboard.putNumber("rightSpeed", LimelightSubsystem.getLimelightX()); //changed from right speed
     
     //SmartDashboard.putNumber("Yaw Value", getYaw());
     //SmartDashboard.putNumber("Distance Travelled", distanceTravelledinMeters());
@@ -397,6 +408,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     SmartDashboard.putNumber("Left Encoder MPS", getBackLeftEncoderVelocityMetersPerSecond());
     SmartDashboard.putNumber("Right Encoder MPS", getBackRightEncoderVelocityMetersPerSecond());
+
+    //SmartDashboard.putNumber("Limelight Offset", LimelightSubsystem.getLimelightX());
     
     //System.out.println("Left Error:" + (leftSpeed - getBackLeftEncoderVelocityMetersPerSecond()));
     //System.out.println(getLeftEncoderVelocityMetersPerSecond() + "," + getRightEncoderVelocityMetersPerSecond());

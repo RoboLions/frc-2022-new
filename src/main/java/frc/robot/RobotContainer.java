@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AlignShooter;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.MoveClimb;
 import frc.robot.commands.ShootShooter;
@@ -70,6 +71,10 @@ public class RobotContainer {
     climbSubsystem.setDefaultCommand(
       new MoveClimb(climbSubsystem)
     );
+
+    // limelightSubsystem.setDefaultCommand(
+    //   new AlignShooter(limelightSubsystem, driveSubsystem)
+    // );
     
     /*
     simpleShooterSubsystem.setDefaultCommand(

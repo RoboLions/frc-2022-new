@@ -66,8 +66,8 @@ public class MoveClimb extends CommandBase {
     boolean start_button = driverController.getStartButton();
     boolean back_button = driverController.getBackButton();
     
-    System.out.println("Right Encoder Position:" + rightCurrentPosition);
-    System.out.println("Left Encoder Position:" + leftCurrentPosition);
+    // System.out.println("Right Encoder Position:" + rightCurrentPosition);
+    // System.out.println("Left Encoder Position:" + leftCurrentPosition);
 
     if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
       climbSubsystem.resetEncoder();

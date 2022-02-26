@@ -19,6 +19,8 @@ public class AlignShooter extends CommandBase {
 
   private final static double LIMELIGHT_SCALAR = 1;
   
+  public double offsetX1 = 0;
+  
   /** Creates a new AlignShooter. */
   public AlignShooter(LimelightSubsystem limelight, DriveSubsystem drive) {
     driveSubsystem = drive;
@@ -34,10 +36,13 @@ public class AlignShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    offsetX1 = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR; // continuously getting this 50 times/sec
+    // System.out.println("offsetX: " + offsetX);
 
+    /*
     if (driverController.getBButton()) {
-      double offsetX = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR;
-      double rotate = 0;
+      // offsetX = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR;
+      double rotate = 0;    
 
       if (offsetX > 1) {
         rotate = 0.4;
@@ -48,7 +53,8 @@ public class AlignShooter extends CommandBase {
       }
 
       driveSubsystem.driveWithRotation(0, rotate);
-    }
+    }  
+    */
   }
 
   // Called once the command ends or is interrupted.

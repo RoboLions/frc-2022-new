@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 public class JoystickDrive extends CommandBase {
   private final DriveSubsystem driveSubsystem;
@@ -54,7 +55,20 @@ public class JoystickDrive extends CommandBase {
       rotate = Math.signum(rotate) * 0.5;
     }
 
-    driveSubsystem.driveWithRotation(throttle, -rotate);
+    double offsetX = LimelightSubsystem.getLimelightX();
+    SmartDashboard.putNumber("Limelight Offset", offsetX);
+
+    // limelight rotation (auto aim) mode
+    if (driverController.getBButton()) {
+      double setPoint = 0.0; // final point in degrees
+     // double offsetX = LimelightSubsystem.getLimelightX();
+      //System.out.println("offsetX: " + offsetX);
+      rotate = driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
+     // rotate = -rotate;
+      System.out.println("rotate " + rotate + " error " + offsetX);
+    }
+
+    driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
     //driveSubsystem.driveWithRotation(0.5, 0);
     //driveSubsystem.drive(-throttle, rotate);
   }
