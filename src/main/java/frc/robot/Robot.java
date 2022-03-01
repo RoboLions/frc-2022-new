@@ -100,21 +100,21 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
 
-    SmartDashboard.putNumber(" Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
     
     SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Front Velocity", rightFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Left Back Velocity", leftBackMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());
 
-    SmartDashboard.putNumber("limelight offset", limelightSubsystem.getLimelightX());
+    SmartDashboard.putNumber("Limelight Offset", limelightSubsystem.getLimelightX());
     
     SmartDashboard.putNumber("Left Front Position", leftFrontMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Front Position", rightFrontMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Back Position", leftBackMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
 
-    SmartDashboard.putNumber("Horizontal Distance From Goal", limelightSubsystem.getHorizontalDistance());
+    SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
     // SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
     // SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
 

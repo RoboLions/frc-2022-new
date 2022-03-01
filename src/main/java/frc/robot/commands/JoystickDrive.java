@@ -64,6 +64,25 @@ public class JoystickDrive extends CommandBase {
      // double offsetX = LimelightSubsystem.getLimelightX();
       //System.out.println("offsetX: " + offsetX);
       rotate = driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
+
+      /*if (offsetX < 3.5 && offsetX > 0.5) {
+        rotate = 0.08;
+      } else if (offsetX < -0.5 && offsetX > -3.5) {
+        rotate = -0.08;
+      } else if (offsetX >= -0.5 && offsetX <= 0.5) {
+        rotate = 0.0;
+      } else {
+        rotate = rotate;
+      }*/
+
+      if (rotate < 0.08 && rotate >= 0) {
+        rotate = 0;
+      } else if (rotate < 0 && rotate > -0.08) {
+        rotate = 0;
+      } else {
+        rotate = rotate;
+      }
+
      // rotate = -rotate;
       System.out.println("rotate " + rotate + " error " + offsetX);
     }
