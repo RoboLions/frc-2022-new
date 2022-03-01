@@ -113,6 +113,14 @@ public class ShooterSubsystem extends SubsystemBase {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
+  public void setSpeed(double x){
+
+    leftShooterMotor.set(x);
+    rightShooterMotor.set(x);
+
+
+  }
+
   public void steadyShoot(double velocity) {
 
     // Steps:
@@ -273,6 +281,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double getVelocityOfBElevator() {
     return backElevatorMotor.getSelectedSensorVelocity();
   }
+  
 
   public void moveBeltUp() {
     leftHopperMotor.set(LEFT_HOPPER_IN_POWER);

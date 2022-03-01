@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 public class ShootShooter extends CommandBase {
 
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
   private final ShooterSubsystem shooterSubsystem;
+  private final LimelightSubsystem limelightSubsystem;
   
-  public ShootShooter(ShooterSubsystem shooter) {
+  public ShootShooter(ShooterSubsystem shooter, LimelightSubsystem limelight) {
     shooterSubsystem = shooter;
+    limelightSubsystem = limelight;
     addRequirements(shooterSubsystem);
   }
 
@@ -28,6 +31,10 @@ public class ShootShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    shooterSubsystem.steadyShoot(2.5); // meters per second
+    double speed = limelightSubsystem.getHorizontalDistance() *.09 +1.7;
+    shooterSubsystem.setSpeed(speed);
 
     // function: 0.09x+1.7
     // after adding in P value:
