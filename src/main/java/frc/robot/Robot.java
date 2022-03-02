@@ -98,6 +98,11 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
+    SmartDashboard.putNumber("Left Back F500 Temp C", leftBackMotor.getTemperature());
+    SmartDashboard.putNumber("Left Front F500 Temp C", leftFrontMotor.getTemperature());
+    SmartDashboard.putNumber("Right Front F500 Temp C", rightFrontMotor.getTemperature());
+    SmartDashboard.putNumber("Right Back F500 Temp C", rightBackMotor.getTemperature());
+
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
 
     SmartDashboard.putNumber("Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());

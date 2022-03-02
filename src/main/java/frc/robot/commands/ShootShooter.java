@@ -14,12 +14,11 @@ import frc.robot.subsystems.LimelightSubsystem;
 public class ShootShooter extends CommandBase {
 
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
+  private final static XboxController driverController = RobotContainer.driverController;
   private final ShooterSubsystem shooterSubsystem;
-  private final LimelightSubsystem limelightSubsystem;
   
-  public ShootShooter(ShooterSubsystem shooter, LimelightSubsystem limelight) {
+  public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
-    limelightSubsystem = limelight;
     addRequirements(shooterSubsystem);
   }
 
@@ -47,20 +46,26 @@ public class ShootShooter extends CommandBase {
     // minus 1.54 feet to account for bumper and distance from front of robot to limelight
     double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
 
-    if (manipulatorController.getAButton()) {
+    if (driverController.getAButton()) {
       LimelightSubsystem.setVisionProcessor();
     } else {
       LimelightSubsystem.setDriverCamera();
     }
 
+    if (manipulatorController.getLeftBumper()) {
+      shooterSubsystem.setSpeed(-0.35);
+    } else if (manipulatorController.getRightBumper()) {
+      shooterSubsystem.steadyShoot(speed);
+    } else {
+      shooterSubsystem.stopShooter();
+    }
+    
     if (manipulatorController.getXButton()) {
       shooterSubsystem.moveBeltUp();
-      shooterSubsystem.steadyShoot(speed);
-    } else if (manipulatorController.getBButton()) {
+    } else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
     } else {
       shooterSubsystem.stopBelt();
-      shooterSubsystem.stopShooter();
     }
   
   }
