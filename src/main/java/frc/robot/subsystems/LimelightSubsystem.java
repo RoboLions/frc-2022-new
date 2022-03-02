@@ -110,10 +110,10 @@ public class LimelightSubsystem extends SubsystemBase {
   * Calculate horizontal distance from goal using goal height, limelight
   * height, and limelight mounting angle
   *************************************************************************/
-  public double getHorizontalDistance() {
-    double targetOffsetAngle_Vertical = ty.getDouble(0.0);
-    double limelightMountAngleDegrees = 60;
-    double limelightHeight = 2.9583; // feet
+  public static double getHorizontalDistance() {
+    double targetOffsetAngle_Vertical = Math.abs(getLimelightY());
+    double limelightMountAngleDegrees = 27.5;
+    double limelightHeight = 2.916; // feet
     double goalHeight = 8.6666; // feet
     double angleToGoal = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoal * (3.14159 / 180.0);

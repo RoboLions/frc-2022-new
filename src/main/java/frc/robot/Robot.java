@@ -75,8 +75,8 @@ public class Robot extends TimedRobot {
     leftShooterMotor.configFactoryDefault();
     rightShooterMotor.configFactoryDefault();
 
-    m_robotContainer.limelightSubsystem.setVisionProcessor();
-    m_robotContainer.limelightSubsystem.turn_LED_ON();
+    m_robotContainer.limelightSubsystem.setDriverCamera();
+    m_robotContainer.limelightSubsystem.turn_LED_OFF();
 
     // m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
     // m_chooser.addOption("cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);

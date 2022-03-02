@@ -81,10 +81,9 @@ public class RobotContainer {
       new SimpleShootShooter(simpleShooterSubsystem)
     );*/
 
-    /*
     shooterSubsystem.setDefaultCommand(
       new ShootShooter(shooterSubsystem)
-    );*/
+    );
 
   }
 

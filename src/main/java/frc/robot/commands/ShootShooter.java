@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootShooter extends CommandBase {
@@ -29,22 +30,34 @@ public class ShootShooter extends CommandBase {
   @Override
   public void execute() {
 
-    // function: 0.09x+1.7
+    // function: 0.0866x + 1.6
     // after adding in P value:
-    // 0.75 good for low goal
-    // 1.8 good for 1 feet
-    // 2 good for 3 feet
-    // 2.3 good for 6 feet
-    // 2.5 good for 9 feet
-    // 2.65 good for 11 feet
+    // 0.82 good for low goal
+    // 1.76 good for 1 feet
+    // 1.82 good for 2 feet
+    // 1.84 good for 3 feet
+    // 1.87 good for 4 feet
+    // 2 good for 6 feet
+    // 2.38 good for 8 feet
+    // 2.5 good for 10 feet
+
+    // minus 1.54 feet to account for bumper and distance from front of robot to limelight
+    double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
+
+    if (manipulatorController.getAButton()) {
+      LimelightSubsystem.setVisionProcessor();
+    } else {
+      LimelightSubsystem.setDriverCamera();
+    }
 
     if (manipulatorController.getXButton()) {
       shooterSubsystem.moveBeltUp();
-      shooterSubsystem.steadyShoot(1);
+      shooterSubsystem.steadyShoot(speed);
     } else if (manipulatorController.getBButton()) {
       shooterSubsystem.moveBeltDown();
     } else {
       shooterSubsystem.stopBelt();
+      shooterSubsystem.stopShooter();
     }
   
   }
