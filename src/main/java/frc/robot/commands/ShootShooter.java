@@ -9,14 +9,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 
 public class ShootShooter extends CommandBase {
 
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
   private final ShooterSubsystem shooterSubsystem;
+  private final LimelightSubsystem limelightSubsystem;
   
-  public ShootShooter(ShooterSubsystem shooter) {
+  public ShootShooter(ShooterSubsystem shooter, LimelightSubsystem limelight) {
     shooterSubsystem = shooter;
+    limelightSubsystem = limelight;
     addRequirements(shooterSubsystem);
   }
 
