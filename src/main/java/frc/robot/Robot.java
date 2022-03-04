@@ -106,6 +106,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
 
     SmartDashboard.putNumber("Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
+
+    SmartDashboard.putNumber("Left RPM", shooterSubsystem.getRPMOfLeftShooterWheels());
+    SmartDashboard.putNumber("Right RPM", shooterSubsystem.getRPMOfRightShooterWheels());
     
     SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Front Velocity", rightFrontMotor.getSelectedSensorVelocity());

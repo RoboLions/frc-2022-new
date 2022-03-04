@@ -73,6 +73,7 @@ public class DriveSubsystem extends SubsystemBase {
   static double lastVelocityRight = 0;*/
 
   static double lastLinearVelocity = 0;
+  static double lastRotateVelocity = 0;
 
 /*
   static double lastLinearVelocityLeft = 0;
@@ -429,6 +430,7 @@ public class DriveSubsystem extends SubsystemBase {
     // 2 - limit commanded velocity based on computed accel limit
 
     double linearAccel = (linearTravelSpeed - lastLinearVelocity)/0.02;
+    double rotateAccel = (rotateSpeed - lastRotateVelocity)/0.02;
 
     double accelLimit = 1; //meters per second
 
@@ -449,17 +451,41 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
 
+    if (lastRotateVelocity > 0) {
+      if (rotateAccel < 0) {
+        // velocity pos, accel negative, speed dec (slowing down), use decel
+        accelLimit = 2; // meters per second
+      } else {
+        accelLimit = 1;
+      }
+    } else { // we have negative velocity command
+      if (rotateAccel > 0) {
+        // velocity neg, accel pos, speed dec, decel
+        accelLimit = 2;
+      } else {
+        accelLimit = 1;
+      }
+    }
+
     //System.out.println("Linear accel: " + linearAccel);
   
     // part 2: limit velocity based on accelLimit
     if (linearAccel > accelLimit) {
-      linearTravelSpeed = lastLinearVelocity + accelLimit*0.01;
+      linearTravelSpeed = lastLinearVelocity + accelLimit*0.02;
     }
     else if (linearAccel < -accelLimit) {
-      linearTravelSpeed = lastLinearVelocity - accelLimit*0.01;
+      linearTravelSpeed = lastLinearVelocity - accelLimit*0.02;
+    }
+
+    if (rotateAccel > accelLimit) {
+      rotateSpeed = lastRotateVelocity + accelLimit*0.01;
+    }
+    else if (rotateAccel < -accelLimit) {
+      rotateSpeed = lastRotateVelocity - accelLimit*0.01;
     }
 
     lastLinearVelocity = linearTravelSpeed;
+    lastRotateVelocity = rotateSpeed;
     //System.out.println("Linear travel speed: " + linearTravelSpeed);
 
     leftSpeed = (linearTravelSpeed + rotateSpeed);

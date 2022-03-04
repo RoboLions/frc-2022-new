@@ -46,18 +46,22 @@ public class ShootShooter extends CommandBase {
     // minus 1.54 feet to account for bumper and distance from front of robot to limelight
     double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
 
-    if (driverController.getAButton()) {
+    if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
-    } else {
+    } 
+    if (driverController.getYButtonPressed()) {
       LimelightSubsystem.setDriverCamera();
     }
 
-    if (manipulatorController.getLeftBumper()) {
+    if (manipulatorController.getLeftTriggerAxis() > 0.25) {
       shooterSubsystem.setSpeed(-0.35);
-    } else if (manipulatorController.getRightBumper()) {
+    } else if (manipulatorController.getRightTriggerAxis() > 0.25) {
       shooterSubsystem.steadyShoot(speed);
+    } else if (manipulatorController.getRightBumper()) {
+      shooterSubsystem.steadyShoot(0.8);
     } else {
       shooterSubsystem.stopShooter();
+      shooterSubsystem.lastShootVelocity = 0;
     }
     
     if (manipulatorController.getXButton()) {

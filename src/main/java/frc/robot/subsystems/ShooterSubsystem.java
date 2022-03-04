@@ -98,12 +98,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterPID.initialize2(
       3.15, // Proportional Gain 0.31 s at 7, 3.15
-      12.19, // Integral Gain 12.19
+      12.19, // Integral Gain 12.19  6
       0, // Derivative Gain //0
-      0.0, // Cage Limit 0.3 //0
+      3, // 25% of peak 12V voltage, Cage Limit
       0.0, // Deadband //0
-      12,// MaxOutput Volts 0.25 //100 //12
-      false, //enableCage
+      3, // 25% of peak 12V voltage, MaxOutput Volts
+      true, //enableCage make sure the integrator does not charge internally when the output climbs past 3.0 volts
       false //enableDeadband
     );
   }
@@ -124,35 +124,36 @@ public class ShooterSubsystem extends SubsystemBase {
     // 1 - decide accel or decel rn
     // 2 - limit commanded velocity based on computed accel limit
 
+    /*
     double linearAccel = (velocity - lastShootVelocity)/0.6;
-    double accelLimit = 1; //meters per second
+    double accelLimit = 2; //meters per second
 
     // are we accel or decel? part 1
     if (lastShootVelocity > 0) {
       if (linearAccel < 0) {
         // velocity pos, accel negative, speed dec (slowing down), use decel
-        accelLimit = 2; // meters per second
+        accelLimit = 4; // meters per second decel
       } else {
-        accelLimit = 1;
+        accelLimit = 2; // accel
       }
     } else { // we have negative velocity command
       if (linearAccel > 0) {
         // velocity neg, accel pos, speed dec, decel
-        accelLimit = 2;
+        accelLimit = 4; //decel
       } else {
-        accelLimit = 1;
+        accelLimit = 2; //accel
       }
     }
 
     // part 2: limit velocity based on accelLimit
     if (linearAccel > accelLimit) {
-      velocity = lastShootVelocity + accelLimit*0.01;
+      velocity = lastShootVelocity + accelLimit*0.02;
     }
     else if (linearAccel < -accelLimit) {
-      velocity = lastShootVelocity - accelLimit*0.01;
+      velocity = lastShootVelocity - accelLimit*0.02;
     }
 
-    lastShootVelocity = velocity;
+    lastShootVelocity = velocity;*/
     //System.out.println("Shooter speed: " + velocity);
 
     // actual speed command passed
