@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj.AnalogInput;
 
 public class RobotMap {
 
-    //TODO: change ports
     public static final int LEFT_BACK_DRIVE_PORT = 1;
     public static final int RIGHT_BACK_DRIVE_PORT = 2;
     public static final int LEFT_FRONT_DRIVE_PORT = 3;
@@ -26,14 +25,13 @@ public class RobotMap {
     public static final int FRONT_ELEVATOR_PORT = 10;
     public static final int BACK_ELEVATOR_PORT = 11;
 
-    public static final int DIGITAL_INPUT_LIDAR_LITE_PORT = 15;
+    //public static final int DIGITAL_INPUT_LIDAR_LITE_PORT = 15;
 
     public static final int RIGHT_CLIMB_PORT = 8; 
     public static final int LEFT_CLIMB_PORT = 9; 
 
-    public static final int LASER_PORT = 16; // TODO: set to right port
+    //public static final int LASER_PORT = 16;
 
-    // TODO: type of motor
     public static WPI_VictorSPX intakeMotor = new WPI_VictorSPX(INTAKE_PORT);
     
     public static WPI_TalonFX leftBackDriveMotor = new WPI_TalonFX(LEFT_BACK_DRIVE_PORT);

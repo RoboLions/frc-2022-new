@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AlignShooter;
+import frc.robot.commands.AutoMove;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.MoveClimb;
 import frc.robot.commands.ShootShooter;
@@ -23,12 +24,14 @@ import frc.robot.subsystems.ClimbSubsystem;
 //import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LIDARLiteSubsystem;
+//import frc.robot.subsystems.LIDARLiteSubsystem;
 // import frc.robot.subsystems.LaserSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.XboxController.Button;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,7 +48,7 @@ public class RobotContainer {
   // public final static LaserSubsystem laserSubsystem = new LaserSubsystem();
   //public final static ArmSubsystem armSubsystem = new ArmSubsystem();
   public static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
+  //public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   public static final XboxController driverController = new XboxController(0);
@@ -93,7 +96,13 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    new JoystickButton(manipulatorController, Button.kY.value).whenPressed(
+      new AutoMove(driveSubsystem, -4)
+    );
+
+  }
 
   public Command getAutonomousCommand() {
     return defaultAutoPath;

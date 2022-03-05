@@ -14,6 +14,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 public class JoystickDrive extends CommandBase {
   private final DriveSubsystem driveSubsystem;
   private final static XboxController driverController = RobotContainer.driverController;  
+  private final static XboxController manipulatorController = RobotContainer.manipulatorController;  
 
   public JoystickDrive(DriveSubsystem drivetrain) {
     driveSubsystem = drivetrain;
@@ -86,7 +87,7 @@ public class JoystickDrive extends CommandBase {
      // rotate = -rotate;
       System.out.println("rotate " + rotate + " error " + offsetX);
     }
-
+    
     driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
     //driveSubsystem.driveWithRotation(0.5, 0);
     //driveSubsystem.drive(-throttle, rotate);

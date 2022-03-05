@@ -30,7 +30,7 @@ public class DriveSubsystem extends SubsystemBase {
   /* Every Bot Variables */
   private static final int timeoutMs = 10;
   private static final int MOTOR_ENCODER_CODES_PER_REV = 2048; //4096 for CTRE Mag Encoders, 2048 for the Falcons
-  private static final double DIAMETER_INCHES = 5.0; // Flex wheels on Everybot
+  private static final double DIAMETER_INCHES = 6.0; // Flex wheels on Everybot
   
   private static final double WHEEL_DIAMETER = DIAMETER_INCHES * IN_TO_M; // in meters
   private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
@@ -42,7 +42,9 @@ public class DriveSubsystem extends SubsystemBase {
   // This is for an encoder mounted to the motor
   private static final double TICKS_PER_METER = (MOTOR_ENCODER_CODES_PER_REV * GEAR_RATIO) / (WHEEL_CIRCUMFERENCE);
   private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
-  private static final double BOT_WHEEL_TO_WHEEL_DIAMETER = 0.49;//METERS
+
+  // TODO: change
+  private static final double BOT_WHEEL_TO_WHEEL_DIAMETER = 0.49; // meters
 
   public boolean state_flag_motion_profile = true;
 
@@ -63,7 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
 	public RoboLionsPID headingPID = new RoboLionsPID();
   public RoboLionsPID positionPID = new RoboLionsPID();
   public RoboLionsPID limelightRotationPID = new RoboLionsPID();
-  //public RoboLionsMotionProfile positionMotionProfile = new RoboLionsMotionProfile();
+  public RoboLionsMotionProfile positionMotionProfile = new RoboLionsMotionProfile();
   //public RoboLionsMotionProfile headingMotionProfile = new RoboLionsMotionProfile();
 
   public double left_speed_cmd;
@@ -171,9 +173,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Position Command PID for Autonomous and 
     positionPID.initialize2(
-        0, // Proportional Gain //1.35 //2
-        0, // Integral Gain //5 //10
-        0.0, // Derivative Gain //0
+        2.15, // Proportional Gain //2.15 //1.35 //2
+        7, // Integral Gain //5 //10
+        0, // Derivative Gain //0
         0.0, // Cage Limit //0.3 //0.1 //0.2
         0.0, // Deadband //0
         2.5,// MaxOutput Meters/sec 0.25 //100 //1
@@ -526,17 +528,18 @@ public class DriveSubsystem extends SubsystemBase {
     straightDrive(leftSpeed, rightSpeed);
   }
 
-  /*
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
+    // double left_speed; 
+    // double right_speed;
     double start_dist = distanceTravelledinMeters();
     if(state_flag_motion_profile) {
         positionMotionProfile.init(
-          start_dist, //start position
-          distance, // target position
-          1, // max vel //1.5 // 1
-          1, // max accel //1 // 0.5
-          0.02, // execution period 
-          1 // deceleration //2 // 0.5
+                    start_dist, //start position
+                    distance, // target position
+                    1, // max vel //1.5 // 1
+                    1, // max accel //1 // 0.5
+                    0.02, // execution period 
+                    1 // deceleration //2 // 0.5
         );
         state_flag_motion_profile = false;
     }
@@ -544,10 +547,11 @@ public class DriveSubsystem extends SubsystemBase {
     double position_profile_command = positionMotionProfile.execute();
     double feed_forward_rate = positionMotionProfile.velocity_feed_forward;
 
-    double headingFeedback = getYaw(); // in degrees
-    double headingCommand = heading;
-    double headingError = headingPID.execute(headingCommand, headingFeedback);
-    double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
+    //double headingFeedback = getYaw(); // in degrees
+    double headingCommand = heading; 
+    //TODO Pls check if I was supposed to put heading as a parameter
+    //double headingError = headingPID.execute(headingCommand, headingFeedback);
+    //double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
 
     //System.out.println(headingCommand + "," + headingFeedback);
 
@@ -569,13 +573,15 @@ public class DriveSubsystem extends SubsystemBase {
     // Refer to the rate drive control diagram
     // We modulate our speed of the bot to close out
     // the position error, making it eventually zero
-    driveWithRotation(positionCmdOut, headingErrorMeters);
+    //driveWithRotation(positionCmdOut, headingErrorMeters);
+    driveWithRotation(positionCmdOut, 0);
     //driveWithRotation(0.0, headingErrorMeters);
     //driveWithRotation(positionError, 0);
     // riveWithRotation(0.5, 0.0);
-    //System.out.println("Pos " + position_feedback + " PE " + positionError);
+     //System.out.println("Pos " + position_feedback + " PE " + positionError);
     // System.out.println("TD " + distance + " // DT " + position_feedback);
-  }*/
+  }
+
 
   /*
   public double getYaw() {

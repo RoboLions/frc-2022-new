@@ -1,6 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.lib;
 
@@ -8,11 +5,11 @@ import frc.robot.subsystems.DriveSubsystem;
 
 public class RoboLionsMotionProfile {
     public static double ROBO_LION_MOTION_PROFILE_START_POS = 0.0;
-    public static double ROBO_LION_MOTION_PROFILE_START_VEL = 1.0;
-    public static double ROBO_LION_MOTION_PROFILE_START_ACCEL = 1.0;
+    public static double ROBO_LION_MOTION_PROFILE_START_VEL = 1; //1
+    public static double ROBO_LION_MOTION_PROFILE_START_ACCEL = 1; //1
     public static double ROBO_LION_MOTION_PROFILE_DEFAULT_PERIOD = 0.02;
-    public static double ROBO_LION_MOTION_PROFILE_DEFAULT_MAX_VELOCITY = 1.0; // Changes: _DEFAULT_max_velocity
-    public static double ROBO_LION_MOTION_PROFILE_DEFAULT_MAX_ACCELERATION = 1.0; // Changes: _DEFAULT_max_acceleration
+    public static double ROBO_LION_MOTION_PROFILE_DEFAULT_MAX_VELOCITY = 1; //1 // Changes: _DEFAULT_max_velocity
+    public static double ROBO_LION_MOTION_PROFILE_DEFAULT_MAX_ACCELERATION = 1; //1 // Changes: _DEFAULT_max_acceleration
     public static boolean ROBO_LION_MOTION_PROFILE_STATE_ACCEL = false;
     public static boolean ROBO_LION_MOTION_PROFILE_STATE_DECEL = true;
     public double position_command;

@@ -25,11 +25,13 @@ public class AlignShooter extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    LimelightSubsystem.setVisionProcessor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    LimelightSubsystem.setVisionProcessor();
     double offsetX = LimelightSubsystem.getLimelightX();
 
     double setPoint = 0.0; // final point in degrees

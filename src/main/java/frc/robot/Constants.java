@@ -19,6 +19,7 @@ public final class Constants {
         public static final int MANIPULATOR_CONTROLLER_PORT = 1;
     }
 
+    /*
     public static final class ShooterConstants {
         //TODO: find the right values
         public static final double angleOfLimelight = 33; // degrees, mounting angle of LL
@@ -37,7 +38,7 @@ public final class Constants {
         public static final double kShooterFreeRPS = 106.33;
         public static final double kShooterToleranceRPS = 50;
 
-    }
+    }*/
 
     public static final class LimelightConstants {
         //modes for limelight led light
@@ -52,7 +53,7 @@ public final class Constants {
         public static final double MOTORGAIN = 0.75; //0.8  //0.7; //0.6
     }
 
-    public static final class LIDARConstants {
+    /*public static final class LIDARConstants {
         public static final double offset  = 0; //offset for sensor. test with tape measure
-    }
+    }*/
 }

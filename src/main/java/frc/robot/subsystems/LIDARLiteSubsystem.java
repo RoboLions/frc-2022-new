@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Counter;
@@ -14,7 +15,6 @@ public class LIDARLiteSubsystem extends SubsystemBase {
 
   private final Counter m_counter;
 
-  /** Creates a new LIDARLiteSubsystem. */
   public LIDARLiteSubsystem() {
     m_counter = new Counter(new DigitalInput(RobotMap.DIGITAL_INPUT_LIDAR_LITE_PORT));
     m_counter.setMaxPeriod(1.0);
@@ -32,11 +32,11 @@ public class LIDARLiteSubsystem extends SubsystemBase {
      * The LIDAR-Lite unit sends a high signal for 10 microseconds per cm of
      * distance.
      */
-    cm = (m_counter.getPeriod() * 1000000.0 / 10.0) - 18;
+    /*cm = (m_counter.getPeriod() * 1000000.0 / 10.0) - 18;
     return cm;
   }
 
   @Override
   public void periodic() {
   }
-}
+}*/
