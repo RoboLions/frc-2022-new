@@ -65,6 +65,9 @@ public class MoveClimb extends CommandBase {
 
     boolean start_button = driverController.getStartButton();
     boolean back_button = driverController.getBackButton();
+
+    boolean leftTrigger = driverController.getLeftTriggerAxis() > 0.25;
+    boolean rightTrigger = driverController.getRightTriggerAxis() > 0.25;
     
     // System.out.println("Right Encoder Position:" + rightCurrentPosition);
     // System.out.println("Left Encoder Position:" + leftCurrentPosition);
@@ -111,6 +114,18 @@ public class MoveClimb extends CommandBase {
     }*/
 
     climbSubsystem.setClimbPower(climbPower);
+
+    if (leftTrigger) {
+      // slow up
+      climbSubsystem.setHighClimbPower(-0.2);
+    } else if (rightTrigger) {
+      // fast down
+      climbSubsystem.setHighClimbPower(0.6);
+    } else if (!leftTrigger && !rightTrigger) {
+      climbSubsystem.setHighClimbPower(0);
+    } else {
+      climbSubsystem.setHighClimbPower(0);
+    }
   }
 
   // Called once the command ends or is interrupted.
