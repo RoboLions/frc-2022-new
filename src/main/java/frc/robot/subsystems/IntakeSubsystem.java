@@ -15,11 +15,17 @@ import frc.robot.RobotMap;
 
 public class IntakeSubsystem extends SubsystemBase {
 
+  //0.5 speed to go down
+  // 0.7 speed to go up
+
+  // arm = -22 degrees home position
+  // 75.93 = 8 inches
+
   // TODO tune value to proper
   public static final double IN_POWER = 0.6; 
   public static final double OUT_POWER = -0.6;
 
-  private static final WPI_VictorSPX intakeMotor = RobotMap.intakeMotor;
+  private static final WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
 
   public IntakeSubsystem() {
     intakeMotor.setNeutralMode(NeutralMode.Coast);
