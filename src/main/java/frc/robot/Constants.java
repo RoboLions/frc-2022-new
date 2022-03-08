@@ -53,6 +53,13 @@ public final class Constants {
         public static final double MOTORGAIN = 0.75; //0.8  //0.7; //0.6
     }
 
+    public static final class ArmConstants {
+        public static final int TIMEOUT_MS = 10;
+
+        public static final double HOME_POSITION = -21;
+        public static final double GROUND_POSITION = 74;
+    }
+
     /*public static final class LIDARConstants {
         public static final double offset  = 0; //offset for sensor. test with tape measure
     }*/

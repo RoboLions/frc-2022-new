@@ -4,56 +4,75 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class MoveArm extends CommandBase {
-  
-  private final ArmSubsystem armSubsystem;
-  private final XboxController manipulatorController = RobotContainer.manipulatorController;
+    private final ArmSubsystem armSubsystem;
+    private final XboxController manipulatorController = RobotContainer.manipulatorController;
 
-  public static double armStartingPosition;
+    public static int wrist_motion_state = 0;
 
-  public MoveArm(ArmSubsystem arm) {
-    armSubsystem = arm;
-    addRequirements(armSubsystem);
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    armStartingPosition = armSubsystem.getPitch();
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    
-    if (manipulatorController.getYButton()) {
-      if (armStartingPosition < 75) {
-        armSubsystem.setArmPower(0.5);
-      }
-      else {
-        armSubsystem.setArmPower(0);
-      }
-    } else if (manipulatorController.getBButton()) {
-      if (armStartingPosition > -21) {
-        armSubsystem.setArmPower(-0.7);
-      } else {
-        armSubsystem.setArmPower(0);
-      }
+    public MoveArm(ArmSubsystem arm) {
+        armSubsystem = arm;
+        addRequirements(armSubsystem);
     }
-  }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    @Override
+    public void initialize() {
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    @Override
+    public void execute() {
+        //System.out.println(-armSubsystem.getPitch());
+        double armPower = manipulatorController.getLeftY();
+        boolean y = manipulatorController.getYButton();
+        // y button = ground
+        boolean b = manipulatorController.getBButton();
+        // b button = home
+
+        switch(wrist_motion_state) {
+            case 0:
+                armSubsystem.setArmPower(armPower);
+                if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }
+                if(y) {
+                    wrist_motion_state = 1;
+                }
+                if(b) {
+                    wrist_motion_state = 2;
+                }
+                break;
+            case 1:
+            // ground
+                armSubsystem.setArmToGround();
+                if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }                
+                break;
+            case 2:
+            // home
+                armSubsystem.setArmToHome();
+                if(armSubsystem.armPID.deadband_active) {
+                    wrist_motion_state = 0;
+                }                
+                break;
+            default:
+                wrist_motion_state = 0;
+                break;
+        }
+        if(Math.abs(armPower) > 0.6 ) { 
+            // wakes up the arm from PID control and back to joystick control
+            wrist_motion_state = 0;
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

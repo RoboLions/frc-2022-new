@@ -10,7 +10,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveClimb;
+import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.Constants.OIConstants;
@@ -20,6 +22,7 @@ import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
 import frc.robot.commands.Autonomous.AutoPath3;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
 //import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -46,8 +49,8 @@ public class RobotContainer {
   public final static DriveSubsystem driveSubsystem = new DriveSubsystem();
   public final static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   // public final static LaserSubsystem laserSubsystem = new LaserSubsystem();
-  //public final static ArmSubsystem armSubsystem = new ArmSubsystem();
-  public static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  public final static ArmSubsystem armSubsystem = new ArmSubsystem();
+  public final static LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   //public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
@@ -88,6 +91,14 @@ public class RobotContainer {
       new ShootShooter(shooterSubsystem)
     );
 
+    armSubsystem.setDefaultCommand(
+        new MoveArm(armSubsystem)
+    );
+
+    intakeSubsystem.setDefaultCommand(
+        new RollIntake(intakeSubsystem)
+    );
+
   }
 
   /**
@@ -98,9 +109,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    /*
     new JoystickButton(manipulatorController, Button.kY.value).whenPressed(
       new AutoMove(driveSubsystem, -4)
-    );
+    );*/
 
   }
 
