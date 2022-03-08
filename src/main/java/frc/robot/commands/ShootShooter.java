@@ -73,7 +73,6 @@ public class ShootShooter extends CommandBase {
     } else {
       shooterSubsystem.stopBelt();
     }
-  
   }
 
   // Called once the command ends or is interrupted.
