@@ -16,7 +16,7 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private static WPI_TalonFX rightClimbMotor = RobotMap.rightClimbMotor;
   private static WPI_TalonFX leftClimbMotor = RobotMap.leftClimbMotor;
-  private static WPI_TalonFX highRungMotor = RobotMap.highRungClimb;
+  //private static WPI_TalonFX highRungMotor = RobotMap.highRungClimb;
   public double climb_enc_readout = 0;
   
   //public RoboLionsPID climbPID = new RoboLionsPID();
@@ -75,9 +75,9 @@ public class ClimbSubsystem extends SubsystemBase {
     leftClimbMotor.set(power);
   }
 
-  public void setHighClimbPower(double power) {
+  /*public void setHighClimbPower(double power) {
     highRungMotor.set(power);
-  }
+  }*/
 
   public void stopClimb() {
     rightClimbMotor.set(0.0);

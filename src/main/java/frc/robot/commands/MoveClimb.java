@@ -115,6 +115,7 @@ public class MoveClimb extends CommandBase {
 
     climbSubsystem.setClimbPower(climbPower);
 
+    /*
     if (leftTrigger) {
       // slow up
       climbSubsystem.setHighClimbPower(-0.2);
@@ -125,7 +126,7 @@ public class MoveClimb extends CommandBase {
       climbSubsystem.setHighClimbPower(0);
     } else {
       climbSubsystem.setHighClimbPower(0);
-    }
+    }*/
   }
 
   // Called once the command ends or is interrupted.
