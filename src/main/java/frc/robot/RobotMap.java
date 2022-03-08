@@ -55,7 +55,7 @@ public class RobotMap {
 
     public static WPI_TalonFX rightClimbMotor = new WPI_TalonFX(RIGHT_CLIMB_PORT);
     public static WPI_TalonFX leftClimbMotor = new WPI_TalonFX(LEFT_CLIMB_PORT);
-    public static WPI_TalonFX highRungClimb = new WPI_TalonFX(HIGH_RUNG_CLIMB_PORT);
+   // public static WPI_TalonFX highRungClimb = new WPI_TalonFX(HIGH_RUNG_CLIMB_PORT); (Robot does not have yet)
 
     // public static AnalogInput laserVision = new AnalogInput(LASER_PORT);
 
