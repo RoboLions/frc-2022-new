@@ -45,7 +45,7 @@ public class AlignShooter extends CommandBase {
       rotate = rotate;
     }
 
-    driveSubsystem.driveWithRotation(0, -rotate);
+    driveSubsystem.autoDrive(0, -rotate);
 
     //offsetX1 = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR; // continuously getting this 50 times/sec
     // System.out.println("offsetX: " + offsetX);

@@ -125,6 +125,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Right Back Position", rightBackMotor.getSelectedSensorPosition());
 
     SmartDashboard.putNumber("Pitch", armSubsystem.getPitch());
+    SmartDashboard.putNumber("Yaw", driveSubsystem.getYaw());
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
     // SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());

@@ -21,7 +21,7 @@ public class ArmSubsystem extends SubsystemBase {
   // 0.7 speed to go up
 
   // arm = -22 degrees home position
-  // 75.93 = 8 inches
+  // 78 = 8 inches
 
   private final WPI_VictorSPX armMotor = RobotMap.intakeArmMotor;
   public RoboLionsPID armPID = new RoboLionsPID();

@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
@@ -43,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   private static final double TICKS_PER_METER = (MOTOR_ENCODER_CODES_PER_REV * GEAR_RATIO) / (WHEEL_CIRCUMFERENCE);
   private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
 
-  // TODO: change
+  // TODO: change - center of wheel to wheel horizontally
   private static final double BOT_WHEEL_TO_WHEEL_DIAMETER = 0.49; // meters
 
   public boolean state_flag_motion_profile = true;
@@ -59,6 +60,7 @@ public class DriveSubsystem extends SubsystemBase {
   private static XboxController driverController = RobotContainer.driverController;
 
   //private final PigeonIMU imu = RobotMap.drive_imu;
+  private final Pigeon2 imu = RobotMap.chasisIMU;
 
   public RoboLionsPID leftForwardPID = new RoboLionsPID();
   public RoboLionsPID rightForwardPID = new RoboLionsPID();
@@ -547,11 +549,10 @@ public class DriveSubsystem extends SubsystemBase {
     double position_profile_command = positionMotionProfile.execute();
     double feed_forward_rate = positionMotionProfile.velocity_feed_forward;
 
-    //double headingFeedback = getYaw(); // in degrees
-    double headingCommand = heading; 
-    //TODO Pls check if I was supposed to put heading as a parameter
-    //double headingError = headingPID.execute(headingCommand, headingFeedback);
-    //double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
+    double headingFeedback = getYaw(); // in degrees
+    double headingCommand = heading;
+    double headingError = headingPID.execute(headingCommand, headingFeedback);
+    double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
 
     //System.out.println(headingCommand + "," + headingFeedback);
 
@@ -573,8 +574,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Refer to the rate drive control diagram
     // We modulate our speed of the bot to close out
     // the position error, making it eventually zero
-    //driveWithRotation(positionCmdOut, headingErrorMeters);
-    driveWithRotation(positionCmdOut, 0);
+    driveWithRotation(positionCmdOut, headingErrorMeters);
     //driveWithRotation(0.0, headingErrorMeters);
     //driveWithRotation(positionError, 0);
     // riveWithRotation(0.5, 0.0);
@@ -582,38 +582,42 @@ public class DriveSubsystem extends SubsystemBase {
     // System.out.println("TD " + distance + " // DT " + position_feedback);
   }
 
-
-  /*
   public double getYaw() {
-    double[] ypr = new double[3];
+    /*double[] ypr = new double[3];
     imu.getYawPitchRoll(ypr);
-    return -ypr[0];
+    return -ypr[0];*/
+    double yaw = imu.getYaw();
+    return yaw;
   }
 
   public double getPitch() {
-    double[] ypr = new double[3];
+    /*double[] ypr = new double[3];
     imu.getYawPitchRoll(ypr);
-    return ypr[1];
+    return ypr[1];*/
+    double pitch = imu.getPitch();
+    return pitch;
   }
 
   public double getRoll() {
-    double[] ypr = new double[3];
+    /*double[] ypr = new double[3];
     imu.getYawPitchRoll(ypr);
-    return ypr[2];
+    return ypr[2];*/
+    double roll = imu.getRoll();
+    return roll;
   }
 
-
+  /*
   public double[] getRPH() {
     double[] ypr = new double[3];
     imu.getYawPitchRoll(ypr);
     ypr[0] = -ypr[0];
     return(ypr);
-  }
+  }*/
 
   public void ZeroYaw() {
     imu.setYaw(0, 10);
-    imu.setFusedHeading(0, 10);
-  }*/
+    //imu.setFusedHeading(0, 10);
+  }
 
   @Override
   public void periodic() {

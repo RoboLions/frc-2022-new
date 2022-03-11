@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
 
 public class ShootShooter extends CommandBase {
 
@@ -53,15 +52,23 @@ public class ShootShooter extends CommandBase {
       LimelightSubsystem.setDriverCamera();
     }
 
+    // reverse
     if (manipulatorController.getLeftTriggerAxis() > 0.25) {
       shooterSubsystem.setSpeed(-0.35);
-    } else if (manipulatorController.getRightTriggerAxis() > 0.25) {
+    } 
+    // shoot upper hub
+    else if (manipulatorController.getRightTriggerAxis() > 0.25) {
       shooterSubsystem.steadyShoot(speed);
-    } else if (manipulatorController.getRightBumper()) {
+    } 
+    // shoot low goal
+    else if (manipulatorController.getRightBumper()) {
       shooterSubsystem.steadyShoot(0.8);
-    } else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.setSpeed(0.6);
-    } else {
+    } 
+    // shoot without limelight to upper hub from launchpad
+    else if (manipulatorController.getLeftBumper()) {
+      shooterSubsystem.steadyShoot(2.6);
+    } 
+    else {
       shooterSubsystem.stopShooter();
       shooterSubsystem.lastShootVelocity = 0;
     }

@@ -16,8 +16,8 @@ import frc.robot.RobotMap;
 public class IntakeSubsystem extends SubsystemBase {
 
   // TODO tune value to proper
-  public static final double IN_POWER = 1; // 0.6;
-  public static final double OUT_POWER = -1; // -0.6
+  public static final double IN_POWER = 0.75; // 0.6;
+  public static final double OUT_POWER = -0.75; // -0.6
 
   private static final WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
 

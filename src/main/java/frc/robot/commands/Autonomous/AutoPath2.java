@@ -34,7 +34,7 @@ public class AutoPath2 extends SequentialCommandGroup {
       //new StopNWait(driveSubsystem, 0.5),
       
       // Drive to ball on field
-      new AutoMove(driveSubsystem, 0.5), // convert to meters
+      new AutoMove(driveSubsystem, 0.5),
 
       new StopNWait(driveSubsystem, 0.5),
       
