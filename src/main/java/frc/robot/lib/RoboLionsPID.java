@@ -137,7 +137,7 @@ public class RoboLionsPID {
     */
 
     // 7. Calculate PID Control Equation
-    output = error*proportionalGain + integral_charge*integralGain + derivativeCalculation*derivativeGain;
+    output = error*proportionalGain + integral_charge*integralGain - derivativeCalculation*derivativeGain;
     if(output > maxOutput) {
       output = maxOutput;
     } else if(output < minOutput) {

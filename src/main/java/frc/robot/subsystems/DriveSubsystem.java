@@ -200,7 +200,7 @@ public class DriveSubsystem extends SubsystemBase {
     limelightRotationPID.initialize2(
       0.03, // Proportional Gain 0.02=without weights, 0.03=with weights
       0.015, // Integral Gain 0.05=without weights 0.015= with weights
-      -0.0008, // Derivative Gain -0.0008 =without weights, with weights
+      0.0008, // Derivative Gain -0.0008 =without weights, with weights
       2, // Cage Limit degrees/sec 2=without weights, with weights
       0.0, // Deadband
       0.4, // MaxOutput Degrees/sec 

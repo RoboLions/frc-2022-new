@@ -56,8 +56,8 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TIMEOUT_MS = 10;
 
-        public static final double HOME_POSITION = -21;
-        public static final double GROUND_POSITION = 77;
+        public static final double HOME_POSITION = -53;
+        public static final double GROUND_POSITION = 70.1;
     }
 
     /*public static final class LIDARConstants {
