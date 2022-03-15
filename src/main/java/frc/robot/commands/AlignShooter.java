@@ -37,6 +37,7 @@ public class AlignShooter extends CommandBase {
     double setPoint = 0.0; // final point in degrees
     rotate = driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
 
+    //TODO: TUNE LL PID TO GET RID OF DEADBAND
     if (rotate < 0.08 && rotate >= 0) {
       rotate = 0;
     } else if (rotate < 0 && rotate > -0.08) {

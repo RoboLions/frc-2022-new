@@ -78,10 +78,6 @@ public class RobotContainer {
       new MoveClimb(climbSubsystem)
     );
 
-    // limelightSubsystem.setDefaultCommand(
-    //   new AlignShooter(limelightSubsystem, driveSubsystem)
-    // );
-    
     /*
     simpleShooterSubsystem.setDefaultCommand(
       new SimpleShootShooter(simpleShooterSubsystem)
@@ -92,11 +88,11 @@ public class RobotContainer {
     );
 
     armSubsystem.setDefaultCommand(
-        new MoveArm(armSubsystem)
+      new MoveArm(armSubsystem)
     );
 
     intakeSubsystem.setDefaultCommand(
-        new RollIntake(intakeSubsystem)
+      new RollIntake(intakeSubsystem)
     );
 
   }

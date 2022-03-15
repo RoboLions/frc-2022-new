@@ -11,23 +11,31 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
 
-  public static final double UP_POWER = -0.4; 
-  public static final double DOWN_POWER = 1; 
+  public static final double LEFT_UP_POWER = 0.4; 
+  public static final double RIGHT_UP_POWER = -0.4;
 
-  public static final double SLOW_UP_POWER = -0.2;
-  public static final double SLOW_DOWN_POWER = 0.2;
+  public static final double LEFT_DOWN_POWER = -1;
+  public static final double RIGHT_DOWN_POWER = 1; 
 
-  public static final double TEST_UP_POWER = -0.1;
-  public static final double TEST_DOWN_POWER = 0.1;
+  public static final double LEFT_SLOW_UP_POWER = 0.2;
+  public static final double LEFT_SLOW_DOWN_POWER = -0.2;
+  public static final double RIGHT_SLOW_UP_POWER = -0.2;
+  public static final double RIGHT_SLOW_DOWN_POWER = 0.2;
 
+  public static final double LEFT_TEST_UP_POWER = 0.1;
+  public static final double LEFT_TEST_DOWN_POWER = -0.1;
+  public static final double RIGHT_TEST_UP_POWER = -0.1;
+  public static final double RIGHT_TEST_DOWN_POWER = 0.1;
+
+  // TODO: tune counts to proper
   public static final double R_MAX_ENCODER_COUNT = 330000;
   public static final double R_MIN_ENCODER_COUNT = 0;
-  public static final double R_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
+  public static final double R_MID_TARGET_ENCODER_COUNT = 330000; // to climb high enough to the mid rung
   public static final double R_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
 
   public static final double L_MAX_ENCODER_COUNT = 330000;
   public static final double L_MIN_ENCODER_COUNT = 0;
-  public static final double L_MID_TARGET_ENCODER_COUNT = 211000; // to climb high enough to the mid rung
+  public static final double L_MID_TARGET_ENCODER_COUNT = 330000; // to climb high enough to the mid rung
   public static final double L_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
 
   private final ClimbSubsystem climbSubsystem;
@@ -35,7 +43,8 @@ public class MoveClimb extends CommandBase {
 
   public static int climb_motion_state = 0;
 
-  public static double climbPower = 0;
+  public static double leftClimbPower = 0;
+  public static double rightClimbPower = 0;
   public static double rightStartingPosition;
   public static double leftStartingPosition;
 
@@ -59,6 +68,9 @@ public class MoveClimb extends CommandBase {
   public void execute() {
     double rightCurrentPosition = Math.abs(climbSubsystem.getRightEncoderPosition());
     double leftCurrentPosition = Math.abs(climbSubsystem.getLeftEncoderPosition());
+
+    System.out.println("Right Current Position: " + rightCurrentPosition);
+    System.out.println("Left Current Position: " + leftCurrentPosition);
     
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
@@ -80,30 +92,36 @@ public class MoveClimb extends CommandBase {
     if (left_bumper && 
        (rightCurrentPosition > R_CLIMB_TARGET_ENCODER_COUNT) && 
        (leftCurrentPosition > L_CLIMB_TARGET_ENCODER_COUNT)) {
-      climbPower = DOWN_POWER; // moving inwards
+      leftClimbPower = LEFT_DOWN_POWER; // moving inwards
+      rightClimbPower = RIGHT_DOWN_POWER;
     }
     // Pull up climber to target position DURING COMPETITION
     else if (right_bumper && 
             (rightCurrentPosition < R_MID_TARGET_ENCODER_COUNT) &&
             (leftCurrentPosition < L_MID_TARGET_ENCODER_COUNT)) {
-      climbPower = UP_POWER;
+      leftClimbPower = LEFT_UP_POWER;
+      rightClimbPower = RIGHT_UP_POWER;
     } 
     // Pull down climber to reset (home)
-    else if (back_button && 
-            (rightCurrentPosition > R_MIN_ENCODER_COUNT) &&
-            (leftCurrentPosition > L_MIN_ENCODER_COUNT)) {
-      climbPower = SLOW_DOWN_POWER;
+    else if (back_button //&& 
+            /*(rightCurrentPosition > R_MIN_ENCODER_COUNT) &&
+            (leftCurrentPosition > L_MIN_ENCODER_COUNT)*/) {
+      leftClimbPower = LEFT_SLOW_DOWN_POWER;
+      rightClimbPower = RIGHT_SLOW_DOWN_POWER;
     }
     // Pull up climber to max position
     else if (start_button && 
             (rightCurrentPosition < R_MAX_ENCODER_COUNT) &&
             (leftCurrentPosition < L_MAX_ENCODER_COUNT)) {
-      climbPower = UP_POWER; // moving outwards
+      leftClimbPower = LEFT_UP_POWER; // moving outwards
+      rightClimbPower = RIGHT_UP_POWER;
     } 
     else if (!left_bumper && !right_bumper ) {
-      climbPower = 0; // not moving based on bumpers
+      leftClimbPower = 0; // not moving based on bumpers
+      rightClimbPower = 0;
     } else {
-      climbPower = 0;
+      leftClimbPower = 0;
+      rightClimbPower = 0;
     }
 
     /*
@@ -113,20 +131,18 @@ public class MoveClimb extends CommandBase {
       climbPower = RETRACT_POWER;
     }*/
 
-    climbSubsystem.setClimbPower(climbPower);
+    climbSubsystem.setLeftClimbPower(leftClimbPower);
+    climbSubsystem.setRightClimbPower(rightClimbPower);
 
-    /*
-    if (leftTrigger) {
+    if (driverController.getLeftTriggerAxis() > 0.25) {
       // slow up
-      climbSubsystem.setHighClimbPower(-0.2);
-    } else if (rightTrigger) {
+      climbSubsystem.setHighClimbPower(-0.3);
+    } else if (driverController.getRightTriggerAxis() > 0.25) {
       // fast down
       climbSubsystem.setHighClimbPower(0.6);
-    } else if (!leftTrigger && !rightTrigger) {
-      climbSubsystem.setHighClimbPower(0);
     } else {
       climbSubsystem.setHighClimbPower(0);
-    }*/
+    }
   }
 
   // Called once the command ends or is interrupted.

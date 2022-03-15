@@ -20,8 +20,8 @@ public class LimelightSubsystem extends SubsystemBase {
   public static double limelight_y = (Double) ty.getDouble(0.0);
 
   public LimelightSubsystem() {
-    limelightTable.getEntry("ledMode").setNumber(LimelightConstants.FORCE_ON);   //1 = force off, 2 = force blink, 3 = force on
-    limelightTable.getEntry("camMode").setNumber(LimelightConstants.VISION_PROCESSOR);   //0 = Vision processor, 1 = Driver Camera
+    limelightTable.getEntry("ledMode").setNumber(LimelightConstants.FORCE_OFF);   //1 = force off, 2 = force blink, 3 = force on
+    limelightTable.getEntry("camMode").setNumber(LimelightConstants.DRIVER_CAMERA);   //0 = Vision processor, 1 = Driver Camera
   }
 
   /*************************************************************************

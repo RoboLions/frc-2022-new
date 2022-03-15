@@ -9,6 +9,7 @@ import frc.robot.commands.AlignShooter;
 //import frc.robot.commands.AlignWithLIDAR;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveAndIntake;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,25 +22,16 @@ import frc.robot.subsystems.SimpleShooterSubsystem;
 public class AutoPath2 extends SequentialCommandGroup {
 
   /** 
-   * path that picks up a ball off the field then shoots both balls 
+   * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls
+   * bot must be directly in front of a ball
   */
 
   public AutoPath2(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
-      // Target ball on field
-      //new AlignWithLIDAR(lidar, driveSubsystem), 
-      // new AutoTurn(driveSubsystem, 90),
-
-      //new StopNWait(driveSubsystem, 0.5),
       
-      // Drive to ball on field
-      new AutoMove(driveSubsystem, 0.5),
-
-      new StopNWait(driveSubsystem, 0.5),
-      
-      // a crumb of intake command pls
-      new AutoIntake(intakeSubsystem).withTimeout(2),
+      // intake facing away from hub, move forwards and intake ball
+      new AutoMoveAndIntake(driveSubsystem, intakeSubsystem, 0.5),
 
       new StopNWait(driveSubsystem, 0.5),
 

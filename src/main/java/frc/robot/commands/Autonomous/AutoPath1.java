@@ -9,6 +9,7 @@ import frc.robot.commands.AlignShooter;
 // import frc.robot.commands.AlignWithLIDAR;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoTurnLLOn;
 // import frc.robot.commands.ShootShooter;
 import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.DriveSubsystem;
@@ -21,15 +22,19 @@ public class AutoPath1 extends SequentialCommandGroup {
 
   /**
    * pre-loaded with 1 ball, drive off tarmac, shoot ball
+   * works for any position
   */
 
   public AutoPath1(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
-      // move forwards
-      new AutoMove(driveSubsystem, 2.7), //TODO: what's the distance to ball
+      // intake facing away from hub, move forwards
+      new AutoMove(driveSubsystem, 2.7), // TODO: correct distance
 
       new StopNWait(driveSubsystem, 0.5),
+
+      // Turn LL on to align and shoot
+      new AutoTurnLLOn(limelightSubsystem),
 
       // Target hub
       new AlignShooter(limelightSubsystem, driveSubsystem),

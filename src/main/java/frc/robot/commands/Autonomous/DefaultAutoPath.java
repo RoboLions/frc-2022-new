@@ -9,6 +9,11 @@ import frc.robot.commands.AutoMove;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultAutoPath extends SequentialCommandGroup {
+
+  /**
+   * drive off tarmac
+   * works for any position
+  */
   
   public DefaultAutoPath(final DriveSubsystem driveSubsystem) {
     super (new AutoMove(driveSubsystem, 1));

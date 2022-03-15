@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class RobotMap {
 
@@ -33,6 +34,8 @@ public class RobotMap {
 
     public static final int RIGHT_CLIMB_PORT = 13; 
     public static final int LEFT_CLIMB_PORT = 14;
+    public static final int HIGH_RIGHT_CLIMB_PORT = 15; 
+    public static final int HIGH_LEFT_CLIMB_PORT = 16;
 
     public static WPI_VictorSPX intakeRollerMotor = new WPI_VictorSPX(INTAKE_ROLLER_PORT);
     public static WPI_VictorSPX intakeArmMotor = new WPI_VictorSPX(INTAKE_ARM_PORT);
@@ -55,7 +58,8 @@ public class RobotMap {
 
     public static WPI_TalonFX rightClimbMotor = new WPI_TalonFX(RIGHT_CLIMB_PORT);
     public static WPI_TalonFX leftClimbMotor = new WPI_TalonFX(LEFT_CLIMB_PORT);
-   // public static WPI_TalonFX highRungClimb = new WPI_TalonFX(HIGH_RUNG_CLIMB_PORT); (Robot does not have yet)
+    public static WPI_TalonFX highRightClimbMotor = new WPI_TalonFX(HIGH_RIGHT_CLIMB_PORT);
+    public static WPI_TalonFX highLeftClimbMotor = new WPI_TalonFX(HIGH_LEFT_CLIMB_PORT);
 
     // public static AnalogInput laserVision = new AnalogInput(LASER_PORT);
 

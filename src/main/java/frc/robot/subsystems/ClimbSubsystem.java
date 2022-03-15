@@ -16,7 +16,8 @@ public class ClimbSubsystem extends SubsystemBase {
 
   private static WPI_TalonFX rightClimbMotor = RobotMap.rightClimbMotor;
   private static WPI_TalonFX leftClimbMotor = RobotMap.leftClimbMotor;
-  //private static WPI_TalonFX highRungMotor = RobotMap.highRungClimb;
+  private static WPI_TalonFX highRightClimbMotor = RobotMap.highRightClimbMotor;
+  private static WPI_TalonFX highLeftClimbMotor = RobotMap.highLeftClimbMotor;
   public double climb_enc_readout = 0;
   
   //public RoboLionsPID climbPID = new RoboLionsPID();
@@ -25,20 +26,22 @@ public class ClimbSubsystem extends SubsystemBase {
 
     rightClimbMotor.setNeutralMode(NeutralMode.Brake);
     leftClimbMotor.setNeutralMode(NeutralMode.Brake);
+    highLeftClimbMotor.setNeutralMode((NeutralMode.Brake));
+    highRightClimbMotor.setNeutralMode((NeutralMode.Brake));
     rightClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     leftClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    highRightClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    highLeftClimbMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     //resetEncoder();
 
-/*
-    climbPID.initialize2(
+    /*
+    climbPID.initialize(
         0.0, // Proportional Gain
         0.0, // Integral Gain 
         0.0, // Derivative Gain
-        0.0, // Cage Limit 
-        0.0, // Deadband 
-        12, // MaxOutput Volts
-        false, //enableCage
-        false //enableDeadband
+        20, // Cage Limit
+        2, // Deadband
+        0.75 // MaxOutput
     );*/
   }
 
@@ -46,15 +49,24 @@ public class ClimbSubsystem extends SubsystemBase {
   public void moveClimbToPosition(double target_position) {
         climb_enc_readout = getEncoderPosition();
         double arm_cmd = climbPID.execute((double)target_position, (double)climb_enc_readout);
-        rightClimbMotor.set(arm_cmd); // need to invert command to close the loop
+        climbMotor.set(arm_cmd); // need to invert command to close the loop
     }
 
-  public void setClimbtoMax() {
-    moveClimbToPosition(ClimbConstants.MAX_POSITION);
-  }
+    public void setClimbToColorWheel() {
+        moveClimbToPosition(ClimbConstants.COLOR_WHEEL_POSITION);
+    }
 
-  public void setClimbMinimum() {
-    moveClimbToPosition(ClimbConstants.DOWN_POSITION);
+    public void setClimbToMax() {
+        moveClimbToPosition(ClimbConstants.MAX_POSITION);
+    }
+
+    public void setClimbToReady() {
+        moveClimbToPosition(ClimbConstants.READY_POSITION);
+    }
+
+    public void setClimbToGround() {
+        moveClimbToPosition(ClimbConstants.DOWN_POSITION);
+    }
   }*/
 
   public void resetEncoder() {
@@ -70,14 +82,18 @@ public class ClimbSubsystem extends SubsystemBase {
     return leftClimbMotor.getSelectedSensorPosition();
   }
 
-  public void setClimbPower(double power) {
-    rightClimbMotor.set(power);
+  public void setLeftClimbPower(double power) {
     leftClimbMotor.set(power);
   }
 
-  /*public void setHighClimbPower(double power) {
-    highRungMotor.set(power);
-  }*/
+  public void setRightClimbPower(double power) {
+    rightClimbMotor.set(power);
+  }
+
+  public void setHighClimbPower(double power) {
+    highRightClimbMotor.set(power);
+    highLeftClimbMotor.set(power);
+  }
 
   public void stopClimb() {
     rightClimbMotor.set(0.0);
@@ -89,7 +105,7 @@ public class ClimbSubsystem extends SubsystemBase {
   }
 
   public int getLeftLimitSwitchValue() {
-    return leftClimbMotor.getSensorCollection().isFwdLimitSwitchClosed(); // 1 if closed, 0 if open
+    return leftClimbMotor.getSensorCollection().isRevLimitSwitchClosed(); // 1 if closed, 0 if open
   }
 
   @Override
