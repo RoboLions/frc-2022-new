@@ -308,7 +308,7 @@ public class DriveSubsystem extends SubsystemBase {
     right_speed_cmd = rightSpeed;
     
     // calculate rate feedforward term
-    final double leftFeedforward = calculateNew(leftSpeed, 0, 2, 0, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
+    final double leftFeedforward = calculateNew(leftSpeed, 0, 0.7, 0, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
     final double rightFeedforward = calculateNew(rightSpeed, 0, 0, 0, 0); //0.7*0.8, 2.5*0.95*1.1
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
@@ -416,8 +416,14 @@ public class DriveSubsystem extends SubsystemBase {
     // speed in meters per second
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
 
-    double leftSpeed = 0;
-    double rightSpeed = 0;
+    /*double leftSpeed = 0;
+    double rightSpeed = 0;*/
+
+    // lines 424-426 for tuning PID!!!!!!!!!!!!!! remove after
+
+    double leftSpeed = (linearTravelSpeed + rotateSpeed);
+    double rightSpeed = (linearTravelSpeed - rotateSpeed);
+    straightDrive(leftSpeed, rightSpeed);
 
     // Steps:
     // 1 - decide accel or decel rn
@@ -517,7 +523,7 @@ public class DriveSubsystem extends SubsystemBase {
     lastVelocityLeft = leftSpeed;
     lastVelocityRight = rightSpeed;*/
 
-    straightDrive(leftSpeed, rightSpeed);
+    //straightDrive(leftSpeed, rightSpeed);
   }
 
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees

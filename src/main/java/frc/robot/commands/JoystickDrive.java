@@ -89,7 +89,7 @@ public class JoystickDrive extends CommandBase {
     }
     
     //driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
-    driveSubsystem.driveWithRotation(1, 0);
+    driveSubsystem.driveWithRotation(0.5, 0);
     //driveSubsystem.drive(-throttle, rotate);
   }
 
