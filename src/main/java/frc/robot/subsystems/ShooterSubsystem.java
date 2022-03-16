@@ -96,8 +96,8 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.configAllowableClosedloopError(0, 0, 10);
 
     shooterPID.initialize2(
-      3.15, // Proportional Gain 0.31 s at 7, 3.15
-      12.19, // Integral Gain 12.19  6
+      3.15, // Proportional Gain 3.15
+      12.19, // Integral Gain 12.19
       0, // Derivative Gain //0
       3, // 25% of peak 12V voltage, Cage Limit
       0.0, // Deadband //0
@@ -159,7 +159,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shoot_speed_cmd = velocity;
     
     // calculate rate feedforward term
-    final double shootFeedforward = calculateNew(velocity, 0, 0.68, 2.5, 0); //0.19, 2.4
+    final double shootFeedforward = calculateNew(velocity, 0, 0.8, 2.26, 0); //0.68 2.5
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 

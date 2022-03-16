@@ -46,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase {
 
   public void moveArmToPosition(double target_pitch) {
       arm_pitch_readout = getPitch();
-      System.out.println(target_pitch + ", " + arm_pitch_readout);
+      
       double arm_cmd = armPID.execute((double)target_pitch, (double)arm_pitch_readout);
       // add hard deadband to arm so we don't break it
       if(arm_cmd > MAX_ARM_POWER) {
@@ -54,7 +54,19 @@ public class ArmSubsystem extends SubsystemBase {
       } else if(arm_cmd < -MAX_ARM_POWER) {
           arm_cmd = -MAX_ARM_POWER;
       }
+      
+      System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
+      //System.out.println("Arm Cmd" + arm_cmd);
       armMotor.set(arm_cmd); // need to invert command to close the loop
+
+      /*
+      if (arm_pitch_readout > ArmConstants.HOME_POSITION) {
+          armMotor.set(0.6);
+      } else if (arm_pitch_readout < ArmConstants.GROUND_POSITION) {
+          armMotor.set(-0.6);
+      } else {
+          armMotor.set(0);
+      }*/
   }
 
   public void setArmToHome() {
@@ -85,9 +97,11 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getPitch() {
-    double[] ypr = new double[3];
+    /*double[] ypr = new double[3];
     imu.getYawPitchRoll(ypr);
-    return ypr[1];
+    return ypr[1];*/
+    double pitch = imu.getPitch();
+    return pitch;
   }
 
   /*

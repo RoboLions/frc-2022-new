@@ -69,8 +69,8 @@ public class MoveClimb extends CommandBase {
     double rightCurrentPosition = Math.abs(climbSubsystem.getRightEncoderPosition());
     double leftCurrentPosition = Math.abs(climbSubsystem.getLeftEncoderPosition());
 
-    System.out.println("Right Current Position: " + rightCurrentPosition);
-    System.out.println("Left Current Position: " + leftCurrentPosition);
+    //System.out.println("Right Current Position: " + rightCurrentPosition);
+    //System.out.println("Left Current Position: " + leftCurrentPosition);
     
     boolean left_bumper = driverController.getLeftBumper();
     boolean right_bumper = driverController.getRightBumper();
@@ -103,9 +103,7 @@ public class MoveClimb extends CommandBase {
       rightClimbPower = RIGHT_UP_POWER;
     } 
     // Pull down climber to reset (home)
-    else if (back_button //&& 
-            /*(rightCurrentPosition > R_MIN_ENCODER_COUNT) &&
-            (leftCurrentPosition > L_MIN_ENCODER_COUNT)*/) {
+    else if (back_button) {
       leftClimbPower = LEFT_SLOW_DOWN_POWER;
       rightClimbPower = RIGHT_SLOW_DOWN_POWER;
     }

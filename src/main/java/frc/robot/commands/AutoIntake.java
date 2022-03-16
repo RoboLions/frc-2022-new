@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -11,7 +12,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.commands.AutoMove.Mode;
 
 public class AutoIntake extends CommandBase {
-  /** Creates a new Intake. */
+ 
   private final IntakeSubsystem intakeSubsystem;
   // private static final int DEFAULT_TIME = 1;
 
@@ -42,4 +43,4 @@ public class AutoIntake extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-}
+}*/

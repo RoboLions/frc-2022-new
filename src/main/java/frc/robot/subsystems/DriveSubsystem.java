@@ -28,17 +28,16 @@ public class DriveSubsystem extends SubsystemBase {
   public static final double kMaxAngularSpeed = 2 * Math.PI; // 2 * Math.PI; // one rotation per second
   private static final double IN_TO_M = .0254;
   
-  /* Every Bot Variables */
   private static final int timeoutMs = 10;
   private static final int MOTOR_ENCODER_CODES_PER_REV = 2048; //4096 for CTRE Mag Encoders, 2048 for the Falcons
-  private static final double DIAMETER_INCHES = 6.0; // Flex wheels on Everybot
+  private static final double DIAMETER_INCHES = 6.0; // wheels on prototype bot
   
   private static final double WHEEL_DIAMETER = DIAMETER_INCHES * IN_TO_M; // in meters
   private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
   // This is for a output gear side motor encoder
   // private static final double TICKS_PER_METER = MOTOR_ENCODER_CODES_PER_REV / WHEEL_CIRCUMFERENCE;
 
-  private static final double GEAR_RATIO = 10.71;
+  private static final double GEAR_RATIO = 10.71; // ratio for prototype bot
 
   // This is for an encoder mounted to the motor
   private static final double TICKS_PER_METER = (MOTOR_ENCODER_CODES_PER_REV * GEAR_RATIO) / (WHEEL_CIRCUMFERENCE);
@@ -59,7 +58,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   private static XboxController driverController = RobotContainer.driverController;
 
-  //private final PigeonIMU imu = RobotMap.drive_imu;
   private final Pigeon2 imu = RobotMap.chasisIMU;
 
   public RoboLionsPID leftForwardPID = new RoboLionsPID();
@@ -68,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   public RoboLionsPID positionPID = new RoboLionsPID();
   public RoboLionsPID limelightRotationPID = new RoboLionsPID();
   public RoboLionsMotionProfile positionMotionProfile = new RoboLionsMotionProfile();
-  //public RoboLionsMotionProfile headingMotionProfile = new RoboLionsMotionProfile();
+  public RoboLionsMotionProfile headingMotionProfile = new RoboLionsMotionProfile();
 
   public double left_speed_cmd;
   public double right_speed_cmd;
@@ -85,13 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
   static double lastRotateVelocityLeft = 0;
   static double lastRotateVelocityRight = 0;
   */
-
-  /*
-  public static final double LLAIMINGCONSTANT = 0; //  limelight aiming constant TODO: change
-  public static final double MOTORGAIN = 0; //TODO: change
-  public double LX = LimelightSubsystem.limelight_x;*/
   
-  /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     //ZeroYaw();
     resetEncoders();
@@ -149,10 +141,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Rate Drive PID
     leftForwardPID.initialize2(
-        // 0.5 = 2.94, 28, 0.077
-        3.375, // Proportional Gain 4.9, 7.5, 2.205, 3.375
-        //.21 seconds
-        17.357*0.1, // Integral Gain //12.6 42.12 ZN w FF, 17.357
+        0, // Proportional Gain 3.375
+        0, // Integral Gain 17.357*0.1
         0.0, // Derivative Gain //0
         0.0, // Cage Limit 0.3 //0
         0.0, // Deadband //0
@@ -163,8 +153,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Rate Drive PID
     rightForwardPID.initialize2(
-        3.15, // 2.025 Proportional Gain 4.5, 7 //2.925 ZN w FF //2
-        16.2*0.1, // 10.2316 Integral Gain //42.12 ZN w FF //20
+        0, // Proportional Gain 3.15
+        0, // Integral Gain 16.2*0.1
         0, // Derivative Gain //0
         0.0, // Cage Limit //0.3
         0.0, // Deadband //0
@@ -175,8 +165,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Position Command PID for Autonomous and 
     positionPID.initialize2(
-        2.15, // Proportional Gain //2.15 //1.35 //2
-        7, // Integral Gain //5 //10
+        0, // Proportional Gain //2.15 //1.35 //2
+        0, // Integral Gain //5 //10
         0, // Derivative Gain //0
         0.0, // Cage Limit //0.3 //0.1 //0.2
         0.0, // Deadband //0
@@ -318,8 +308,8 @@ public class DriveSubsystem extends SubsystemBase {
     right_speed_cmd = rightSpeed;
     
     // calculate rate feedforward term
-    final double leftFeedforward = calculateNew(leftSpeed, 0, 0.7*0.8, 2.5*1.15*0.95*1.1, 0); //0.69, 2.43
-    final double rightFeedforward = calculateNew(rightSpeed, 0, 0.7*0.8, 2.5*0.95*1.1, 0); //2.3
+    final double leftFeedforward = calculateNew(leftSpeed, 0, 2, 0, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
+    final double rightFeedforward = calculateNew(rightSpeed, 0, 0, 0, 0); //0.7*0.8, 2.5*0.95*1.1
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
@@ -396,22 +386,22 @@ public class DriveSubsystem extends SubsystemBase {
     rightBackMotor.set(right_back_motor_command);
     */
 
-    SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
+    //SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
     //SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
     
-    SmartDashboard.putNumber("leftSpeed", leftSpeed);
-    SmartDashboard.putNumber("rightSpeed", LimelightSubsystem.getLimelightX()); //changed from right speed
+    //SmartDashboard.putNumber("leftSpeed", leftSpeed);
+    //SmartDashboard.putNumber("rightSpeed", LimelightSubsystem.getLimelightX()); //changed from right speed
     
     //SmartDashboard.putNumber("Yaw Value", getYaw());
     //SmartDashboard.putNumber("Distance Travelled", distanceTravelledinMeters());
     //SmartDashboard.putNumber("Left Encoder Counts", getLeftEncoderPosition());
     //SmartDashboard.putNumber("Right Encoder Counts", getRightEncoderPosition());
     
-    SmartDashboard.putNumber("Left Dist Meters", leftDistanceTravelledInMeters());
+    /*SmartDashboard.putNumber("Left Dist Meters", leftDistanceTravelledInMeters());
     SmartDashboard.putNumber("Right Dist Meters", rightDistanceTravelledInMeters());
 
     SmartDashboard.putNumber("Left Encoder MPS", getBackLeftEncoderVelocityMetersPerSecond());
-    SmartDashboard.putNumber("Right Encoder MPS", getBackRightEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Right Encoder MPS", getBackRightEncoderVelocityMetersPerSecond());*/
 
     //SmartDashboard.putNumber("Limelight Offset", LimelightSubsystem.getLimelightX());
     
@@ -432,7 +422,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Steps:
     // 1 - decide accel or decel rn
     // 2 - limit commanded velocity based on computed accel limit
-
+/*
     double linearAccel = (linearTravelSpeed - lastLinearVelocity)/0.02;
     double rotateAccel = (rotateSpeed - lastRotateVelocity)/0.02;
 
