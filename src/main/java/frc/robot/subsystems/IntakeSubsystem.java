@@ -16,8 +16,8 @@ import frc.robot.RobotMap;
 public class IntakeSubsystem extends SubsystemBase {
 
   // reversed - sign for DOM
-  public static final double IN_POWER = -0.75; // -0.75;
-  public static final double OUT_POWER = 0.75; // 0.75
+  public static final double IN_POWER = -0.7; // -0.75;
+  public static final double OUT_POWER = 0.7; // 0.75
 
   private static final WPI_VictorSPX intakeMotor = RobotMap.intakeRollerMotor;
 

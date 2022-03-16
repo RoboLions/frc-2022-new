@@ -5,11 +5,11 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.AlignShooter;
 //import frc.robot.commands.AlignWithLIDAR;
-//import frc.robot.commands.AutoIntake;
+import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoMove;
-//import frc.robot.commands.AutoMoveAndIntake;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.StopNWait;
@@ -34,7 +34,10 @@ public class AutoPath4 extends SequentialCommandGroup {
     super(
 
       // intake facing away from hub, move forwards and intake ball
-      //new AutoMoveAndIntake(driveSubsystem, intakeSubsystem, 0.5),
+      new ParallelRaceGroup(
+        new AutoMove(driveSubsystem, 2.7),
+        new AutoIntake(intakeSubsystem)
+      ),
 
       new StopNWait(driveSubsystem, 0.5),
 
@@ -50,8 +53,16 @@ public class AutoPath4 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.5),
 
-      // Move forward to terminal with intake running
-      //new AutoMoveAndIntake(driveSubsystem, intakeSubsystem, 2.7),
+      // Move forward to terminal but not all the way
+      new AutoMove(driveSubsystem, 2.1),
+
+      new StopNWait(driveSubsystem, 0.2),
+
+      // Finish move forward to terminal with intake running
+      new ParallelRaceGroup(
+        new AutoMove(driveSubsystem, 0.1),
+        new AutoIntake(intakeSubsystem)
+      ),
 
       new StopNWait(driveSubsystem, 0.5),
 
