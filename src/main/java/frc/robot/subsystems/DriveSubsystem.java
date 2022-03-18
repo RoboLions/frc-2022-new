@@ -44,7 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   private static final double METERS_PER_TICKS = 1 / TICKS_PER_METER;
 
   // TODO: change - center of wheel to wheel horizontally
-  private static final double BOT_WHEEL_TO_WHEEL_DIAMETER = 0.49; // meters
+  private static final double BOT_WHEEL_TO_WHEEL_DIAMETER = 0.55; // 22 inches to meters
 
   public boolean state_flag_motion_profile = true;
 
@@ -141,32 +141,38 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Rate Drive PID
     leftForwardPID.initialize2(
-        0, // Proportional Gain 3.375
-        0, // Integral Gain 17.357*0.1
-        0.0, // Derivative Gain //0
-        0.0, // Cage Limit 0.3 //0
-        0.0, // Deadband //0
-        12,// MaxOutput Volts 0.25 //100 //12
-        false, //enableCage
-        false //enableDeadband
+      //0, 0, 0, 0, 0, 12, false, false
+      
+      // 0.5 = 2.94, 28, 0.077
+      3.375, // Proportional Gain 4.9, 7.5, 2.205, 3.375
+      //.21 seconds
+      17.357*0.1, // Integral Gain //12.6 42.12 ZN w FF, 17.357
+      0.0, // Derivative Gain //0
+      0.0, // Cage Limit 0.3 //0
+      0.0, // Deadband //0
+      12,// MaxOutput Volts 0.25 //100 //12
+      false, //enableCage
+      false //enableDeadband
     );
 
     // Rate Drive PID
     rightForwardPID.initialize2(
-        0, // Proportional Gain 3.15
-        0, // Integral Gain 16.2*0.1
-        0, // Derivative Gain //0
-        0.0, // Cage Limit //0.3
-        0.0, // Deadband //0
-        12,// MaxOutput Volts 0.25 //100 //12
-        false, //enableCage
-        false //enableDeadband
+      //0, 0, 0, 0, 0, 12, false, false
+      
+      3.15, // 2.025 Proportional Gain 4.5, 7 //2.925 ZN w FF //2
+      16.2*0.1, // 10.2316 Integral Gain //42.12 ZN w FF //20
+      0, // Derivative Gain //0
+      0.0, // Cage Limit //0.3
+      0.0, // Deadband //0
+      12,// MaxOutput Volts 0.25 //100 //12
+      false, //enableCage
+      false //enableDeadband
     );
 
     // Position Command PID for Autonomous and 
     positionPID.initialize2(
-        0, // Proportional Gain //2.15 //1.35 //2
-        0, // Integral Gain //5 //10
+        5, // Proportional Gain //2.15 //1.35 //2
+        0, // Integral Gain //10
         0, // Derivative Gain //0
         0.0, // Cage Limit //0.3 //0.1 //0.2
         0.0, // Deadband //0
@@ -177,8 +183,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Heading Command PID for Autonomous and 
     headingPID.initialize2(
-        0, // Proportional Gain //15 // 7.5
-        0.0, // Integral Gain // 10
+        5, // Proportional Gain //15 // 7.5
+        10, // Integral Gain // 10
         0.0, // Derivative Gain 
         20, // Cage Limit //0.3
         0.0, // Deadband
@@ -308,8 +314,8 @@ public class DriveSubsystem extends SubsystemBase {
     right_speed_cmd = rightSpeed;
     
     // calculate rate feedforward term
-    final double leftFeedforward = calculateNew(leftSpeed, 0, 0.7, 0, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
-    final double rightFeedforward = calculateNew(rightSpeed, 0, 0, 0, 0); //0.7*0.8, 2.5*0.95*1.1
+    final double leftFeedforward = calculateNew(leftSpeed, 0, 0.7*0.8, 2.5*1.15*0.95*1.1, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
+    final double rightFeedforward = calculateNew(rightSpeed, 0, 0.7*0.8, 2.5*0.95*1.1, 0); //0.7*0.8, 2.5*0.95*1.1
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
@@ -416,19 +422,20 @@ public class DriveSubsystem extends SubsystemBase {
     // speed in meters per second
     // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
 
-    /*double leftSpeed = 0;
-    double rightSpeed = 0;*/
+    double leftSpeed = 0;
+    double rightSpeed = 0;
 
     // lines 424-426 for tuning PID!!!!!!!!!!!!!! remove after
 
+    /*
     double leftSpeed = (linearTravelSpeed + rotateSpeed);
     double rightSpeed = (linearTravelSpeed - rotateSpeed);
-    straightDrive(leftSpeed, rightSpeed);
+    straightDrive(leftSpeed, rightSpeed);*/
 
     // Steps:
     // 1 - decide accel or decel rn
     // 2 - limit commanded velocity based on computed accel limit
-/*
+
     double linearAccel = (linearTravelSpeed - lastLinearVelocity)/0.02;
     double rotateAccel = (rotateSpeed - lastRotateVelocity)/0.02;
 
@@ -523,7 +530,7 @@ public class DriveSubsystem extends SubsystemBase {
     lastVelocityLeft = leftSpeed;
     lastVelocityRight = rightSpeed;*/
 
-    //straightDrive(leftSpeed, rightSpeed);
+    straightDrive(leftSpeed, rightSpeed);
   }
 
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
@@ -553,6 +560,9 @@ public class DriveSubsystem extends SubsystemBase {
     //System.out.println(headingCommand + "," + headingFeedback);
 
     double position_feedback = distanceTravelledinMeters();
+    
+    System.out.println("position profile command: " + position_profile_command + ", " + 
+    "position feedback: " + position_feedback);
     //SmartDashboard.putNumber("Auto Distance", position_feedback);
     // positionError is in meters per second
     double positionError = positionPID.execute(position_profile_command, position_feedback);

@@ -53,7 +53,7 @@ public class AutoMove extends CommandBase {
                 //boolean tempReturn = false;
                 double distance_driven = drivesubsystem.distanceTravelledinMeters() - start_dist_meters;
                 double positionError = Math.abs(target_distance - distance_driven);
-                return(positionError < 0.01); // stop whenever we go the commanded distance within 1 cm
+                return(positionError < 0.03); // stop whenever we go the commanded distance within 1 cm
                 //return(tempReturn);
         } 
 

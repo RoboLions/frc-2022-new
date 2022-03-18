@@ -7,8 +7,10 @@ import frc.robot.commands.AlignShooter;
 //import frc.robot.commands.AlignWithLIDAR;
 import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveElevator;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.AutoTurn;
+import frc.robot.commands.AutoTurnLLOn;
 import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -30,23 +32,31 @@ public class AutoPath3 extends SequentialCommandGroup {
   ShooterSubsystem shooterSubsystem, LimelightSubsystem limelightSubsystem){
     super(
 
-      // intake facing away from hub, move forwards and intake ball
+      // intake facing away from hub, move forwards part of the way
+      new AutoMove(driveSubsystem, 0.9),
+
+      // intake ball with elevator going
       new ParallelRaceGroup(
-        new AutoMove(driveSubsystem, 2.7),
-        new AutoIntake(intakeSubsystem)
+        new AutoMove(driveSubsystem, 0.1),
+        new AutoIntake(intakeSubsystem),
+        new AutoMoveElevator(shooterSubsystem)
       ),
 
       new StopNWait(driveSubsystem, 0.5),
 
+       // Turn LL on to align and shoot
+       new AutoTurnLLOn(limelightSubsystem),
+
       // Target hub
-      new AlignShooter(limelightSubsystem, driveSubsystem),
+      //new AlignShooter(limelightSubsystem, driveSubsystem),
 
       new StopNWait(driveSubsystem, 0.5),
 
       // Shoot balls
-      new AutoShoot(shooterSubsystem).withTimeout(6),
+      new AutoShoot(shooterSubsystem).withTimeout(4),
 
-      new AutoTurn(driveSubsystem, 90),
+      // Turn to go to terminal
+      new AutoTurn(driveSubsystem, 5),
 
       new StopNWait(driveSubsystem, 0.5),
 
@@ -58,16 +68,20 @@ public class AutoPath3 extends SequentialCommandGroup {
       // Finish move forward to terminal with intake running
       new ParallelRaceGroup(
         new AutoMove(driveSubsystem, 0.1),
-        new AutoIntake(intakeSubsystem)
+        new AutoIntake(intakeSubsystem),
+        new AutoMoveElevator(shooterSubsystem)
       ),
 
       new StopNWait(driveSubsystem, 0.5),
 
+      // Move back to get in range of LL
+      new AutoMove(driveSubsystem, -1),
+
       // Align to hub
-      new AlignShooter(limelightSubsystem, driveSubsystem),
+      //new AlignShooter(limelightSubsystem, driveSubsystem),
 
       // Shoot
-      new AutoShoot(shooterSubsystem).withTimeout(6)
+      new AutoShoot(shooterSubsystem).withTimeout(4)
     );
   }
 }

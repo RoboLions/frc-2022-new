@@ -5,20 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.IntakeSubsystem;
-// import edu.wpi.first.wpilibj.XboxController;
-// import frc.robot.commands.AutoMove.Mode;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoIntake extends CommandBase {
- 
-  private final IntakeSubsystem intakeSubsystem;
-  // private static final int DEFAULT_TIME = 1;
+public class AutoShootShort extends CommandBase {
+  /** Creates a new AutoShootShort. */
+  
+  private final ShooterSubsystem shooterSubsystem;
 
-  public AutoIntake(IntakeSubsystem intake) {
+  public AutoShootShort(ShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
-    intakeSubsystem = intake;
-    addRequirements(intakeSubsystem);
+    shooterSubsystem = shooter;
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,13 +25,13 @@ public class AutoIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.outtakeBalls();
+    shooterSubsystem.steadyShoot(2.3);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stop();
+    shooterSubsystem.stopShooter();
   }
 
   // Returns true when the command should end.

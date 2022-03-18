@@ -36,7 +36,7 @@ public class JoystickDrive extends CommandBase {
       throttle = 0;
     } else {
       // meters per sec
-      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 5); // 3 made slower for testing purposes
+      throttle = (Math.tan(.465 * (throttle * Math.PI)) / 3); // 3 made slower for testing purposes
     }
 
     //System.out.println("JoystickDrive throttle value: " + throttle);
@@ -88,8 +88,8 @@ public class JoystickDrive extends CommandBase {
       System.out.println("rotate " + rotate + " error " + offsetX);
     }
     
-    //driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
-    driveSubsystem.driveWithRotation(0.5, 0);
+    driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs
+    //driveSubsystem.driveWithRotation(0.5, 0);
     //driveSubsystem.drive(-throttle, rotate);
   }
 

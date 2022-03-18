@@ -13,6 +13,9 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -26,6 +29,7 @@ import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 // import frc.robot.subsystems.LaserSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -45,6 +49,7 @@ public class Robot extends TimedRobot {
   private ArmSubsystem armSubsystem = m_robotContainer.armSubsystem;
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
   private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
+  private IntakeSubsystem intakeSubsystem = m_robotContainer.intakeSubsystem;
   // private LaserSubsystem laserSubsystem = m_robotContainer.laserSubsystem;
   
   private final static XboxController driverController = RobotContainer.driverController;  
@@ -57,12 +62,14 @@ public class Robot extends TimedRobot {
   private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
 
+  private static final DigitalInput elevatorSensor1 = RobotMap.elevatorSensor1;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
 
-  // SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
@@ -80,9 +87,15 @@ public class Robot extends TimedRobot {
     m_robotContainer.limelightSubsystem.setDriverCamera();
     m_robotContainer.limelightSubsystem.turn_LED_OFF();
 
-    // m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
-    // m_chooser.addOption("cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
-    // m_chooser.addOption("cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem);
+    UsbCamera camera = CameraServer.startAutomaticCapture();
+    camera.setResolution(240, 180);
+    camera.setFPS(4);
+
+    m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
+    m_chooser.addOption("Cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
+    m_chooser.addOption("Cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+
+    SmartDashboard.putData("Autonomous Chooser", m_chooser);
   }
 
   /**
@@ -99,6 +112,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putBoolean("Elevator Sensor 1 Value", elevatorSensor1.get());
 
     SmartDashboard.putNumber("Left Back F500 Temp C", leftBackMotor.getTemperature());
     SmartDashboard.putNumber("Left Front F500 Temp C", leftFrontMotor.getTemperature());

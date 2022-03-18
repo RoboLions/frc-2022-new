@@ -54,6 +54,7 @@ public class RobotContainer {
   //public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
+
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
 
@@ -109,6 +110,20 @@ public class RobotContainer {
     new JoystickButton(manipulatorController, Button.kY.value).whenPressed(
       new AutoMove(driveSubsystem, -4)
     );*/
+
+    new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
+      new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
+    );
+
+    /*
+    new AutoTurn(driveSubsystem, 10)
+    */
+
+    // 1. position pid
+    // test auto move, 1 meter, 4.089, and 6.756 meters
+    // 2 heading pid
+    // test auto turn 10 degrees, -10 degrees
+    // 3. test auto paths
 
   }
 

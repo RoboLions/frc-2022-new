@@ -10,12 +10,12 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
-public class AutoShoot extends CommandBase {
+public class AutoShootWithElevator extends CommandBase {
   /** Creates a new AutoShoot. */
   private final ShooterSubsystem shooterSubsystem;
   // private static final int DEFAULT_TIME = 1;
 
-  public AutoShoot(ShooterSubsystem shooter) {
+  public AutoShootWithElevator(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
   }
@@ -33,6 +33,7 @@ public class AutoShoot extends CommandBase {
     LimelightSubsystem.setVisionProcessor();
     double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
 
+    shooterSubsystem.moveBeltUp();
     shooterSubsystem.steadyShoot(speed*0.94);
   }
 

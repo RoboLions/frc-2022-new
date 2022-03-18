@@ -9,6 +9,8 @@ import frc.robot.commands.AlignShooter;
 // import frc.robot.commands.AlignWithLIDAR;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShootWithElevator;
+import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnLLOn;
 // import frc.robot.commands.ShootShooter;
 import frc.robot.commands.StopNWait;
@@ -29,20 +31,22 @@ public class AutoPath1 extends SequentialCommandGroup {
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem) {
     super(
       // intake facing away from hub, move forwards
-      new AutoMove(driveSubsystem, 2.7), // TODO: correct distance
+      new AutoMove(driveSubsystem, 1.1),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
       // Turn LL on to align and shoot
-      new AutoTurnLLOn(limelightSubsystem),
+      new AutoTurnLLOn(limelightSubsystem).withTimeout(3),
 
       // Target hub
-      new AlignShooter(limelightSubsystem, driveSubsystem),
+      //new AlignShooter(limelightSubsystem, driveSubsystem),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
+
+      new AutoShoot(shooterSubsystem).withTimeout(3),
 
       // Shoot balls
-      new AutoShoot(shooterSubsystem).withTimeout(6)
+      new AutoShootWithElevator(shooterSubsystem).withTimeout(2)
     );
   }
 }

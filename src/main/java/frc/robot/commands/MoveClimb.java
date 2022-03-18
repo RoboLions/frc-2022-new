@@ -11,8 +11,8 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
 
-  public static final double LEFT_UP_POWER = 0.4; 
-  public static final double RIGHT_UP_POWER = -0.4;
+  public static final double LEFT_UP_POWER = 0.7; 
+  public static final double RIGHT_UP_POWER = -0.7;
 
   public static final double LEFT_DOWN_POWER = -1;
   public static final double RIGHT_DOWN_POWER = 1; 
@@ -28,15 +28,15 @@ public class MoveClimb extends CommandBase {
   public static final double RIGHT_TEST_DOWN_POWER = 0.1;
 
   // TODO: tune counts to proper
-  public static final double R_MAX_ENCODER_COUNT = 330000;
+  public static final double R_MAX_ENCODER_COUNT = 9000000;
   public static final double R_MIN_ENCODER_COUNT = 0;
-  public static final double R_MID_TARGET_ENCODER_COUNT = 330000; // to climb high enough to the mid rung
-  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
+  public static final double R_MID_TARGET_ENCODER_COUNT = 9000000; // to climb high enough to the mid rung
+  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 0; // 16000; to pull the robot up
 
-  public static final double L_MAX_ENCODER_COUNT = 330000;
+  public static final double L_MAX_ENCODER_COUNT = 90000000;
   public static final double L_MIN_ENCODER_COUNT = 0;
-  public static final double L_MID_TARGET_ENCODER_COUNT = 330000; // to climb high enough to the mid rung
-  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 100; // 16000; to pull the robot up
+  public static final double L_MID_TARGET_ENCODER_COUNT = 9000000; // to climb high enough to the mid rung
+  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 0; // 16000; to pull the robot up
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
@@ -132,6 +132,7 @@ public class MoveClimb extends CommandBase {
     climbSubsystem.setLeftClimbPower(leftClimbPower);
     climbSubsystem.setRightClimbPower(rightClimbPower);
 
+    /*
     if (driverController.getLeftTriggerAxis() > 0.25) {
       // slow up
       climbSubsystem.setHighClimbPower(-0.3);
@@ -141,6 +142,7 @@ public class MoveClimb extends CommandBase {
     } else {
       climbSubsystem.setHighClimbPower(0);
     }
+    */
   }
 
   // Called once the command ends or is interrupted.

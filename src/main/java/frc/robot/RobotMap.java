@@ -61,6 +61,8 @@ public class RobotMap {
     public static WPI_TalonFX highRightClimbMotor = new WPI_TalonFX(HIGH_RIGHT_CLIMB_PORT);
     public static WPI_TalonFX highLeftClimbMotor = new WPI_TalonFX(HIGH_LEFT_CLIMB_PORT);
 
+    public static DigitalInput elevatorSensor1 = new DigitalInput(0);
+
     // public static AnalogInput laserVision = new AnalogInput(LASER_PORT);
 
     //public static PigeonIMU drive_imu = new PigeonIMU(climbMotor);

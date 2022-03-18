@@ -4,9 +4,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -15,6 +17,8 @@ public class ShootShooter extends CommandBase {
   private final static XboxController manipulatorController = RobotContainer.manipulatorController;
   private final static XboxController driverController = RobotContainer.driverController;
   private final ShooterSubsystem shooterSubsystem;
+
+  private static final DigitalInput elevatorSensor1 = RobotMap.elevatorSensor1;
   
   public ShootShooter(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
@@ -58,23 +62,35 @@ public class ShootShooter extends CommandBase {
     } 
     // shoot upper hub
     else if (manipulatorController.getRightTriggerAxis() > 0.25) {
-      shooterSubsystem.steadyShoot(speed);
+      shooterSubsystem.steadyShoot(speed * 0.94);
     } 
     // shoot low goal
     else if (manipulatorController.getRightBumper()) {
-      shooterSubsystem.steadyShoot(0.8);
+      shooterSubsystem.steadyShoot(0.95);
     } 
+    /*
     // shoot without limelight to upper hub from launchpad
     else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.steadyShoot(2.6);
-    } 
+      shooterSubsystem.steadyShoot(2.2);
+    }*/
     else {
       shooterSubsystem.stopShooter();
       shooterSubsystem.lastShootVelocity = 0;
     }
+
+    // if not shooting the sensor is false, do not run the elevator
+    // when shooting, override the sensor, run the elevator
     
     if (manipulatorController.getXButton()) {
-      shooterSubsystem.moveBeltUp();
+      if (Math.abs(shooterSubsystem.getLeftEncoderVelocityMetersPerSecond()) < 0.25) {
+        if (elevatorSensor1.get() == false) {
+          shooterSubsystem.stopBelt();
+        } else {
+          shooterSubsystem.moveBeltUp();
+        }
+      } else {
+        shooterSubsystem.moveBeltUp();
+      }
     } else if (manipulatorController.getAButton()) {
       shooterSubsystem.moveBeltDown();
     } else {

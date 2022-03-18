@@ -96,8 +96,8 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.configAllowableClosedloopError(0, 0, 10);
 
     shooterPID.initialize2(
-      3.15, // Proportional Gain 3.15
-      12.19, // Integral Gain 12.19
+      2.15, // Proportional Gain 3.15, 2.15
+      7, // Integral Gain 12.19, 7
       0, // Derivative Gain //0
       3, // 25% of peak 12V voltage, Cage Limit
       0.0, // Deadband //0
@@ -159,7 +159,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shoot_speed_cmd = velocity;
     
     // calculate rate feedforward term
-    final double shootFeedforward = calculateNew(velocity, 0, 0.8, 2.26, 0); //0.68 2.5
+    final double shootFeedforward = calculateNew(velocity, 0, 0.8, 2.5, 0); //0.68 2.5
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
@@ -167,11 +167,23 @@ public class ShooterSubsystem extends SubsystemBase {
       batteryVoltage = 1;
     }
 
-    // output to compensate for speed error, the PID block
-    double shootOutputPID = shooterPID.execute(velocity, getShooterEncoderVelocity());
+    double shootOutputPID;
 
-    //double error1 = velocity - getShooterEncoderVelocity();
-    //System.out.println("error" + error1);
+    // current velocity
+    double velFeedback = getShooterEncoderVelocity();
+
+    // current error between target and current
+    double error1 = velocity - velFeedback;
+
+    //
+    if (Math.abs(error1) < .5) {
+      // output to compensate for speed error, the PID block
+      shootOutputPID = shooterPID.execute(velocity, getShooterEncoderVelocity());
+    } else {
+      shootOutputPID = 0;
+    }
+   
+    //System.out.println("error" + error1 + ", " + "vel feedback: " + velFeedback);
     
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
     shoot_speed_cmd = ((shootOutputPID + shootFeedforward) / batteryVoltage);
