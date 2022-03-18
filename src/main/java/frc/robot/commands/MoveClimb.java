@@ -138,11 +138,10 @@ public class MoveClimb extends CommandBase {
       climbSubsystem.setHighClimbPower(-0.3);
     } else if (driverController.getRightTriggerAxis() > 0.25) {
       // fast down
-      climbSubsystem.setHighClimbPower(0.6);
+      climbSubsystem.setHighClimbPower(0.2); //0.6
     } else {
       climbSubsystem.setHighClimbPower(0);
-    }
-    */
+    }*/
   }
 
   // Called once the command ends or is interrupted.
