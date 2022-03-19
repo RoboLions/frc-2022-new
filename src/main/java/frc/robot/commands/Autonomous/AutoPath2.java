@@ -42,6 +42,10 @@ public class AutoPath2 extends SequentialCommandGroup {
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
 
+    // ball 40.44 in from end of tarmac tape
+    // 7.58 in from center of ball to tarmac corner straight out 
+    // tarmac tape 75.07 in
+
       new ResetDrivetrainEncoders(driveSubsystem).withTimeout(2),
 
       new AutoTurnLLOn(limelightSubsystem).withTimeout(2),
@@ -51,15 +55,16 @@ public class AutoPath2 extends SequentialCommandGroup {
       // Shoot balls
       new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
 
-      new AutoMove(driveSubsystem, -1.5)
+      new AutoMove(driveSubsystem, -0.6),
 
-      /*
       new ParallelRaceGroup(
-        new AutoMove(driveSubsystem, -0.5),
+        new AutoMove(driveSubsystem, -1.1),
         new AutoMoveArmDown(armSubsystem),
         new AutoIntake(intakeSubsystem).withTimeout(4),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(4)
-      )*/
+      ),
+
+      new AutoMove(driveSubsystem, -1.5)
     );
   }
 }

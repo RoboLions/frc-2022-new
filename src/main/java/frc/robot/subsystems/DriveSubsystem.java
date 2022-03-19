@@ -540,7 +540,7 @@ public class DriveSubsystem extends SubsystemBase {
     if(state_flag_motion_profile) {
         positionMotionProfile.init(
                     start_dist, //start position
-                    distance, // target position
+                    distance + start_dist, // target position
                     1, // max vel //1.5 // 1
                     1, // max accel //1 // 0.5
                     0.02, // execution period 
