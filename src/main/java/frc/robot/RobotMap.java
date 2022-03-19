@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 
 public class RobotMap {
 
@@ -61,7 +62,10 @@ public class RobotMap {
     public static WPI_TalonFX highRightClimbMotor = new WPI_TalonFX(HIGH_RIGHT_CLIMB_PORT);
     public static WPI_TalonFX highLeftClimbMotor = new WPI_TalonFX(HIGH_LEFT_CLIMB_PORT);
 
-    public static DigitalInput elevatorSensor1 = new DigitalInput(0);
+    //public static DigitalInput elevatorSensor1 = new DigitalInput(3);
+
+    public static Servo servo1 = new Servo(0);
+    public static Servo servo2 = new Servo(1);
 
     // public static AnalogInput laserVision = new AnalogInput(LASER_PORT);
 

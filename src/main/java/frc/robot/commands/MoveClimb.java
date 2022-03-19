@@ -108,11 +108,8 @@ public class MoveClimb extends CommandBase {
       rightClimbPower = RIGHT_SLOW_DOWN_POWER;
     }
     // Pull up climber to max position
-    else if (start_button && 
-            (rightCurrentPosition < R_MAX_ENCODER_COUNT) &&
-            (leftCurrentPosition < L_MAX_ENCODER_COUNT)) {
-      leftClimbPower = LEFT_UP_POWER; // moving outwards
-      rightClimbPower = RIGHT_UP_POWER;
+    else if (start_button) {
+      climbSubsystem.moveServoOut();
     } 
     else if (!left_bumper && !right_bumper ) {
       leftClimbPower = 0; // not moving based on bumpers
@@ -132,16 +129,15 @@ public class MoveClimb extends CommandBase {
     climbSubsystem.setLeftClimbPower(leftClimbPower);
     climbSubsystem.setRightClimbPower(rightClimbPower);
 
-    /*
     if (driverController.getLeftTriggerAxis() > 0.25) {
       // slow up
-      climbSubsystem.setHighClimbPower(-0.3);
+      climbSubsystem.setHighClimbPower(-0.6);
     } else if (driverController.getRightTriggerAxis() > 0.25) {
       // fast down
-      climbSubsystem.setHighClimbPower(0.2); //0.6
+      climbSubsystem.setHighClimbPower(1); //0.6
     } else {
       climbSubsystem.setHighClimbPower(0);
-    }*/
+    }
   }
 
   // Called once the command ends or is interrupted.

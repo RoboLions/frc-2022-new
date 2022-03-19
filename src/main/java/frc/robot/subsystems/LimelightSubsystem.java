@@ -113,12 +113,16 @@ public class LimelightSubsystem extends SubsystemBase {
   public static double getHorizontalDistance() {
     double targetOffsetAngle_Vertical = getLimelightY();
     double limelightMountAngleDegrees = 40;
-    double limelightHeight = 3.666; // feet
+    double limelightHeight = 3.625; // feet
     double goalHeight = 8.6666; // feet
     double angleToGoal = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
     double angleToGoalRadians = angleToGoal * (3.14159 / 180.0);
     double distance = (goalHeight - limelightHeight)/Math.tan(angleToGoalRadians);
     return distance;
+  }
+
+  public static boolean isWithinDistance() {
+    return (getHorizontalDistance() < 10);
   }
 
   @Override

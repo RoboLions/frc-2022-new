@@ -15,6 +15,7 @@ import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.SimpleShootShooter;
@@ -54,12 +55,12 @@ public class RobotContainer {
   //public static LIDARLiteSubsystem lidarLiteSubsystem = new LIDARLiteSubsystem();
   public final static ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
-
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
 
   // Auto paths
-  public static DefaultAutoPath defaultAutoPath = new DefaultAutoPath(driveSubsystem);
+  public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
+
   /*
   public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
   public static AutoPath2 autoPath2 = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem);
@@ -111,10 +112,10 @@ public class RobotContainer {
       new AutoMove(driveSubsystem, -4)
     );*/
 
-    /*
     new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
-      new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
-    );*/
+      //new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
+      new TestPath(driveSubsystem)
+    );
 
     /*
     new AutoTurn(driveSubsystem, 10)

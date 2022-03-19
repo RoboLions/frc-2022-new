@@ -478,17 +478,17 @@ public class DriveSubsystem extends SubsystemBase {
   
     // part 2: limit velocity based on accelLimit
     if (linearAccel > accelLimit) {
-      linearTravelSpeed = lastLinearVelocity + accelLimit*0.02;
+      linearTravelSpeed = lastLinearVelocity + accelLimit*0.03;
     }
     else if (linearAccel < -accelLimit) {
-      linearTravelSpeed = lastLinearVelocity - accelLimit*0.02;
+      linearTravelSpeed = lastLinearVelocity - accelLimit*0.03;
     }
 
     if (rotateAccel > accelLimit) {
-      rotateSpeed = lastRotateVelocity + accelLimit*0.01;
+      rotateSpeed = lastRotateVelocity + accelLimit*0.03;
     }
     else if (rotateAccel < -accelLimit) {
-      rotateSpeed = lastRotateVelocity - accelLimit*0.01;
+      rotateSpeed = lastRotateVelocity - accelLimit*0.03;
     }
 
     lastLinearVelocity = linearTravelSpeed;
@@ -534,8 +534,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
-    // double left_speed; 
-    // double right_speed;
+    // double left_speed;
+    // double right_speed;                                                                                                                                                                                                                                         
     double start_dist = distanceTravelledinMeters();
     if(state_flag_motion_profile) {
         positionMotionProfile.init(
@@ -552,6 +552,8 @@ public class DriveSubsystem extends SubsystemBase {
     double position_profile_command = positionMotionProfile.execute();
     double feed_forward_rate = positionMotionProfile.velocity_feed_forward;
 
+    //System.out.println(feed_forward_rate);
+
     double headingFeedback = getYaw(); // in degrees
     double headingCommand = heading;
     double headingError = headingPID.execute(headingCommand, headingFeedback);
@@ -561,12 +563,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     double position_feedback = distanceTravelledinMeters();
     
-    System.out.println("position profile command: " + position_profile_command + ", " + 
-    "position feedback: " + position_feedback);
     //SmartDashboard.putNumber("Auto Distance", position_feedback);
     // positionError is in meters per second
     double positionError = positionPID.execute(position_profile_command, position_feedback);
     double positionCmdOut = (positionError+feed_forward_rate);
+
+    //System.out.println("position profile command: " + position_profile_command + ", " + 
+    //"bot position from encoder: " + position_feedback + ", PID output for position: " + positionError);
 
     // System.out.println("Cmd: " + position_profile_command + " Fb: " + position_feedback + " Vel: " + getAverageEncoderVelocityMetersPerSecond());
     // System.out.println("Feedback: " + position_feedback);

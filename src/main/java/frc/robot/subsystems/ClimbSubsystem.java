@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.lib.RoboLionsPID;
@@ -18,12 +19,15 @@ public class ClimbSubsystem extends SubsystemBase {
   private static WPI_TalonFX leftClimbMotor = RobotMap.leftClimbMotor;
   private static WPI_TalonFX highRightClimbMotor = RobotMap.highRightClimbMotor;
   private static WPI_TalonFX highLeftClimbMotor = RobotMap.highLeftClimbMotor;
+  private static Servo leftServo = RobotMap.servo1;
+  private static Servo rightServo = RobotMap.servo2;
   public double climb_enc_readout = 0;
   
   //public RoboLionsPID climbPID = new RoboLionsPID();
 
   public ClimbSubsystem() {
-
+    leftServo.setBounds(2, 1.8, 1.5, 1.2, 1);
+    rightServo.setBounds(2, 1.8, 1.5, 1.2, 1);
     rightClimbMotor.setNeutralMode(NeutralMode.Brake);
     leftClimbMotor.setNeutralMode(NeutralMode.Brake);
     highLeftClimbMotor.setNeutralMode((NeutralMode.Brake));
@@ -72,6 +76,11 @@ public class ClimbSubsystem extends SubsystemBase {
   public void resetEncoder() {
     rightClimbMotor.setSelectedSensorPosition(0);
     leftClimbMotor.setSelectedSensorPosition(0);
+  }
+
+  public void moveServoOut() {
+    leftServo.setSpeed(-1);
+    rightServo.setSpeed(-1);
   }
 
   public double getRightEncoderPosition() {

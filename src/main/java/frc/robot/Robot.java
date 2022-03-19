@@ -62,20 +62,23 @@ public class Robot extends TimedRobot {
   private static final WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static final WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
 
-  private static final DigitalInput elevatorSensor1 = RobotMap.elevatorSensor1;
+  //private static final DigitalInput elevatorSensor1 = RobotMap.elevatorSensor1;
+
+  private RoboLionsPID drivetrainPID = m_robotContainer.driveSubsystem.positionPID;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
 
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    driveSubsystem.resetEncoders();
 
     leftFrontMotor.configFactoryDefault();
     rightFrontMotor.configFactoryDefault();
@@ -89,13 +92,13 @@ public class Robot extends TimedRobot {
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(240, 180);
-    camera.setFPS(4);
+    camera.setFPS(12);
 
-    m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
-    m_chooser.addOption("Cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    m_chooser.addOption("Cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    //m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
+    //m_chooser.addOption("Cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
+    //m_chooser.addOption("Cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
 
-    SmartDashboard.putData("Autonomous Chooser", m_chooser);
+    //SmartDashboard.putData("Autonomous Chooser", m_chooser);
   }
 
   /**
@@ -113,7 +116,7 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putBoolean("Elevator Sensor 1 Value", elevatorSensor1.get());
+    //SmartDashboard.putBoolean("Elevator Sensor 1 Value", elevatorSensor1.get());
 
     SmartDashboard.putNumber("Left Back F500 Temp C", leftBackMotor.getTemperature());
     SmartDashboard.putNumber("Left Front F500 Temp C", leftFrontMotor.getTemperature());
@@ -144,9 +147,9 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Target Pitch", armSubsystem.target_pitch);
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
+    SmartDashboard.putBoolean("WITHIN 10 FEET?", limelightSubsystem.isWithinDistance());
     // SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
     // SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
-
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -159,8 +162,10 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // m_autonomousCommand = m_chooser.getSelected();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    //m_autonomousCommand = m_chooser.getSelected();
+
+    drivetrainPID.reset();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

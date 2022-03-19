@@ -21,6 +21,7 @@ import frc.robot.commands.AutoShootShort;
 import frc.robot.commands.AutoShootWithElevator;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnLLOn;
+import frc.robot.commands.ResetDrivetrainEncoders;
 import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -41,21 +42,24 @@ public class AutoPath2 extends SequentialCommandGroup {
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
 
-      new AutoTurnLLOn(limelightSubsystem).withTimeout(3),
+      new ResetDrivetrainEncoders(driveSubsystem).withTimeout(2),
+
+      new AutoTurnLLOn(limelightSubsystem).withTimeout(2),
 
       new AutoShoot(shooterSubsystem).withTimeout(3),
 
       // Shoot balls
       new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
 
-      new AutoMove(driveSubsystem, -0.6),
+      new AutoMove(driveSubsystem, -1.5)
 
+      /*
       new ParallelRaceGroup(
         new AutoMove(driveSubsystem, -0.5),
         new AutoMoveArmDown(armSubsystem),
         new AutoIntake(intakeSubsystem).withTimeout(4),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(4)
-      )
+      )*/
     );
   }
 }
