@@ -112,10 +112,11 @@ public class RobotContainer {
       new AutoMove(driveSubsystem, -4)
     );*/
 
+    /*
     new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
       new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
       // new TestPath(driveSubsystem)
-    );
+    );*/
 
     /*
     new AutoTurn(driveSubsystem, 10)

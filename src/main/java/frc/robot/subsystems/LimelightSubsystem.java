@@ -112,7 +112,7 @@ public class LimelightSubsystem extends SubsystemBase {
   *************************************************************************/
   public static double getHorizontalDistance() {
     double targetOffsetAngle_Vertical = getLimelightY();
-    double limelightMountAngleDegrees = 40;
+    double limelightMountAngleDegrees = 30;
     double limelightHeight = 3.625; // feet
     double goalHeight = 8.6666; // feet
     double angleToGoal = limelightMountAngleDegrees + targetOffsetAngle_Vertical;

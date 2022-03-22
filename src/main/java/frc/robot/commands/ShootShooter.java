@@ -62,17 +62,16 @@ public class ShootShooter extends CommandBase {
     } 
     // shoot upper hub
     else if (manipulatorController.getRightTriggerAxis() > 0.25) {
-      shooterSubsystem.steadyShoot(speed * 0.94);
+      shooterSubsystem.steadyShoot(speed * 0.94); //0.94
     } 
     // shoot low goal
     else if (manipulatorController.getRightBumper()) {
       shooterSubsystem.steadyShoot(0.88);
     }
-    /*
     // shoot without limelight to upper hub from launchpad
     else if (manipulatorController.getLeftBumper()) {
       shooterSubsystem.steadyShoot(2.2);
-    }*/
+    }
     else {
       shooterSubsystem.stopShooter();
       shooterSubsystem.lastShootVelocity = 0;
