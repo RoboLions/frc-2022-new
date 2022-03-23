@@ -16,6 +16,6 @@ public class DefaultAutoPath extends SequentialCommandGroup {
   */
   
   public DefaultAutoPath(final DriveSubsystem driveSubsystem) {
-    super (new AutoMove(driveSubsystem, 1.5));
+    super (new AutoMove(driveSubsystem, -1.5));
   }
 }

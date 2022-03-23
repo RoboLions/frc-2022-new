@@ -90,9 +90,10 @@ public class Robot extends TimedRobot {
     m_robotContainer.limelightSubsystem.setDriverCamera();
     m_robotContainer.limelightSubsystem.turn_LED_OFF();
 
+    /*
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(240, 180);
-    camera.setFPS(12);
+    camera.setFPS(12);*/
 
     //m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
     //m_chooser.addOption("Cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));

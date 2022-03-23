@@ -31,26 +31,27 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
 
-public class AutoPath2 extends SequentialCommandGroup {
 
   /** 
-   * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls
-   * bot must be directly in front of a ball
+   * pre-loaded with 1 ball, shoot ball, pick 1 ball off field, shoot, go to terminal, shoot 2 balls
+   * bot must be directly in front of a ball (farthest from the terminal)
   */
 
-  public AutoPath2(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
+public class AutoPath5 extends SequentialCommandGroup {
+
+  public AutoPath5(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
-
       new ParallelCommandGroup(
         new AutoMoveArmDown(armSubsystem).withTimeout(1), 
         new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1),
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.3),
-
-      new AutoShoot(shooterSubsystem).withTimeout(2.5),
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -0.3),
+        new AutoShoot(shooterSubsystem).withTimeout(2.5)
+      ),
 
       // Shoot balls
       new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
@@ -60,28 +61,26 @@ public class AutoPath2 extends SequentialCommandGroup {
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
-      )
+      ),
 
-      /*
-      new ParallelRaceGroup(
-        new AutoMove(driveSubsystem, -0.8),
-        new AutoIntake(intakeSubsystem).withTimeout(4),
-        new AutoMoveArmDown(armSubsystem),
-        new AutoShootWithElevator(shooterSubsystem).withTimeout(4)
-      )*/
+      new AutoTurn(driveSubsystem, 90),
 
-      //new StopNWait(driveSubsystem, 1),
+      new AutoMove(driveSubsystem, -3), // TODO: measure distance
 
-      //new AutoMove(driveSubsystem, -1.5)
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -3.2),
+        new AutoIntake(intakeSubsystem).withTimeout(2),
+        new AutoMoveElevator(shooterSubsystem).withTimeout(2),
+        new AutoMoveArmDown(armSubsystem).withTimeout(2)
+      ),
 
-      /*
-      new AutoMove(driveSubsystem, -0.6),
+      new AutoMove(driveSubsystem, -2),
 
-      new AutoShoot(shooterSubsystem).withTimeout(1),
+      new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.2),
 
-      new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
+      new AutoTurn(driveSubsystem, 50),
 
-      new AutoMove(driveSubsystem, -1.5)*/
+      new AutoShootWithElevator(shooterSubsystem).withTimeout(2)
     );
   }
 }
