@@ -18,20 +18,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  /*private static WPI_VictorSPX leftHopperMotor = RobotMap.leftHopperMotor;
-  private static WPI_VictorSPX rightHopperMotor = RobotMap.rightHopperMotor;*/
   private static WPI_VictorSPX frontElevatorMotor = RobotMap.frontElevatorMotor;
   private static WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
   private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
-
-  public static final double RIGHT_LOW_HUB_SHOOTER_POWER = 0.24;
-  public static final double LEFT_LOW_HUB_SHOOTER_POWER = -0.24;
-  
-  public static final double LEFT_HOPPER_IN_POWER = -0.5;
-  public static final double RIGHT_HOPPER_IN_POWER = 0.5;
-  public static final double LEFT_HOPPER_OUT_POWER = 0.2;
-  public static final double RIGHT_HOPPER_OUT_POWER = -0.2;
 
   public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
@@ -50,17 +40,6 @@ public class ShooterSubsystem extends SubsystemBase {
   
   public double shoot_speed_cmd;
 
-  // public static final double P = 0.0;
-  // public static final double I = 0.0;
-  // public static final double D = 0.0; 
-  // public static final double F = 0.0; 
-
-  // public static final double kS = 0.19;
-  // public static final double kV = 2.4;
-  // public static final double kA = 0;
-
-  private double targetVelocity = 0;
-
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     leftShooterMotor.setNeutralMode(NeutralMode.Coast);
@@ -68,9 +47,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
-
-    /*leftHopperMotor.setNeutralMode(NeutralMode.Coast);
-    rightHopperMotor.setNeutralMode(NeutralMode.Coast);*/
 
     leftShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     rightShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
@@ -200,22 +176,6 @@ public class ShooterSubsystem extends SubsystemBase {
     rightShooterMotor.set(shoot_speed_cmd);
   }
 
-  /*public void setRPM(double RPM) {
-    double angularVelocity = (RPM / 60) * (2 * Math.PI); // convert RPM to angular velocity
-    double speed = angularVelocity / ShooterConstants.radiusOfWheel;
-
-    targetVelocity = speed;
-    leftShooterMotor.set(TalonFXControlMode.Velocity, targetVelocity);
-    rightShooterMotor.set(TalonFXControlMode.Velocity, targetVelocity);
-  }*/
-
-  /*
-  public void setSpeed(double speed) {
-    leftShooterMotor.set(speed);
-    rightShooterMotor.set(speed);
-  }
-  */
-
   public void stopShooter() {
     leftShooterMotor.set(0);
     rightShooterMotor.set(0);
@@ -293,8 +253,6 @@ public class ShooterSubsystem extends SubsystemBase {
   
 
   public void moveBeltUp() {
-    /*leftHopperMotor.set(LEFT_HOPPER_IN_POWER);
-    rightHopperMotor.set(RIGHT_HOPPER_IN_POWER);*/
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
   }
@@ -302,13 +260,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopBelt() {
 		frontElevatorMotor.set(0);
     backElevatorMotor.set(0);
-    /*leftHopperMotor.set(0);
-    rightHopperMotor.set(0);*/
 	}
   
   public void moveBeltDown() {
-    /*leftHopperMotor.set(LEFT_HOPPER_OUT_POWER);
-    rightHopperMotor.set(RIGHT_HOPPER_OUT_POWER);*/
     frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
   }

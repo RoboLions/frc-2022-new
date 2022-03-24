@@ -120,7 +120,9 @@ public class LimelightSubsystem extends SubsystemBase {
     double distance = (goalHeight - limelightHeight)/Math.tan(angleToGoalRadians);
     return distance;
   }
-
+  /*************************************************************************
+  * Boolean for if we are within 10 feet of the hub
+  *************************************************************************/
   public static boolean isWithinDistance() {
     return (getHorizontalDistance() < 10);
   }

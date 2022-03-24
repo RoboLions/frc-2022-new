@@ -13,7 +13,6 @@ public class ResetDrivetrainEncoders extends CommandBase {
   private boolean endme = false;
 
   public ResetDrivetrainEncoders(final DriveSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
     drivesubsystem = subsystem;
     addRequirements(drivesubsystem);
   }

@@ -56,8 +56,6 @@ public class DriveSubsystem extends SubsystemBase {
   private static final WPI_TalonFX leftFrontMotor = RobotMap.leftFrontDriveMotor;
   private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
 
-  private static XboxController driverController = RobotContainer.driverController;
-
   private final Pigeon2 imu = RobotMap.chasisIMU;
 
   public RoboLionsPID leftForwardPID = new RoboLionsPID();
@@ -71,18 +69,8 @@ public class DriveSubsystem extends SubsystemBase {
   public double left_speed_cmd;
   public double right_speed_cmd;
 
-  /*static double lastVelocityLeft = 0;
-  static double lastVelocityRight = 0;*/
-
   static double lastLinearVelocity = 0;
   static double lastRotateVelocity = 0;
-
-/*
-  static double lastLinearVelocityLeft = 0;
-  static double lastLinearVelocityRight = 0;
-  static double lastRotateVelocityLeft = 0;
-  static double lastRotateVelocityRight = 0;
-  */
   
   public DriveSubsystem() {
     //ZeroYaw();
@@ -171,26 +159,26 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Position Command PID for Autonomous and 
     positionPID.initialize2(
-        5, // Proportional Gain //2.15 //1.35 //2
-        0, // Integral Gain //10
-        0, // Derivative Gain //0
-        0.0, // Cage Limit //0.3 //0.1 //0.2
-        0.0, // Deadband //0
-        2.5,// MaxOutput Meters/sec 0.25 //100 //1
-        true, //enableCage
-        false //enableDeadband
+      5, // Proportional Gain //2.15 //1.35 //2
+      0, // Integral Gain //10
+      0, // Derivative Gain //0
+      0.0, // Cage Limit //0.3 //0.1 //0.2
+      0.0, // Deadband //0
+      2.5,// MaxOutput Meters/sec 0.25 //100 //1
+      true, //enableCage
+      false //enableDeadband
     );
 
     // Heading Command PID for Autonomous and 
     headingPID.initialize2(
-        5, // Proportional Gain //15 // 7.5
-        10, // Integral Gain // 10
-        0.0, // Derivative Gain 
-        20, // Cage Limit //0.3
-        0.0, // Deadband
-        360, // MaxOutput Degrees/sec 0.25 //100 //180
-        true, //enableCage
-        false //enableDeadband
+      5, // Proportional Gain //15 // 7.5
+      10, // Integral Gain // 10
+      0.0, // Derivative Gain 
+      20, // Cage Limit //0.3
+      0.0, // Deadband
+      360, // MaxOutput Degrees/sec 0.25 //100 //180
+      true, //enableCage
+      false //enableDeadband
     );
 
     limelightRotationPID.initialize2(
@@ -307,7 +295,7 @@ public class DriveSubsystem extends SubsystemBase {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
-  public void straightDrive(double leftSpeed, double rightSpeed) {
+  public void straightDrive(double leftSpeed, double rightSpeed, double rotateSpeed) {
 
     // actual speed command passed 
     left_speed_cmd = leftSpeed; 
@@ -322,12 +310,23 @@ public class DriveSubsystem extends SubsystemBase {
     if (batteryVoltage < 1) {
       batteryVoltage = 1;
     }
+    
 
     // output to compensate for speed error, the PID block
     double leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
     double rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
 
     // double torque_bias = 0.1;
+
+    /*if (Math.abs(rotateSpeed) < 0.5) {
+      leftOutput = 0;
+      rightOutput = 0;
+      leftForwardPID.reset();
+      rightForwardPID.reset();
+    }*/
+
+    leftOutput = 0;
+    rightOutput = 0;
 
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
     double LVoltagePercentCommand = ((leftOutput + leftFeedforward) / batteryVoltage); //((leftFeedforward) / batteryVoltage); 
@@ -347,6 +346,8 @@ public class DriveSubsystem extends SubsystemBase {
     else if (RVoltagePercentCommand < -1.0) {
       RVoltagePercentCommand = -1.0;
     }
+
+    
 
     leftBackMotor.set(LVoltagePercentCommand);
     rightBackMotor.set(RVoltagePercentCommand);
@@ -392,25 +393,6 @@ public class DriveSubsystem extends SubsystemBase {
     rightBackMotor.set(right_back_motor_command);
     */
 
-    //SmartDashboard.putNumber("Right Motor Command", RVoltagePercentCommand);
-    //SmartDashboard.putNumber("Left Motor Command", LVoltagePercentCommand);
-    
-    //SmartDashboard.putNumber("leftSpeed", leftSpeed);
-    //SmartDashboard.putNumber("rightSpeed", LimelightSubsystem.getLimelightX()); //changed from right speed
-    
-    //SmartDashboard.putNumber("Yaw Value", getYaw());
-    //SmartDashboard.putNumber("Distance Travelled", distanceTravelledinMeters());
-    //SmartDashboard.putNumber("Left Encoder Counts", getLeftEncoderPosition());
-    //SmartDashboard.putNumber("Right Encoder Counts", getRightEncoderPosition());
-    
-    /*SmartDashboard.putNumber("Left Dist Meters", leftDistanceTravelledInMeters());
-    SmartDashboard.putNumber("Right Dist Meters", rightDistanceTravelledInMeters());
-
-    SmartDashboard.putNumber("Left Encoder MPS", getBackLeftEncoderVelocityMetersPerSecond());
-    SmartDashboard.putNumber("Right Encoder MPS", getBackRightEncoderVelocityMetersPerSecond());*/
-
-    //SmartDashboard.putNumber("Limelight Offset", LimelightSubsystem.getLimelightX());
-    
     //System.out.println("Left Error:" + (leftSpeed - getBackLeftEncoderVelocityMetersPerSecond()));
     //System.out.println(getLeftEncoderVelocityMetersPerSecond() + "," + getRightEncoderVelocityMetersPerSecond());
     // System.out.println("Left Error: " + (leftSpeed-getLeftEncoderVelocityMetersPerSecond()) + "/ Right Error: " + (getRightEncoderVelocityMetersPerSecond()-rightSpeed));
@@ -420,17 +402,9 @@ public class DriveSubsystem extends SubsystemBase {
   public void driveWithRotation(double linearTravelSpeed, double rotateSpeed) {
     // input speed is meters per second, input rotation is bot rotation 
     // speed in meters per second
-    // dev bot requires the output to be inverted, everybot needs it to NOT be inverted
 
     double leftSpeed = 0;
     double rightSpeed = 0;
-
-    // lines 424-426 for tuning PID!!!!!!!!!!!!!! remove after
-
-    /*
-    double leftSpeed = (linearTravelSpeed + rotateSpeed);
-    double rightSpeed = (linearTravelSpeed - rotateSpeed);
-    straightDrive(leftSpeed, rightSpeed);*/
 
     // Steps:
     // 1 - decide accel or decel rn
@@ -495,8 +469,28 @@ public class DriveSubsystem extends SubsystemBase {
     lastRotateVelocity = rotateSpeed;
     //System.out.println("Linear travel speed: " + linearTravelSpeed);
 
-    leftSpeed = (linearTravelSpeed + rotateSpeed);
-    rightSpeed = (linearTravelSpeed - rotateSpeed);
+    if (Math.abs(linearTravelSpeed) < 1.5 && linearTravelSpeed > 0.05) {
+      
+      if (rotateSpeed > 0.3) {
+        leftSpeed = (linearTravelSpeed + rotateSpeed * 0.5);
+        rightSpeed = (linearTravelSpeed - rotateSpeed);
+        //leftSpeed = (linearTravelSpeed + rotateSpeed);
+        //rightSpeed = (linearTravelSpeed);
+      } else  if (rotateSpeed < -0.3) {
+        leftSpeed = (linearTravelSpeed + rotateSpeed);
+        rightSpeed = (linearTravelSpeed - rotateSpeed * 0.5);
+        //leftSpeed = (linearTravelSpeed);
+        //rightSpeed = (linearTravelSpeed - rotateSpeed);
+      } else {
+        leftSpeed = (linearTravelSpeed + rotateSpeed);
+        rightSpeed = (linearTravelSpeed - rotateSpeed);
+      }
+    } else {
+      leftSpeed = (linearTravelSpeed + rotateSpeed);
+      rightSpeed = (linearTravelSpeed - rotateSpeed);
+    }
+
+    
 
     // part 3: reset speeds to 0 when throttle and rotate < 0.25
     /*if ((Math.abs(linearTravelSpeed) < 0.5) && 
@@ -508,29 +502,7 @@ public class DriveSubsystem extends SubsystemBase {
       lastLinearVelocity = 0;
     }*/
 
-    /*
-    // acceleration concept:
-    double leftAccel = (leftSpeed - lastVelocityLeft)/0.02;
-    double rightAccel = (rightSpeed - lastVelocityRight)/0.02;
-
-    if (leftAccel > accelLimit) {
-      leftSpeed = lastVelocityLeft + accelLimit*0.02;
-    } 
-    else if (leftAccel < -accelLimit) {
-      leftSpeed = lastVelocityLeft - accelLimit*0.02;
-    }
-
-    if (rightAccel > accelLimit) {
-      rightSpeed = lastVelocityRight + accelLimit*0.02;
-    } 
-    else if (rightAccel < -accelLimit) {
-      rightSpeed = lastVelocityRight - accelLimit*0.02;
-    }
-
-    lastVelocityLeft = leftSpeed;
-    lastVelocityRight = rightSpeed;*/
-
-    straightDrive(leftSpeed, rightSpeed);
+    straightDrive(leftSpeed, rightSpeed, rotateSpeed);
   }
 
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
@@ -539,12 +511,12 @@ public class DriveSubsystem extends SubsystemBase {
     double start_dist = distanceTravelledinMeters();
     if(state_flag_motion_profile) {
         positionMotionProfile.init(
-                    start_dist, //start position
-                    distance + start_dist, // target position
-                    1, // max vel //1.5 // 1
-                    1, // max accel //1 // 0.5
-                    0.02, // execution period 
-                    1 // deceleration //2 // 0.5
+          start_dist, //start position
+          distance + start_dist, // target position
+          1, // max vel //1.5 // 1
+          1, // max accel //1 // 0.5
+          0.02, // execution period 
+          1 // deceleration //2 // 0.5
         );
         state_flag_motion_profile = false;
     }
@@ -579,38 +551,26 @@ public class DriveSubsystem extends SubsystemBase {
     // left_speed = output;
     // right_speed = output;
 
-    // straightDrive(left_speed, right_speed);
     // Refer to the rate drive control diagram
-    // We modulate our speed of the bot to close out
-    // the position error, making it eventually zero
+    // We modulate our speed of the bot to close out the position error, making it eventually zero
     driveWithRotation(positionCmdOut, headingErrorMeters);
     //driveWithRotation(0.0, headingErrorMeters);
     //driveWithRotation(positionError, 0);
-    // riveWithRotation(0.5, 0.0);
-     //System.out.println("Pos " + position_feedback + " PE " + positionError);
+    //System.out.println("Pos " + position_feedback + " PE " + positionError);
     // System.out.println("TD " + distance + " // DT " + position_feedback);
   }
 
   public double getYaw() {
-    /*double[] ypr = new double[3];
-    imu.getYawPitchRoll(ypr);
-    return -ypr[0];*/
     double yaw = imu.getYaw();
     return yaw;
   }
 
   public double getPitch() {
-    /*double[] ypr = new double[3];
-    imu.getYawPitchRoll(ypr);
-    return ypr[1];*/
     double pitch = imu.getPitch();
     return pitch;
   }
 
   public double getRoll() {
-    /*double[] ypr = new double[3];
-    imu.getYawPitchRoll(ypr);
-    return ypr[2];*/
     double roll = imu.getRoll();
     return roll;
   }

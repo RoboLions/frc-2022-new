@@ -7,11 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoMoveElevator extends CommandBase {
+public class AutoMoveElevatorUp extends CommandBase {
   
   private final ShooterSubsystem shooterSubsystem;
 
-  public AutoMoveElevator(ShooterSubsystem shooter) {
+  public AutoMoveElevatorUp(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
   }

@@ -20,16 +20,11 @@ public class AutoMoveArmDown extends CommandBase {
 
     @Override
     public void initialize() {
-        
     }
 
     @Override
     public void execute() {
-        
       armSubsystem.setArmToGround();
-      /*if(armSubsystem.armPID.deadband_active) {
-          end_me = true;
-      }*/
     }
 
     @Override

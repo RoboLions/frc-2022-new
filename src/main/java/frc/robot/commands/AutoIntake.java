@@ -13,10 +13,8 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class AutoIntake extends CommandBase {
  
   private final IntakeSubsystem intakeSubsystem;
-  // private static final int DEFAULT_TIME = 1;
 
   public AutoIntake(IntakeSubsystem intake) {
-    // Use addRequirements() here to declare subsystem dependencies.
     intakeSubsystem = intake;
     addRequirements(intakeSubsystem);
   }
@@ -28,7 +26,7 @@ public class AutoIntake extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.outtakeBalls();
+    intakeSubsystem.intakeBalls();
   }
 
   // Called once the command ends or is interrupted.

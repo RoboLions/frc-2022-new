@@ -77,9 +77,6 @@ public class ShootShooter extends CommandBase {
       shooterSubsystem.lastShootVelocity = 0;
     }
 
-    // if not shooting the sensor is false, do not run the elevator
-    // when shooting, override the sensor, run the elevator
-    
     if (manipulatorController.getXButton()) {
       shooterSubsystem.moveBeltUp();
     } else if (manipulatorController.getAButton()) {

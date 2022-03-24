@@ -15,7 +15,6 @@ public class AlignShooter extends CommandBase {
   
   public double rotate = 0;
   
-  /** Creates a new AlignShooter. */
   public AlignShooter(final LimelightSubsystem limelight, final DriveSubsystem drive) {
     driveSubsystem = drive;
     limelightSubsystem = limelight;
@@ -35,38 +34,9 @@ public class AlignShooter extends CommandBase {
     double offsetX = LimelightSubsystem.getLimelightX();
 
     double setPoint = 0.0; // final point in degrees
-    rotate = driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
-
-    //TODO: TUNE LL PID TO GET RID OF DEADBAND
-    if (rotate < 0.08 && rotate >= 0) {
-      rotate = 0;
-    } else if (rotate < 0 && rotate > -0.08) {
-      rotate = 0;
-    } else {
-      rotate = rotate;
-    }
-
+    rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
+  
     driveSubsystem.autoDrive(0, -rotate);
-
-    //offsetX1 = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR; // continuously getting this 50 times/sec
-    // System.out.println("offsetX: " + offsetX);
-
-    /*
-    if (driverController.getBButton()) {
-      // offsetX = LimelightSubsystem.getLimelightX() * LIMELIGHT_SCALAR;
-      double rotate = 0;    
-
-      if (offsetX > 1) {
-        rotate = 0.4;
-      } else if (offsetX < -1) {
-        rotate = -0.4;
-      } else {
-        rotate = 0;
-      }
-
-      driveSubsystem.driveWithRotation(0, rotate);
-    }  
-    */
   }
 
   // Called once the command ends or is interrupted.

@@ -1,3 +1,6 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Autonomous;
 
@@ -22,16 +25,16 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoPath5 extends SequentialCommandGroup {
-    
-  /** 
-   * hangar start (distance from center of ring to front label is _)
+public class AutoPath6 extends SequentialCommandGroup {
+  
+   /** 
+   * terminal start (distance from center of ring to front label is _)
    * pre-loaded w/ 1 ball, shoot, move forward to intake ball, shoot
    * turn to terminal, move forward to intake ball at terminal, 
    * move within range of hub, shoot ball
   */
 
-  public AutoPath5(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
+  public AutoPath6(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   ShooterSubsystem shooterSubsystem, LimelightSubsystem limelightSubsystem, ArmSubsystem armSubsystem){
     super(
 
@@ -43,10 +46,12 @@ public class AutoPath5 extends SequentialCommandGroup {
 
       new AutoMove(driveSubsystem, -0.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(1.5),
+      new AutoShoot(shooterSubsystem).withTimeout(2),
 
       // Shoot ball
       new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
+
+      new AutoTurn(driveSubsystem, 5),
 
       new ParallelCommandGroup(
         new AutoMove(driveSubsystem, -0.6),
@@ -55,7 +60,7 @@ public class AutoPath5 extends SequentialCommandGroup {
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
       ),
 
-      new AutoTurn(driveSubsystem, -80),
+      new AutoTurn(driveSubsystem, 10),
 
       new AutoMove(driveSubsystem, -3),
 
@@ -72,18 +77,18 @@ public class AutoPath5 extends SequentialCommandGroup {
 
       new ParallelCommandGroup(
         new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.16),
-        new AutoTurn(driveSubsystem, 60)
+        new AutoTurn(driveSubsystem, -25)
       ),
 
       new AutoShootWithElevator(shooterSubsystem).withTimeout(2)
 
     /*
       // intake facing away from hub, move forwards part of the way
-      new AutoMove(driveSubsystem, 0.9),
+      new AutoMove(driveSubsystem, 2),
 
       // intake ball with elevator going
       new ParallelRaceGroup(
-        new AutoMove(driveSubsystem, 0.1),
+        new AutoMove(driveSubsystem, 0.3),
         new AutoIntake(intakeSubsystem),
         new AutoMoveElevatorUp(shooterSubsystem)
       ),
@@ -102,7 +107,7 @@ public class AutoPath5 extends SequentialCommandGroup {
       new AutoShoot(shooterSubsystem).withTimeout(4),
 
       // Turn to go to terminal
-      new AutoTurn(driveSubsystem, 5),
+      new AutoTurn(driveSubsystem, 90),
 
       new StopNWait(driveSubsystem, 0.5),
 
@@ -131,3 +136,4 @@ public class AutoPath5 extends SequentialCommandGroup {
     );
   }
 }
+ 

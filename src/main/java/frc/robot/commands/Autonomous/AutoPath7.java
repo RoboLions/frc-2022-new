@@ -9,10 +9,13 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
+//import frc.robot.commands.AlignWithLIDAR;
+//import frc.robot.commands.AutoIntake;
 import frc.robot.commands.AutoMove;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
+//import frc.robot.commands.AutoMoveAndIntake;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.AutoShootWithElevator;
 import frc.robot.commands.AutoTurn;
@@ -22,17 +25,21 @@ import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+//import frc.robot.subsystems.LIDARLiteSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.SimpleShooterSubsystem;
 
-public class AutoPath4 extends SequentialCommandGroup {
-  
+public class AutoPath7 extends SequentialCommandGroup {
+
   /** 
-   * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls
-   * bot at guardrail start (distance from center of ring to front label is _)
+   * guardrail start (distance from center of ring to front label is _)
+   * pre-loaded w/ 1 ball, shoot, move forward to intake ball, shoot
+   * turn to terminal, move forward to intake ball at terminal, 
+   * move within range of hub, shoot ball
   */
 
-  public AutoPath4(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
+  public AutoPath7(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
 
@@ -56,7 +63,31 @@ public class AutoPath4 extends SequentialCommandGroup {
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
-      )
+      ),
+
+      new AutoMove(driveSubsystem, -0.4),
+
+      new AutoTurn(driveSubsystem, 90),
+
+      new AutoMove(driveSubsystem, -3),
+
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -3.5),
+        new AutoIntake(intakeSubsystem).withTimeout(3),
+        new AutoMoveElevatorUp(shooterSubsystem).withTimeout(3),
+        new AutoMoveArmDown(armSubsystem).withTimeout(3)
+      ),
+
+      new StopNWait(driveSubsystem, 0.5),
+
+      new AutoMove(driveSubsystem, -2),
+
+      new ParallelCommandGroup(
+        new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.16),
+        new AutoTurn(driveSubsystem, -15)
+      ),
+
+      new AutoShootWithElevator(shooterSubsystem).withTimeout(2)
     );
   }
 }

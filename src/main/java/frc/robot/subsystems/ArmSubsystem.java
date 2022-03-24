@@ -17,12 +17,6 @@ import frc.robot.lib.RoboLionsPID;
 
 public class ArmSubsystem extends SubsystemBase {
 
-  //0.5 speed to go down
-  // 0.7 speed to go up
-
-  // arm = -22 degrees home position
-  // 78 = 8 inches
-
   private final WPI_VictorSPX armMotor = RobotMap.intakeArmMotor;
   public RoboLionsPID armPID = new RoboLionsPID();
   private final Pigeon2 imu = RobotMap.intakeIMU;
@@ -57,7 +51,7 @@ public class ArmSubsystem extends SubsystemBase {
       
       System.out.println(target_pitch + ", " + arm_pitch_readout + ", " + arm_cmd);
       //System.out.println("Arm Cmd" + arm_cmd);
-      armMotor.set(arm_cmd); // need to invert command to close the loop
+      armMotor.set(arm_cmd);
 
       /*
       if (arm_pitch_readout > ArmConstants.HOME_POSITION) {
@@ -97,16 +91,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public double getPitch() {
-    /*double[] ypr = new double[3];
-    imu.getYawPitchRoll(ypr);
-    return ypr[1];*/
     double pitch = imu.getPitch();
     return pitch;
   }
-
-  /*
-  public void resetPitch() {
-      // TODO Figure out how to set the pitch
-      imu.setYaw(0, ArmConstants.TIMEOUT_MS);
-  }*/
 }

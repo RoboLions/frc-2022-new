@@ -19,27 +19,6 @@ public final class Constants {
         public static final int MANIPULATOR_CONTROLLER_PORT = 1;
     }
 
-    /*
-    public static final class ShooterConstants {
-        //TODO: find the right values
-        public static final double angleOfLimelight = 33; // degrees, mounting angle of LL
-
-        public static final double heightOfUpperHubMeters = 2.6416; // meters
-        public static final double heightOfUpperHubFeet = 8.6666; // feet
-
-        public static final double heightOfLimelightFeet = 3.5; // feet from top of LL to ground
-        public static final double heightOfLimelightMeters = 1.0668; // meters from top of LL to ground
-
-        public static final double angleOfShooter = 70; // degrees, angle ball is shooting out
-        public static final double heightOfShooterMeters = 1.09728; // meeters from ground to shooter
-
-        public static final double radiusOfWheel = 0.0508; // 2 inches to meters
-
-        public static final double kShooterFreeRPS = 106.33;
-        public static final double kShooterToleranceRPS = 50;
-
-    }*/
-
     public static final class LimelightConstants {
         //modes for limelight led light
         public static final double FORCE_OFF = 1;
@@ -59,8 +38,4 @@ public final class Constants {
         public static final double HOME_POSITION = -63;
         public static final double GROUND_POSITION = 60;
     }
-
-    /*public static final class LIDARConstants {
-        public static final double offset  = 0; //offset for sensor. test with tape measure
-    }*/
 }

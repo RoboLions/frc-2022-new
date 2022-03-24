@@ -31,9 +31,9 @@ public class RollIntake extends CommandBase {
     boolean backButton = manipulatorController.getBackButton();
 
     if (startButton) {
-      intakeSubsystem.intakeBalls();
-    } else if (backButton) {
       intakeSubsystem.outtakeBalls();
+    } else if (backButton) {
+      intakeSubsystem.intakeBalls();
     } else {
       intakeSubsystem.stop();
     }

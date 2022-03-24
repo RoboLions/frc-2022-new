@@ -47,9 +47,6 @@ public class JoystickDrive extends CommandBase {
       rotate = rotate;
     }
 
-    // rotation speed scaler
-    rotate = 1*rotate;
-
     // slow mode
     if (driverController.getXButton()) {
       throttle = Math.signum(throttle) * 0.35;
@@ -57,36 +54,13 @@ public class JoystickDrive extends CommandBase {
     }
 
     double offsetX = LimelightSubsystem.getLimelightX();
-    SmartDashboard.putNumber("Limelight Offset", offsetX);
 
     // limelight rotation (auto aim) mode
     if (driverController.getBButton()) {
       double setPoint = 0.0; // final point in degrees
-     // double offsetX = LimelightSubsystem.getLimelightX();
       //System.out.println("offsetX: " + offsetX);
       rotate = (-1) * driveSubsystem.limelightRotationPID.execute(setPoint, offsetX);
-
-      /*if (offsetX < 3.5 && offsetX > 0.5) {
-        rotate = 0.08;
-      } else if (offsetX < -0.5 && offsetX > -3.5) {
-        rotate = -0.08;
-      } else if (offsetX >= -0.5 && offsetX <= 0.5) {
-        rotate = 0.0;
-      } else {
-        rotate = rotate;
-      }*/
-
-      /*
-      if (rotate < 0.08 && rotate >= 0) {
-        rotate = 0;
-      } else if (rotate < 0 && rotate > -0.08) {
-        rotate = 0;
-      } else {
-        rotate = rotate;
-      }*/
-
-     // rotate = -rotate;
-      System.out.println("rotate " + rotate + " error " + offsetX);
+      //System.out.println("rotate " + rotate + " error " + offsetX);
     }
     
     driveSubsystem.driveWithRotation(throttle, -rotate); // motion control here with joystick throttle and rotation inputs

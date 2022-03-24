@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class StopNWait extends CommandBase {
-  /** Creates a new StopNWait. */
+
   protected Timer m_timer = new Timer();
   private final double m_duration;
   private final DriveSubsystem driveSubsystem;
@@ -21,7 +21,6 @@ public class StopNWait extends CommandBase {
    * @param seconds the time to wait, in seconds
    */
   public StopNWait(DriveSubsystem drivetrain, double seconds) {
-    // Use addRequirements() here to declare subsystem dependencies.
     m_duration = seconds;
     SendableRegistry.setName(this, getName() + ": " + seconds + " seconds");
     driveSubsystem = drivetrain;

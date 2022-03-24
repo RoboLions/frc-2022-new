@@ -50,8 +50,7 @@ public class Robot extends TimedRobot {
   private ShooterSubsystem shooterSubsystem = m_robotContainer.shooterSubsystem;
   private LimelightSubsystem limelightSubsystem = m_robotContainer.limelightSubsystem;
   private IntakeSubsystem intakeSubsystem = m_robotContainer.intakeSubsystem;
-  // private LaserSubsystem laserSubsystem = m_robotContainer.laserSubsystem;
-  
+
   private final static XboxController driverController = RobotContainer.driverController;  
   
   private static final WPI_TalonFX leftBackMotor = RobotMap.leftBackDriveMotor;
@@ -136,6 +135,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Back Velocity", leftBackMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());
 
+    SmartDashboard.putNumber("Left Back Velocity MPS", driveSubsystem.getBackLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Right Back Velocity MPS", driveSubsystem.getBackRightEncoderVelocityMetersPerSecond());
+
     SmartDashboard.putNumber("Limelight Offset", limelightSubsystem.getLimelightX());
     
     SmartDashboard.putNumber("Left Front Position", leftFrontMotor.getSelectedSensorPosition());
@@ -149,8 +151,6 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
     SmartDashboard.putBoolean("WITHIN 10 FEET?", limelightSubsystem.isWithinDistance());
-    // SmartDashboard.putNumber("Laser Distance", laserSubsystem.getLaserDistance());
-    // SmartDashboard.putBoolean("CLIMB TIME", laserSubsystem.isRobotReadyToClimb());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

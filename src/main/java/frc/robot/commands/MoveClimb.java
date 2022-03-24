@@ -27,16 +27,15 @@ public class MoveClimb extends CommandBase {
   public static final double RIGHT_TEST_UP_POWER = -0.1;
   public static final double RIGHT_TEST_DOWN_POWER = 0.1;
 
-  // TODO: tune counts to proper
   public static final double R_MAX_ENCODER_COUNT = 9000000;
   public static final double R_MIN_ENCODER_COUNT = 0;
-  public static final double R_MID_TARGET_ENCODER_COUNT = 9000000; // to climb high enough to the mid rung
-  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 0; // 16000; to pull the robot up
+  public static final double R_MID_TARGET_ENCODER_COUNT = 9000000; 
+  public static final double R_CLIMB_TARGET_ENCODER_COUNT = 0;
 
   public static final double L_MAX_ENCODER_COUNT = 90000000;
   public static final double L_MIN_ENCODER_COUNT = 0;
-  public static final double L_MID_TARGET_ENCODER_COUNT = 9000000; // to climb high enough to the mid rung
-  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 0; // 16000; to pull the robot up
+  public static final double L_MID_TARGET_ENCODER_COUNT = 9000000;
+  public static final double L_CLIMB_TARGET_ENCODER_COUNT = 0;
 
   private final ClimbSubsystem climbSubsystem;
   private final XboxController driverController = RobotContainer.driverController;
@@ -48,9 +47,7 @@ public class MoveClimb extends CommandBase {
   public static double rightStartingPosition;
   public static double leftStartingPosition;
 
-  /** Creates a new MoveClimb. */
   public MoveClimb(ClimbSubsystem climb) {
-    // Use addRequirements() here to declare subsystem dependencies.
     climbSubsystem = climb;
     addRequirements(climbSubsystem);
   }
@@ -77,12 +74,6 @@ public class MoveClimb extends CommandBase {
 
     boolean start_button = driverController.getStartButton();
     boolean back_button = driverController.getBackButton();
-
-    boolean leftTrigger = driverController.getLeftTriggerAxis() > 0.25;
-    boolean rightTrigger = driverController.getRightTriggerAxis() > 0.25;
-    
-    // System.out.println("Right Encoder Position:" + rightCurrentPosition);
-    // System.out.println("Left Encoder Position:" + leftCurrentPosition);
 
     if ((climbSubsystem.getRightLimitSwitchValue() == 1) || (climbSubsystem.getLeftLimitSwitchValue() == 1)) {
       climbSubsystem.resetEncoder();
@@ -112,29 +103,22 @@ public class MoveClimb extends CommandBase {
       climbSubsystem.moveServoOut();
     } 
     else if (!left_bumper && !right_bumper ) {
-      leftClimbPower = 0; // not moving based on bumpers
+      leftClimbPower = 0;
       rightClimbPower = 0;
     } else {
       leftClimbPower = 0;
       rightClimbPower = 0;
     }
 
-    /*
-    if (left_bumper) {
-      climbPower = EXTEND_POWER;
-    } else if (right_bumper) {
-      climbPower = RETRACT_POWER;
-    }*/
-
     climbSubsystem.setLeftClimbPower(leftClimbPower);
     climbSubsystem.setRightClimbPower(rightClimbPower);
 
     if (driverController.getLeftTriggerAxis() > 0.25) {
-      // slow up
+      // up
       climbSubsystem.setHighClimbPower(-0.9);
     } else if (driverController.getRightTriggerAxis() > 0.25) {
-      // fast down
-      climbSubsystem.setHighClimbPower(1); //0.6
+      // down
+      climbSubsystem.setHighClimbPower(1);
     } else {
       climbSubsystem.setHighClimbPower(0);
     }

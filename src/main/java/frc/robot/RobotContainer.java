@@ -36,6 +36,7 @@ import frc.robot.subsystems.SimpleShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -58,9 +59,12 @@ public class RobotContainer {
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
 
-  // Auto paths
+  public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
   public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
+  //public static AutoPath3 autoPath3 = new AutoPath3(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem);
 
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  
   /*
   public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
   public static AutoPath2 autoPath2 = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem);
@@ -115,19 +119,8 @@ public class RobotContainer {
     /*
     new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
       //new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
-      new TestPath(driveSubsystem, shooterSubsystem)
+      new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem)
     );*/
-
-    /*
-    new AutoTurn(driveSubsystem, 10)
-    */
-
-    // 1. position pid
-    // test auto move, 1 meter, 4.089, and 6.756 meters
-    // 2 heading pid
-    // test auto turn 10 degrees, -10 degrees
-    // 3. test auto paths
-
   }
 
   public Command getAutonomousCommand() {
