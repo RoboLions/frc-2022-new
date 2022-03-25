@@ -33,7 +33,7 @@ public class RobotMap {
     public static final int HIGH_RIGHT_CLIMB_PORT = 15; 
     public static final int HIGH_LEFT_CLIMB_PORT = 16;
 
-    // public static final int HOOD_MOTOR_PORT = 17;
+    public static final int HOOD_MOTOR_PORT = 17;
 
     public static WPI_VictorSPX intakeRollerMotor = new WPI_VictorSPX(INTAKE_ROLLER_PORT);
     public static WPI_VictorSPX intakeArmMotor = new WPI_VictorSPX(INTAKE_ARM_PORT);
@@ -56,7 +56,7 @@ public class RobotMap {
     public static WPI_TalonFX highRightClimbMotor = new WPI_TalonFX(HIGH_RIGHT_CLIMB_PORT);
     public static WPI_TalonFX highLeftClimbMotor = new WPI_TalonFX(HIGH_LEFT_CLIMB_PORT);
 
-    // public static WPI_TalonFX shooterHoodMotor = new WPI_TalonFX(HOOD_MOTOR_PORT);
+    public static WPI_TalonFX shooterHoodMotor = new WPI_TalonFX(HOOD_MOTOR_PORT);
 
     // public static DigitalInput elevatorSensor1 = new DigitalInput(3);
 

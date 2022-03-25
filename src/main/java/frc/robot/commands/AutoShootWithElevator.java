@@ -32,11 +32,11 @@ public class AutoShootWithElevator extends CommandBase {
   public void execute() {
     LimelightSubsystem.setVisionProcessor();
     double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
-    // double hoodSpeed = 0;
+    double hoodSpeed = 0;
 
     shooterSubsystem.moveBeltUp();
     shooterSubsystem.steadyShoot(speed*0.94);
-    // shooterSubsystem.setHoodSpeed(hoodSpeed);
+    shooterSubsystem.setHoodSpeed(hoodSpeed);
   }
 
   // Called once the command ends or is interrupted.
