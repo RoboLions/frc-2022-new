@@ -347,8 +347,6 @@ public class DriveSubsystem extends SubsystemBase {
       RVoltagePercentCommand = -1.0;
     }
 
-    
-
     leftBackMotor.set(LVoltagePercentCommand);
     rightBackMotor.set(RVoltagePercentCommand);
 
@@ -472,13 +470,13 @@ public class DriveSubsystem extends SubsystemBase {
     if (Math.abs(linearTravelSpeed) < 1.5 && linearTravelSpeed > 0.05) {
       
       if (rotateSpeed > 0.3) {
-        leftSpeed = (linearTravelSpeed + rotateSpeed * 0.5);
+        leftSpeed = (linearTravelSpeed);
         rightSpeed = (linearTravelSpeed - rotateSpeed);
         //leftSpeed = (linearTravelSpeed + rotateSpeed);
         //rightSpeed = (linearTravelSpeed);
       } else  if (rotateSpeed < -0.3) {
         leftSpeed = (linearTravelSpeed + rotateSpeed);
-        rightSpeed = (linearTravelSpeed - rotateSpeed * 0.5);
+        rightSpeed = (linearTravelSpeed);
         //leftSpeed = (linearTravelSpeed);
         //rightSpeed = (linearTravelSpeed - rotateSpeed);
       } else {
@@ -489,8 +487,6 @@ public class DriveSubsystem extends SubsystemBase {
       leftSpeed = (linearTravelSpeed + rotateSpeed);
       rightSpeed = (linearTravelSpeed - rotateSpeed);
     }
-
-    
 
     // part 3: reset speeds to 0 when throttle and rotate < 0.25
     /*if ((Math.abs(linearTravelSpeed) < 0.5) && 

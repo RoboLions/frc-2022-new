@@ -22,6 +22,7 @@ import frc.robot.commands.SimpleShootShooter;
 import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
 import frc.robot.commands.Autonomous.AutoPath3;
+import frc.robot.commands.Autonomous.AutoPath4;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -59,17 +60,10 @@ public class RobotContainer {
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
 
-  public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
+  //public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
   public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
-  //public static AutoPath3 autoPath3 = new AutoPath3(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem);
-
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
-  
-  /*
-  public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
-  public static AutoPath2 autoPath2 = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, lidarLiteSubsystem);
-  public static AutoPath3 autoPath3 = new AutoPath3(driveSubsystem, intakeSubsystem, shooterSubsystem, lidarLiteSubsystem, limelightSubsystem);
-  */
+  //public static AutoPath3 autoPath3 = new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
+  //public static AutoPath4 autoPath4 = new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {

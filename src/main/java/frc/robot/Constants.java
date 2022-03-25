@@ -35,7 +35,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TIMEOUT_MS = 10;
 
-        public static final double HOME_POSITION = -63;
+        public static final double HOME_POSITION = -60; //-63
         public static final double GROUND_POSITION = 60;
     }
 }

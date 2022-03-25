@@ -22,6 +22,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private static WPI_VictorSPX backElevatorMotor = RobotMap.backElevatorMotor;
   private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
   private static WPI_TalonFX rightShooterMotor = RobotMap.rightShooterMotor;
+  // private static WPI_TalonFX hoodMotor = RobotMap.shooterHoodMotor;
 
   public static final double LEFT_MOVE_BELT_UP_POWER = 0.5;
   public static final double LEFT_MOVE_BELT_DOWN_POWER = -0.3;
@@ -44,6 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     leftShooterMotor.setNeutralMode(NeutralMode.Coast);
     rightShooterMotor.setNeutralMode(NeutralMode.Coast);
+    // hoodMotor.setNeutralMode(NeutralMode.Coast);
 
     backElevatorMotor.setNeutralMode(NeutralMode.Coast);
     frontElevatorMotor.setNeutralMode(NeutralMode.Coast);
@@ -179,6 +181,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void stopShooter() {
     leftShooterMotor.set(0);
     rightShooterMotor.set(0);
+    // hoodMotor.set(0);
   }
 
   public double getLeftEncoderVelocity() {
@@ -251,7 +254,6 @@ public class ShooterSubsystem extends SubsystemBase {
     return backElevatorMotor.getSelectedSensorVelocity();
   }
   
-
   public void moveBeltUp() {
     frontElevatorMotor.set(LEFT_MOVE_BELT_UP_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_UP_POWER);
@@ -266,6 +268,10 @@ public class ShooterSubsystem extends SubsystemBase {
     frontElevatorMotor.set(LEFT_MOVE_BELT_DOWN_POWER);
     backElevatorMotor.set(RIGHT_MOVE_BELT_DOWN_POWER);
   }
+
+  /* public void setHoodSpeed(double hoodSpeed) {
+    hoodMotor.set(hoodSpeed);
+  }*/
 
   @Override
   public void periodic() {

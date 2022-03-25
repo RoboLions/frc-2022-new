@@ -49,6 +49,8 @@ public class ShootShooter extends CommandBase {
     // minus 1.54 feet to account for bumper and distance from front of robot to limelight
     double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
 
+    // double hoodSpeed = 0;
+
     if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
     } 
@@ -63,6 +65,7 @@ public class ShootShooter extends CommandBase {
     // shoot upper hub
     else if (manipulatorController.getRightTriggerAxis() > 0.25) {
       shooterSubsystem.steadyShoot(speed * 0.94); //0.94
+      // shooterSubsystem.setHoodSpeed(hoodSpeed);
     } 
     // shoot low goal
     else if (manipulatorController.getRightBumper()) {
@@ -71,6 +74,7 @@ public class ShootShooter extends CommandBase {
     // shoot without limelight to upper hub from launchpad
     else if (manipulatorController.getLeftBumper()) {
       shooterSubsystem.steadyShoot(2.38); //2.2
+      // shooterSubsystem.setHoodSpeed(hoodSpeed);
     }
     else {
       shooterSubsystem.stopShooter();

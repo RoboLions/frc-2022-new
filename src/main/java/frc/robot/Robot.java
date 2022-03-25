@@ -25,6 +25,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
+import frc.robot.commands.Autonomous.AutoPath3;
+import frc.robot.commands.Autonomous.AutoPath4;
+import frc.robot.commands.Autonomous.AutoPath5;
+import frc.robot.commands.Autonomous.AutoPath6;
+import frc.robot.commands.Autonomous.AutoPath7;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.ArmSubsystem;
@@ -70,7 +75,7 @@ public class Robot extends TimedRobot {
    * initialization code.
    */
 
-  //SendableChooser<Command> m_chooser = new SendableChooser<>();
+  SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
@@ -94,11 +99,16 @@ public class Robot extends TimedRobot {
     camera.setResolution(240, 180);
     camera.setFPS(12);*/
 
-    //m_chooser.setDefaultOption("Default cross tarmac", new DefaultAutoPath(driveSubsystem));
-    //m_chooser.addOption("Cross tarmac and shoot", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    //m_chooser.addOption("Cross tarmac intake shoot 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
+    m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
+    m_chooser.setDefaultOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
 
-    //SmartDashboard.putData("Autonomous Chooser", m_chooser);
+    SmartDashboard.putData(m_chooser);
   }
 
   /**
@@ -163,8 +173,8 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    //m_autonomousCommand = m_chooser.getSelected();
+    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_chooser.getSelected();
 
     drivetrainPID.reset();
 
