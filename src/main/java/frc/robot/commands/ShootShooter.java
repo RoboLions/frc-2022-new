@@ -34,21 +34,75 @@ public class ShootShooter extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
+    // AT 6 FEET (AUTO PATH 2 1ST SHOT) - NO HOOD, 1.85 SHOOTER
+    // AT 6.9 FEET (AUTO PATH 2ND SHOT) - 0.39, 1.5 SHOOTER
     
-    // Distances based on reading on LL, shooter speed, hood speed
+    // Distances based on reading on LL, shooter speed, hood speed 
+    // 16, 1.06, 0.93
+    // 15, 1, 0.88
+    // 14, 1, 1.05, 0.83
     // 13, 1.06, 0.85
     // 12, 1, 0.8
     // 11, 1, 0.75
     // 10, 1, 0.7
     // 9, 1, 0.62
-    // 8, 
+    // 8, 1.07, 0.55
+    // 7, 1.15, 0.38 // not consistent
+    // 6, 1.85, 0
+
+    // 6, 1.85, 0
+    // 7, 1.5, 0.4
+    // 7.5, 1.55, 0.4
+    // 8, 1.6, 0.4
+    // 8.5 1.63, 0.4
+    // 9, 1.65, 0.4
+    // 9.5, 1.67, 0.4
+    // 10, 1.69, 0.4
+    // 10.5, 1.71, 0.4
+    // 11, 1.73, 0.4
+    // 11.5, 1.75, 0.5
+    // 12, 1.8, 0.5
+    // 12.5, 1.85, 0.58
+    // 13, 1.87, 0.7
+    // 13.5, 1.9, 0.7
+    // 14, 1.95, 0.8
+
 
     // minus 1.54 feet to account for bumper and distance from front of robot to limelight
     //double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
-    double speed = 1.07;
-    // 1.4 = 0.38 percent command
-    // 0.28 / 0.9
-    double hoodSpeed = 0.55;
+    //double speed = 1.59; // 1.6
+    //10.4 + -2.6x + 0.235x^2 + -6.77E-03x^3
+    double x = LimelightSubsystem.getHorizontalDistance();
+    //double speed = (10.4) + (-2.6 * x) + (0.235 * Math.pow(x, 2)) + (-0.00677 * Math.pow(x, 3));
+    //double hoodSpeed = 1; //0
+    // -6.3 + 1.79x + -0.148x^2 + 4.07E-03x^3
+    //double hoodSpeed = (-6.3) + (1.79 * x) + (-0.148 * Math.pow(x, 2)) + (0.00407 * Math.pow(x, 3));
+    double hoodSpeed = 0;
+    double speed = 0.0581*x + 1.11;
+    if (x >= 7 && x <= 11) {
+      hoodSpeed = 0.4;
+    } else if (x > 11 && x < 11.5) {
+      hoodSpeed = 0.2*x - 1.8;
+    } else if (x >= 11.5 && x <= 12) {
+      hoodSpeed = 0.5;
+    } else if (x > 12 && x < 13) {
+      hoodSpeed = 0.2*x - 1.91;
+    } else if (x >= 13 && x <= 13.5) {
+      hoodSpeed = 0.7;
+    } else if (x > 13.5 && x <= 14) {
+      hoodSpeed = 0.2*x - 2;
+    } else {
+      hoodSpeed = 0;
+    }
+
+    //System.out.println(speed + ", " + hoodSpeed);
+
+    if (hoodSpeed > 1) {
+      hoodSpeed = 1;
+    } else if (hoodSpeed < -1) {
+      hoodSpeed = -1;
+    }
 
     if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
