@@ -113,7 +113,7 @@ public class RobotContainer {
     /*
     new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
       //new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
-      new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem)
+      new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem, limelightSubsystem)
     );*/
   }
 

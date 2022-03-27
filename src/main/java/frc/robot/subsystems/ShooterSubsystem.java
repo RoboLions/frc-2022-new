@@ -174,10 +174,18 @@ public class ShooterSubsystem extends SubsystemBase {
       shoot_speed_cmd = -1.0;
     }
 
-    System.out.println(shoot_speed_cmd);
+    //System.out.println(shoot_speed_cmd);
     
     leftShooterMotor.set(-shoot_speed_cmd);
     rightShooterMotor.set(shoot_speed_cmd);
+  }
+
+  public boolean isShooterRampedUp() {
+    if (Math.abs(shoot_speed_cmd - getShooterEncoderVelocity()) < 0.1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   public void stopShooter() {

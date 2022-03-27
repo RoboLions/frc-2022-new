@@ -174,9 +174,9 @@ public class DriveSubsystem extends SubsystemBase {
       5, // Proportional Gain //15 // 7.5
       10, // Integral Gain // 10
       0.0, // Derivative Gain 
-      20, // Cage Limit //0.3
+      10, // Cage Limit //0.3
       0.0, // Deadband
-      360, // MaxOutput Degrees/sec 0.25 //100 //180
+      30, // MaxOutput Degrees/sec 0.25 //100 //180
       true, //enableCage
       false //enableDeadband
     );
@@ -509,10 +509,10 @@ public class DriveSubsystem extends SubsystemBase {
         positionMotionProfile.init(
           start_dist, //start position
           distance + start_dist, // target position
-          1, // max vel //1.5 // 1
-          1, // max accel //1 // 0.5
+          1.2, // max vel //1.5 // 1
+          1.2, // max accel //1 // 0.5
           0.02, // execution period 
-          1 // deceleration //2 // 0.5
+          1.2 // deceleration //2 // 0.5
         );
         state_flag_motion_profile = false;
     }

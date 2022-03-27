@@ -31,6 +31,7 @@ import frc.robot.commands.Autonomous.AutoPath5;
 import frc.robot.commands.Autonomous.AutoPath6;
 import frc.robot.commands.Autonomous.AutoPath7;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -107,6 +108,7 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Test Path", new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem, limelightSubsystem));
 
     SmartDashboard.putData(m_chooser);
   }
@@ -160,7 +162,8 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Target Pitch", armSubsystem.target_pitch);
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
-    SmartDashboard.putBoolean("WITHIN 10 FEET?", limelightSubsystem.isWithinDistance());
+    SmartDashboard.putBoolean("WITHIN 7 TO 14 FEET?", limelightSubsystem.isWithinDistance());
+    SmartDashboard.putBoolean("IS SHOOTER RAMPED UP FOR UPPER HUB W/ LL", shooterSubsystem.isShooterRampedUp());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

@@ -14,6 +14,9 @@ import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShoot6Elevator;
+import frc.robot.commands.AutoShoot6point9Elevator;
+import frc.robot.commands.AutoShootAt6;
 import frc.robot.commands.AutoShootWithElevator;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnLLOn;
@@ -29,7 +32,8 @@ public class AutoPath2 extends SequentialCommandGroup {
 
   /** 
    * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls
-   * bot at hangar start (distance from center of ring to front label is _)
+   * bot at hangar start (distance from center of ring to front label is 48.5 inches)
+   * READY FOR COMP
   */
 
   public AutoPath2(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
@@ -44,15 +48,20 @@ public class AutoPath2 extends SequentialCommandGroup {
 
       new AutoMove(driveSubsystem, -0.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(2),
+      new StopNWait(driveSubsystem, 0.5),
+
+      new AutoShootAt6(shooterSubsystem).withTimeout(1),
 
       // Shoot ball
-      new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
-
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.6),
+        new AutoShoot6Elevator(shooterSubsystem).withTimeout(1.5),
+        new AutoMoveArmDown(armSubsystem).withTimeout(1.5)
+      ),
+      
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -0.75),
         new AutoIntake(intakeSubsystem).withTimeout(2),
-        new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
+        new AutoShootWithElevator(shooterSubsystem).withTimeout(2.5),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
       )
 

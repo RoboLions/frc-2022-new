@@ -13,6 +13,7 @@ import frc.robot.subsystems.SimpleShooterSubsystem;
 public class AutoShootWithElevator extends CommandBase {
   /** Creates a new AutoShoot. */
   private final ShooterSubsystem shooterSubsystem;
+  double hoodSpeed = 0;
   // private static final int DEFAULT_TIME = 1;
 
   public AutoShootWithElevator(ShooterSubsystem shooter) {
@@ -31,11 +32,26 @@ public class AutoShootWithElevator extends CommandBase {
   @Override
   public void execute() {
     LimelightSubsystem.setVisionProcessor();
-    double speed = 1.74 + 0.0116 * (LimelightSubsystem.getHorizontalDistance() - 1.54) + 0.00684 * (LimelightSubsystem.getHorizontalDistance() - 1.54) * (LimelightSubsystem.getHorizontalDistance() - 1.54);
-    double hoodSpeed = 0;
+    double x = LimelightSubsystem.getHorizontalDistance();
+    double speed = 0.0581*x + 1.11;
+    if (x >= 7 && x <= 11) {
+      hoodSpeed = 0.4;
+    } else if (x > 11 && x < 11.5) {
+      hoodSpeed = 0.2*x - 1.8;
+    } else if (x >= 11.5 && x <= 12) {
+      hoodSpeed = 0.5;
+    } else if (x > 12 && x < 13) {
+      hoodSpeed = 0.2*x - 1.91;
+    } else if (x >= 13 && x <= 13.5) {
+      hoodSpeed = 0.7;
+    } else if (x > 13.5 && x <= 14) {
+      hoodSpeed = 0.2*x - 2;
+    } else {
+      hoodSpeed = 0;
+    }
 
     shooterSubsystem.moveBeltUp();
-    shooterSubsystem.steadyShoot(speed*0.94);
+    shooterSubsystem.steadyShoot(speed);
     shooterSubsystem.setHoodSpeed(hoodSpeed);
   }
 
@@ -43,6 +59,7 @@ public class AutoShootWithElevator extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.stopShooter();
+    shooterSubsystem.stopBelt();
   }
 
   // Returns true when the command should end.

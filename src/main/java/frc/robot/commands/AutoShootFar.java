@@ -5,17 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.SimpleShooterSubsystem;
 
-public class AutoShoot extends CommandBase {
-
+public class AutoShootFar extends CommandBase {
+  /** Creates a new AutoShootFar. */
   private final ShooterSubsystem shooterSubsystem;
   double hoodSpeed = 0;
-
-  public AutoShoot(ShooterSubsystem shooter) {
+  
+  public AutoShootFar(ShooterSubsystem shooter) {
     shooterSubsystem = shooter;
     addRequirements(shooterSubsystem);
   }
@@ -24,39 +22,21 @@ public class AutoShoot extends CommandBase {
   @Override
   public void initialize() {
     shooterSubsystem.stopShooter();
-    LimelightSubsystem.setVisionProcessor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    LimelightSubsystem.setVisionProcessor();
-    double x = LimelightSubsystem.getHorizontalDistance();
-    double speed = 0.0581*x + 1.11;
-    if (x >= 7 && x <= 11) {
-      hoodSpeed = 0.4;
-    } else if (x > 11 && x < 11.5) {
-      hoodSpeed = 0.2*x - 1.8;
-    } else if (x >= 11.5 && x <= 12) {
-      hoodSpeed = 0.5;
-    } else if (x > 12 && x < 13) {
-      hoodSpeed = 0.2*x - 1.91;
-    } else if (x >= 13 && x <= 13.5) {
-      hoodSpeed = 0.7;
-    } else if (x > 13.5 && x <= 14) {
-      hoodSpeed = 0.2*x - 2;
-    } else {
-      hoodSpeed = 0;
-    }
-
-    shooterSubsystem.steadyShoot(speed);
-    shooterSubsystem.setHoodSpeed(hoodSpeed);
+    shooterSubsystem.steadyShoot(2.36);
+    shooterSubsystem.setHoodSpeed(0.9);
+    shooterSubsystem.moveBeltUp();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooterSubsystem.stopShooter();
+    shooterSubsystem.stopBelt();
   }
 
   // Returns true when the command should end.

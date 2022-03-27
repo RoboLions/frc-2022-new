@@ -14,6 +14,9 @@ import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
 import frc.robot.commands.AutoShoot;
+import frc.robot.commands.AutoShoot6Elevator;
+import frc.robot.commands.AutoShoot6point9Elevator;
+import frc.robot.commands.AutoShootAt6;
 import frc.robot.commands.AutoShootWithElevator;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnLLOn;
@@ -44,10 +47,10 @@ public class AutoPath4 extends SequentialCommandGroup {
 
       new AutoMove(driveSubsystem, -0.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(2),
+      new AutoShootAt6(shooterSubsystem).withTimeout(1.5),
 
       // Shoot ball
-      new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
+      new AutoShoot6Elevator(shooterSubsystem).withTimeout(1.5),
 
       new AutoTurn(driveSubsystem, -10),
 
