@@ -95,10 +95,9 @@ public class Robot extends TimedRobot {
     m_robotContainer.limelightSubsystem.setDriverCamera();
     m_robotContainer.limelightSubsystem.turn_LED_OFF();
 
-    /*
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(240, 180);
-    camera.setFPS(12);*/
+    camera.setFPS(12);
 
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
     m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
