@@ -102,13 +102,13 @@ public class Robot extends TimedRobot {
 
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
     m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    m_chooser.setDefaultOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
-    m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
-    m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("Test Path", new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem, limelightSubsystem));
+    //m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    //m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    //m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    //m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.setDefaultOption("Terminal 4", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
 
     SmartDashboard.putData(m_chooser);
   }
@@ -185,6 +185,33 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    /*
+
+    leftDrivetrainPID.initialize2(
+      3.375, // Proportional Gain 4.9, 7.5, 2.205, 3.375
+      17.357*0.1, // Integral Gain //12.6 42.12 ZN w FF, 17.357
+      0.0, // Derivative Gain //0
+      0.0, // Cage Limit 0.3 //0
+      0.0, // Deadband //0
+      12,// MaxOutput Volts 0.25 //100 //12
+      false, //enableCage
+      false //enableDeadband
+    );
+
+    // Rate Drive PID
+    rightDrivetrainPID.initialize2(
+      3.15, // 2.025 Proportional Gain 4.5, 7 //2.925 ZN w FF //2
+      16.2*0.1, // 10.2316 Integral Gain //42.12 ZN w FF //20
+      0, // Derivative Gain //0
+      0.0, // Cage Limit //0.3
+      0.0, // Deadband //0
+      12,// MaxOutput Volts 0.25 //100 //12
+      false, //enableCage
+      false //enableDeadband
+    );
+
+    */
   }
 
   /** This function is called periodically during autonomous. */

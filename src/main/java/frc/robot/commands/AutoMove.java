@@ -32,7 +32,7 @@ public class AutoMove extends CommandBase {
         @Override
         public void initialize() {
                 //drivesubsystem.resetEncoders();
-                drivesubsystem.ZeroYaw();
+                //drivesubsystem.ZeroYaw();
                 drivesubsystem.positionPID.reset();
                 drivesubsystem.positionMotionProfile.reset();
                 start_dist_meters = drivesubsystem.distanceTravelledinMeters();

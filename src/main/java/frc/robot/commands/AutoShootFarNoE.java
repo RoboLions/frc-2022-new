@@ -27,7 +27,7 @@ public class AutoShootFarNoE extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.steadyShoot(2.36);
+    shooterSubsystem.steadyShoot(2.12);
     shooterSubsystem.setHoodSpeed(0.9);
   }
 

@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 
-public class ResetDrivetrainEncoders extends CommandBase {
+public class AutoZeroYaw extends CommandBase {
   
   private final DriveSubsystem drivesubsystem;
   private boolean endme = false;
 
-  public ResetDrivetrainEncoders(final DriveSubsystem subsystem) {
+  public AutoZeroYaw(final DriveSubsystem subsystem) {
     drivesubsystem = subsystem;
     addRequirements(drivesubsystem);
   }
@@ -20,14 +20,13 @@ public class ResetDrivetrainEncoders extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drivesubsystem.resetEncoders();
     drivesubsystem.ZeroYaw();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (drivesubsystem.getBackLeftEncoderPosition() == 0 && drivesubsystem.getYaw() == 0) {
+    if (drivesubsystem.getYaw() == 0) {
       endme = true;
     } else {
       endme = false;

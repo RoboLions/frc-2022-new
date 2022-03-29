@@ -19,6 +19,7 @@ import frc.robot.commands.AutoShootFarNoE;
 import frc.robot.commands.AutoShootWithElevator;
 import frc.robot.commands.AutoTurn;
 import frc.robot.commands.AutoTurnLLOn;
+import frc.robot.commands.AutoZeroYaw;
 import frc.robot.commands.ResetDrivetrainEncoders;
 import frc.robot.commands.StopNWait;
 import frc.robot.subsystems.ArmSubsystem;
@@ -33,8 +34,52 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TestPath extends SequentialCommandGroup {
   /** Creates a new TestPath. */
-  public TestPath(final DriveSubsystem driveSubsystem, ShooterSubsystem shooterSubsystem, IntakeSubsystem intakeSubsystem, ArmSubsystem armSubsystem, LimelightSubsystem limelightSubsystem) {
+  public TestPath(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
+  ShooterSubsystem shooterSubsystem, LimelightSubsystem limelightSubsystem, ArmSubsystem armSubsystem) {
     super (
+      
+      new ParallelCommandGroup(
+        new AutoMoveArmDown(armSubsystem).withTimeout(0.5), 
+        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(0.5),
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(0.5)
+      ),
+
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -4.8),
+        new AutoIntake(intakeSubsystem).withTimeout(5),
+        new AutoMoveElevatorUp(shooterSubsystem).withTimeout(5),
+        new AutoMoveArmDown(armSubsystem).withTimeout(5)
+      ),
+
+      new StopNWait(driveSubsystem, 0.5),
+
+      new ParallelCommandGroup(
+        new AutoReverseShoot(shooterSubsystem).withTimeout(0.18),
+        new AutoZeroYaw(driveSubsystem).withTimeout(0.5)
+      ),
+
+      new StopNWait(driveSubsystem, 0.25),
+      
+      new AutoTurn(driveSubsystem, 10),
+
+      new StopNWait(driveSubsystem, 0.25),
+
+      new AutoShootFarNoE(shooterSubsystem).withTimeout(1),
+
+      // Shoot ball
+      new ParallelCommandGroup(
+        new AutoShootFar(shooterSubsystem).withTimeout(0.15),
+        new AutoMoveArmDown(armSubsystem).withTimeout(0.15)
+      ),
+
+      new AutoShootFarNoE(shooterSubsystem).withTimeout(0.5),
+
+      new ParallelCommandGroup(
+        new AutoIntake(intakeSubsystem).withTimeout(5),
+        new AutoShootFar(shooterSubsystem).withTimeout(5),
+        new AutoMoveArmDown(armSubsystem).withTimeout(5)
+      )
+      /*
       new ParallelCommandGroup(
         new AutoMoveArmDown(armSubsystem).withTimeout(0.5), 
         new ResetDrivetrainEncoders(driveSubsystem).withTimeout(0.5),
@@ -48,8 +93,11 @@ public class TestPath extends SequentialCommandGroup {
         new AutoMoveArmDown(armSubsystem).withTimeout(2.15)
       ),
 
-      new StopNWait(driveSubsystem, 0.5),
-
+      new ParallelCommandGroup(
+        new StopNWait(driveSubsystem, 0.5),
+        new AutoZeroYaw(driveSubsystem).withTimeout(0.5)
+      ),
+      
       new AutoReverseShoot(shooterSubsystem).withTimeout(0.13),
 
       new AutoTurn(driveSubsystem, 9),
@@ -66,7 +114,8 @@ public class TestPath extends SequentialCommandGroup {
 
       new ParallelCommandGroup(
         new AutoShootWithElevator(shooterSubsystem).withTimeout(1),
-        new AutoMoveArmDown(armSubsystem).withTimeout(1)
+        new AutoMoveArmDown(armSubsystem).withTimeout(1),
+        new AutoZeroYaw(driveSubsystem).withTimeout(1)
       ),
 
       new AutoTurn(driveSubsystem, -33),
@@ -80,8 +129,11 @@ public class TestPath extends SequentialCommandGroup {
         new AutoMoveElevatorUp(shooterSubsystem).withTimeout(6)
       ),
 
-      new StopNWait(driveSubsystem, 0.7),
-
+      new ParallelCommandGroup(
+        new StopNWait(driveSubsystem, 0.7),
+        new AutoZeroYaw(driveSubsystem).withTimeout(0.7)
+      ),
+      
       new AutoTurn(driveSubsystem, 10),
 
       new StopNWait(driveSubsystem, 0.5),
@@ -97,6 +149,8 @@ public class TestPath extends SequentialCommandGroup {
       new AutoShootFarNoE(shooterSubsystem).withTimeout(0.5),
 
       new AutoShootFar(shooterSubsystem).withTimeout(1)
+      */
+
       /*
 
       new StopNWait(driveSubsystem, 0.5),

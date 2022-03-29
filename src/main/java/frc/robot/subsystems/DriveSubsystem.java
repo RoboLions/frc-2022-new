@@ -171,12 +171,12 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Heading Command PID for Autonomous and 
     headingPID.initialize2(
-      5, // Proportional Gain //15 // 7.5
-      10, // Integral Gain // 10
+      2, // Proportional Gain //15 // 7.5
+      5, // Integral Gain // 10
       0.0, // Derivative Gain 
       10, // Cage Limit //0.3
       0.0, // Deadband
-      30, // MaxOutput Degrees/sec 0.25 //100 //180
+      180, // MaxOutput Degrees/sec 0.25 //100 //180
       true, //enableCage
       false //enableDeadband
     );

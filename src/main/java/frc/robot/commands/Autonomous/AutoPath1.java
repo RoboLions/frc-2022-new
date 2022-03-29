@@ -33,9 +33,9 @@ public class AutoPath1 extends SequentialCommandGroup {
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -1),
+      new AutoMove(driveSubsystem, -1.3),
 
-      new AutoShoot(shooterSubsystem).withTimeout(2.5),
+      new AutoShoot(shooterSubsystem).withTimeout(1),
 
       // Shoot ball
       new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5)
