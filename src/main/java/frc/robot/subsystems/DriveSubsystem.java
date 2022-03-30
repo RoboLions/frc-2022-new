@@ -58,6 +58,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final Pigeon2 imu = RobotMap.chasisIMU;
 
+  // private final static XboxController driverController = RobotContainer.driverController;
+
   public RoboLionsPID leftForwardPID = new RoboLionsPID();
   public RoboLionsPID rightForwardPID = new RoboLionsPID();
 	public RoboLionsPID headingPID = new RoboLionsPID();
@@ -318,11 +320,15 @@ public class DriveSubsystem extends SubsystemBase {
 
     // double torque_bias = 0.1;
 
-    /*if (Math.abs(rotateSpeed) < 0.5) {
+    /*
+    TODO: test when possible
+    if (driverController.getBButton()) {
+      leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
+      rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
+    } else {
       leftOutput = 0;
       rightOutput = 0;
-      leftForwardPID.reset();
-      rightForwardPID.reset();
+    }
     }*/
 
     leftOutput = 0;
