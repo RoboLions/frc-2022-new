@@ -56,6 +56,8 @@ public class DriveSubsystem extends SubsystemBase {
   private static final WPI_TalonFX leftFrontMotor = RobotMap.leftFrontDriveMotor;
   private static final WPI_TalonFX rightFrontMotor = RobotMap.rightFrontDriveMotor;
 
+  private static WPI_TalonFX leftShooterMotor = RobotMap.leftShooterMotor;
+
   private final Pigeon2 imu = RobotMap.chasisIMU;
 
   // private final static XboxController driverController = RobotContainer.driverController;
@@ -184,8 +186,8 @@ public class DriveSubsystem extends SubsystemBase {
     );
 
     limelightRotationPID.initialize2(
-      0.02, // Proportional Gain 0.02=without weights, 0.03=with weights
-      0.0, // Integral Gain 0.05=without weights 0.015= with weights
+      0.03, // Proportional Gain 0.02=without weights, 0.03=with weights
+      0.02, // Integral Gain 0.05=without weights 0.015= with weights
       0.0, // Derivative Gain -0.0008 =without weights, with weights
       2, // Cage Limit degrees/sec 2=without weights, with weights
       0.0, // Deadband
@@ -297,7 +299,7 @@ public class DriveSubsystem extends SubsystemBase {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
-  public void straightDrive(double leftSpeed, double rightSpeed, double rotateSpeed) {
+  public void straightDrive(double leftSpeed, double rightSpeed) {
 
     // actual speed command passed 
     left_speed_cmd = leftSpeed; 
@@ -313,26 +315,32 @@ public class DriveSubsystem extends SubsystemBase {
       batteryVoltage = 1;
     }
     
-
     // output to compensate for speed error, the PID block
     double leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
     double rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
 
     // double torque_bias = 0.1;
 
-    /*
-    TODO: test when possible
-    if (driverController.getBButton()) {
+    if (Math.abs(leftShooterMotor.getSelectedSensorVelocity()) > 0.1) {
       leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
       rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
     } else {
       leftOutput = 0;
       rightOutput = 0;
     }
+
+    /*
+    if (driverController.getBButton()) {
+      leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
+      rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
+    } else {
+      leftOutput = 0;
+      rightOutput = 0;
+
     }*/
 
-    leftOutput = 0;
-    rightOutput = 0;
+    /*leftOutput = 0;
+    rightOutput = 0;*/
 
     // final voltage command going to falcon or talon (percent voltage, max 12 V)
     double LVoltagePercentCommand = ((leftOutput + leftFeedforward) / batteryVoltage); //((leftFeedforward) / batteryVoltage); 
@@ -504,7 +512,7 @@ public class DriveSubsystem extends SubsystemBase {
       lastLinearVelocity = 0;
     }*/
 
-    straightDrive(leftSpeed, rightSpeed, rotateSpeed);
+    straightDrive(leftSpeed, rightSpeed);
   }
 
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
@@ -515,7 +523,7 @@ public class DriveSubsystem extends SubsystemBase {
         positionMotionProfile.init(
           start_dist, //start position
           distance + start_dist, // target position
-          1.2, // max vel //1.5 // 1
+          1.2, // max vel //1.5 // 1 //1.2
           1.2, // max accel //1 // 0.5
           0.02, // execution period 
           1.2 // deceleration //2 // 0.5

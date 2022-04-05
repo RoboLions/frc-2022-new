@@ -49,28 +49,37 @@ public class AutoPath3 extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new AutoMoveArmDown(armSubsystem).withTimeout(0.5), 
         new ResetDrivetrainEncoders(driveSubsystem).withTimeout(0.5),
-        new AutoTurnLLOn(limelightSubsystem).withTimeout(0.5)
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(0.5),
+        new AutoIntake(intakeSubsystem).withTimeout(0.5)
       ),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -1.7),
-        new AutoIntake(intakeSubsystem).withTimeout(2.15),
-        new AutoMoveElevatorUp(shooterSubsystem).withTimeout(2.15),
-        new AutoMoveArmDown(armSubsystem).withTimeout(2.15)
+        new AutoMove(driveSubsystem, -1.8), //-1.7
+        new AutoIntake(intakeSubsystem).withTimeout(2.5), //2.15
+        new AutoMoveElevatorUp(shooterSubsystem).withTimeout(2.5),
+        new AutoMoveArmDown(armSubsystem).withTimeout(2.5)
       ),
 
       new StopNWait(driveSubsystem, 0.5),
 
       new ParallelCommandGroup(
-        new AutoReverseShoot(shooterSubsystem).withTimeout(0.13),
+        new AutoReverseShoot(shooterSubsystem).withTimeout(0.16), //0.13
         new AutoZeroYaw(driveSubsystem).withTimeout(0.5)
       ),
 
       new StopNWait(driveSubsystem, 0.25),
+
+      /*
+      new ParallelCommandGroup(
+        new AutoTurn(driveSubsystem, 9),
+        new AutoShoot(shooterSubsystem).withTimeout(1.25)
+      ),
+
+      new StopNWait(driveSubsystem, 0.05),*/
       
       new AutoTurn(driveSubsystem, 9),
 
-      new StopNWait(driveSubsystem, 0.25),
+      new StopNWait(driveSubsystem, 0.2),
 
       new AutoShoot(shooterSubsystem).withTimeout(1),
 

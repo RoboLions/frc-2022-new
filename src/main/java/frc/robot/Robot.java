@@ -101,14 +101,14 @@ public class Robot extends TimedRobot {
 
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
     m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    m_chooser.addOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.setDefaultOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.setDefaultOption("Terminal 4", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
-
+    m_chooser.addOption("Terminal 3", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    
     SmartDashboard.putData(m_chooser);
   }
 
@@ -161,7 +161,7 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Target Pitch", armSubsystem.target_pitch);
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
-    SmartDashboard.putBoolean("WITHIN 7 TO 14 FEET?", limelightSubsystem.isWithinDistance());
+    SmartDashboard.putBoolean("WITHIN 8 TO 14 FEET?", limelightSubsystem.isWithinDistance());
     SmartDashboard.putBoolean("IS SHOOTER RAMPED UP FOR UPPER HUB W/ LL", shooterSubsystem.isShooterRampedUp());
   }
 

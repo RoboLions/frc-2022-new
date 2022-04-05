@@ -95,6 +95,8 @@ public class ShootShooter extends CommandBase {
     } else {
       hoodSpeed = 0;
     }
+    /*double speed = 1.63;
+    hoodSpeed = 0.4;*/
 
     //System.out.println(speed + ", " + hoodSpeed);
 
@@ -122,7 +124,7 @@ public class ShootShooter extends CommandBase {
     } 
     // shoot low goal
     else if (manipulatorController.getRightBumper()) {
-      shooterSubsystem.steadyShoot(0.88);
+      shooterSubsystem.steadyShoot(0.83);
     }
     // shoot without limelight to upper hub from launchpad
     else if (manipulatorController.getLeftBumper()) {
