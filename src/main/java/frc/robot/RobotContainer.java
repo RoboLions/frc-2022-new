@@ -15,6 +15,7 @@ import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.commands.Autonomous.TestMove;
 import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
@@ -107,13 +108,15 @@ public class RobotContainer {
 
     /*
     new JoystickButton(manipulatorController, Button.kY.value).whenPressed(
-      new AutoMove(driveSubsystem, -4)
+      new AutoMove(driveSubsystem, -0.35)
     );*/
 
-    /*
-    new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
+    
+    /*new JoystickButton(manipulatorController, Button.kLeftBumper.value).whenPressed(
       //new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem)
-      new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem, limelightSubsystem)
+      //new TestPath(driveSubsystem, shooterSubsystem, intakeSubsystem, armSubsystem, limelightSubsystem)
+      //new AutoMove(driveSubsystem, -0.35)
+      new TestMove(driveSubsystem)
     );*/
   }
 

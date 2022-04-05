@@ -30,6 +30,7 @@ import frc.robot.commands.Autonomous.AutoPath4;
 import frc.robot.commands.Autonomous.AutoPath5;
 import frc.robot.commands.Autonomous.AutoPath6;
 import frc.robot.commands.Autonomous.AutoPath7;
+import frc.robot.commands.Autonomous.AutoPath8;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
 import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.lib.RoboLionsPID;
@@ -101,14 +102,15 @@ public class Robot extends TimedRobot {
 
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
     m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    m_chooser.setDefaultOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     m_chooser.addOption("Terminal 3", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
-    
+    m_chooser.setDefaultOption("New Hangar 2", new AutoPath8(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+
     SmartDashboard.putData(m_chooser);
   }
 
@@ -137,14 +139,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Throttle", driverController.getLeftY());
 
     SmartDashboard.putNumber("Encoder MPS", shooterSubsystem.getLeftEncoderVelocityMetersPerSecond());
+    SmartDashboard.putNumber("Hood Velocity", shooterSubsystem.getHoodVelocity());
 
-    SmartDashboard.putNumber("Left RPM", shooterSubsystem.getRPMOfLeftShooterWheels());
-    SmartDashboard.putNumber("Right RPM", shooterSubsystem.getRPMOfRightShooterWheels());
+    /*SmartDashboard.putNumber("Left RPM", shooterSubsystem.getRPMOfLeftShooterWheels());
+    SmartDashboard.putNumber("Right RPM", shooterSubsystem.getRPMOfRightShooterWheels());*/
     
-    SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
+    /*SmartDashboard.putNumber("Left Front Velocity", leftFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Right Front Velocity", rightFrontMotor.getSelectedSensorVelocity());
     SmartDashboard.putNumber("Left Back Velocity", leftBackMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("Right Back Velocity", rightBackMotor.getSelectedSensorVelocity());*/
 
     SmartDashboard.putNumber("Left Back Velocity MPS", driveSubsystem.getBackLeftEncoderVelocityMetersPerSecond());
     SmartDashboard.putNumber("Right Back Velocity MPS", driveSubsystem.getBackRightEncoderVelocityMetersPerSecond());
@@ -161,8 +164,11 @@ public class Robot extends TimedRobot {
     //SmartDashboard.putNumber("Target Pitch", armSubsystem.target_pitch);
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
-    SmartDashboard.putBoolean("WITHIN 8 TO 14 FEET?", limelightSubsystem.isWithinDistance());
-    SmartDashboard.putBoolean("IS SHOOTER RAMPED UP FOR UPPER HUB W/ LL", shooterSubsystem.isShooterRampedUp());
+    SmartDashboard.putBoolean("WITHIN 8 TO 14.5 FEET?", limelightSubsystem.isWithinDistance());
+    SmartDashboard.putBoolean("Intake Running", intakeSubsystem.isIntakeRunning());
+    SmartDashboard.putBoolean("Elevator Running", shooterSubsystem.isElevatorRunning());
+    SmartDashboard.putBoolean("Shooter Running", shooterSubsystem.isShooterRunning());
+    //SmartDashboard.putBoolean("IS SHOOTER RAMPED UP FOR UPPER HUB W/ LL", shooterSubsystem.isShooterRampedUp());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

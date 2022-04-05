@@ -52,6 +52,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     leftShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
     rightShooterMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
+    hoodMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 10);
   
     leftShooterMotor.configNominalOutputForward(0, 10);
     rightShooterMotor.configNominalOutputReverse(0, 10);
@@ -220,6 +221,10 @@ public class ShooterSubsystem extends SubsystemBase {
     return (rightVelocityMPS);
   }
 
+  public double getHoodVelocity() {
+    return (hoodMotor.getSelectedSensorVelocity());
+  }
+
   public double getShooterEncoderVelocity() {
     double shooterEncoderVelocity = ((getLeftEncoderVelocityMetersPerSecond() * -1) + getRightEncoderVelocityMetersPerSecond())/2;
     return shooterEncoderVelocity;
@@ -281,6 +286,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setHoodSpeed(double hoodSpeed) {
     hoodMotor.set(hoodSpeed);
+  }
+
+  public boolean isElevatorRunning() {
+    if (frontElevatorMotor.getMotorOutputPercent() > 0.1 && backElevatorMotor.getMotorOutputPercent() > 0.1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean isShooterRunning() {
+    if (leftShooterMotor.getSelectedSensorVelocity() > 0.1 && rightShooterMotor.getSelectedSensorVelocity() > 0.1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @Override

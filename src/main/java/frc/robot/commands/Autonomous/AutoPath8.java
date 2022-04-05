@@ -2,7 +2,6 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/*
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -33,12 +32,9 @@ public class AutoPath8 extends SequentialCommandGroup {
 
   /** 
    * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls, intake and poop other (rude)
-   * bot at hangar start (distance from center of ring to front label is 48.5 inches)
+   * bot at hangar start (distance from center of ring to front label is 50 inches)
   */
 
-/*
-
-/*
   public AutoPath8(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
@@ -70,17 +66,42 @@ public class AutoPath8 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.25),
 
-      new AutoTurn(driveSubsystem, 90),
+      new AutoMove(driveSubsystem, -0.8),
+
+      new StopNWait(driveSubsystem, 0.5)
+    );
+
+    /*
+      new ParallelCommandGroup(
+        new AutoMoveArmDown(armSubsystem).withTimeout(1), 
+        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1),
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
+      ),
+
+      new AutoMove(driveSubsystem, -0.35),
+
+      new StopNWait(driveSubsystem, 0.5),
+
+      new AutoShoot(shooterSubsystem).withTimeout(1.5),
+
+      // Shoot ball
+      new ParallelCommandGroup(
+        new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
+        new AutoMoveArmDown(armSubsystem).withTimeout(1.5)
+      ),
+      
+      new ParallelCommandGroup(
+        new AutoMove(driveSubsystem, -0.75),
+        new AutoIntake(intakeSubsystem).withTimeout(2),
+        new AutoShootWithElevator(shooterSubsystem).withTimeout(2),
+        new AutoMoveArmDown(armSubsystem).withTimeout(2)
+      ),
 
       new StopNWait(driveSubsystem, 0.25),
 
-      new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -1.1),
-        new AutoIntake(intakeSubsystem).withTimeout(2.5),
-        new AutoShoot6Elevator(shooterSubsystem).withTimeout(2.5),
-        new AutoMoveArmDown(armSubsystem).withTimeout(2.5)
-      )
-    );
+      new AutoMove(driveSubsystem, -0.8),
+
+      new StopNWait(driveSubsystem, 0.5)
+    );*/
   }
 }
-*/

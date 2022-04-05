@@ -79,7 +79,7 @@ public class ShootShooter extends CommandBase {
     // -6.3 + 1.79x + -0.148x^2 + 4.07E-03x^3
     //double hoodSpeed = (-6.3) + (1.79 * x) + (-0.148 * Math.pow(x, 2)) + (0.00407 * Math.pow(x, 3));
     double hoodSpeed = 0;
-    double speed = 0.0581*x + 1.11;
+    double speed = 0.0562*x + 1.13; //0.0581*x + 1.11;
     if (x >= 7 && x <= 11) {
       hoodSpeed = 0.4;
     } else if (x > 11 && x < 11.5) {
@@ -90,13 +90,13 @@ public class ShootShooter extends CommandBase {
       hoodSpeed = 0.2*x - 1.91;
     } else if (x >= 13 && x <= 13.5) {
       hoodSpeed = 0.7;
-    } else if (x > 13.5 && x <= 14) {
-      hoodSpeed = 0.2*x - 2;
+    } else if (x > 13.5 && x <= 14.5) { //14
+      hoodSpeed = 0.07*x - 0.243; //0.2*x - 2;
     } else {
       hoodSpeed = 0;
     }
-    /*double speed = 1.63;
-    hoodSpeed = 0.4;*/
+    //double speed = 1.96;
+    //hoodSpeed = 0.85;
 
     //System.out.println(speed + ", " + hoodSpeed);
 
