@@ -30,15 +30,15 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class AutoPath8 extends SequentialCommandGroup {
+public class AutoPath9 extends SequentialCommandGroup {
 
   /** 
    * improved for states comp
-   * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls, move back slightly
+   * pre-loaded with 1 ball, pick 1 ball off field, shoot both balls, rude auto
    * bot at hangar start (distance from center of ring to front label is 50 inches)
   */
 
-  public AutoPath8(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
+  public AutoPath9(final DriveSubsystem driveSubsystem, IntakeSubsystem intakeSubsystem, 
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
       new ParallelCommandGroup(
@@ -49,7 +49,7 @@ public class AutoPath8 extends SequentialCommandGroup {
 
       new AutoMove(driveSubsystem, -0.35),
 
-      new StopNWait(driveSubsystem, 0.5),
+      new StopNWait(driveSubsystem, 0.55),
 
       new AutoShoot(shooterSubsystem).withTimeout(1),
 
@@ -66,28 +66,26 @@ public class AutoPath8 extends SequentialCommandGroup {
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
       ),
 
-      new StopNWait(driveSubsystem, 0.25),
-
-      new AutoMove(driveSubsystem, -0.56),
-
-      new StopNWait(driveSubsystem, 0.25)
-
-      /*new StopNWait(driveSubsystem, 0.2),
+      new StopNWait(driveSubsystem, 0.1),
 
       new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
 
       new StopNWait(driveSubsystem, 0.1),
 
-      new AutoTurn(driveSubsystem, -90)*/
+      new AutoTurn(driveSubsystem, -89),
 
-      /*new StopNWait(driveSubsystem, 0.25),
+      new StopNWait(driveSubsystem, 0.1),
+
+      new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
+
+      new StopNWait(driveSubsystem, 0.1),
 
       new ParallelCommandGroup(
         new AutoMove(driveSubsystem, -0.9),
         new AutoIntake(intakeSubsystem).withTimeout(2),
-        new AutoShootShort(shooterSubsystem).withTimeout(2.5),
+        new AutoShootShort(shooterSubsystem).withTimeout(3),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
-      )*/
+      )
     );
 
     /*
