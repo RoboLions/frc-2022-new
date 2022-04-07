@@ -109,9 +109,9 @@ public class ShootShooter extends CommandBase {
     if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
     } 
-    if (driverController.getYButtonPressed()) {
+    /*if (driverController.getYButtonPressed()) {
       LimelightSubsystem.setDriverCamera();
-    }
+    }*/
 
     // reverse
     if (manipulatorController.getLeftTriggerAxis() > 0.25) {

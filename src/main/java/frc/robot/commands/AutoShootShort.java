@@ -28,6 +28,7 @@ public class AutoShootShort extends CommandBase {
   @Override
   public void execute() {
     shooterSubsystem.steadyShoot(0.83);
+    shooterSubsystem.setHoodSpeed(0.3);
     shooterSubsystem.moveBeltUp();
   }
 
