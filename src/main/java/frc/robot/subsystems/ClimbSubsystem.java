@@ -26,8 +26,8 @@ public class ClimbSubsystem extends SubsystemBase {
   //public RoboLionsPID climbPID = new RoboLionsPID();
 
   public ClimbSubsystem() {
-    leftServo.setBounds(2, 1.8, 1.5, 1.2, 1);
-    rightServo.setBounds(2, 1.8, 1.5, 1.2, 1);
+    //leftServo.setBounds(2, 1.8, 1.5, 1.2, 1);
+    //rightServo.setBounds(2, 1.8, 1.5, 1.2, 1);
     rightClimbMotor.setNeutralMode(NeutralMode.Brake);
     leftClimbMotor.setNeutralMode(NeutralMode.Brake);
     highLeftClimbMotor.setNeutralMode((NeutralMode.Brake));
@@ -78,9 +78,16 @@ public class ClimbSubsystem extends SubsystemBase {
     leftClimbMotor.setSelectedSensorPosition(0);
   }
 
+  // move servos out to climb
   public void moveServoOut() {
-    leftServo.setSpeed(-1);
-    rightServo.setSpeed(-1);
+    leftServo.set(1);
+    rightServo.set(0);
+  }
+
+  // keep servos in instead of neutral power
+  public void moveServosIn() {
+    leftServo.set(0);
+    rightServo.set(1);
   }
 
   public double getRightEncoderPosition() {
@@ -99,8 +106,11 @@ public class ClimbSubsystem extends SubsystemBase {
     rightClimbMotor.set(power);
   }
 
-  public void setHighClimbPower(double power) {
+  public void setRHighClimbPower(double power) {
     highRightClimbMotor.set(power);
+  }
+
+  public void setLHighClimbPower(double power) {
     highLeftClimbMotor.set(power);
   }
 

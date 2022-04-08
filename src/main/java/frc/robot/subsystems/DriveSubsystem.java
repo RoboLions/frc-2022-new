@@ -532,7 +532,8 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     double position_profile_command = positionMotionProfile.execute();
-    double feed_forward_rate = positionMotionProfile.velocity_feed_forward;
+    double feed_forward_rate = 0; //positionMotionProfile.velocity_feed_forward;
+
 
     //System.out.println(feed_forward_rate);
 

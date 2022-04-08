@@ -47,7 +47,7 @@ public class AutoPath8 extends SequentialCommandGroup {
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.35),
+      new AutoMove(driveSubsystem, -0.7),//move 0.7m
 
       new StopNWait(driveSubsystem, 0.5),
 
@@ -60,7 +60,7 @@ public class AutoPath8 extends SequentialCommandGroup {
       ),
       
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.55),
+        new AutoMove(driveSubsystem, -0.26), //move another 0.26 m
         new AutoIntake(intakeSubsystem).withTimeout(1.5),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
@@ -68,7 +68,7 @@ public class AutoPath8 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.25),
 
-      new AutoMove(driveSubsystem, -0.56),
+      new AutoMove(driveSubsystem, -0.7), //move another 0.5m
 
       new StopNWait(driveSubsystem, 0.25)
 

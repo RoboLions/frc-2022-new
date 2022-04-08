@@ -60,6 +60,6 @@ public class RobotMap {
 
     // public static DigitalInput elevatorSensor1 = new DigitalInput(3);
 
-    public static Servo servo1 = new Servo(0);
-    public static Servo servo2 = new Servo(1);
+    public static Servo servo1 = new Servo(0); //left
+    public static Servo servo2 = new Servo(1); //right
 }

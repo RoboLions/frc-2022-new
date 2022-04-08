@@ -11,8 +11,8 @@ import frc.robot.subsystems.ClimbSubsystem;
 
 public class MoveClimb extends CommandBase {
 
-  public static final double LEFT_UP_POWER = 0.9; 
-  public static final double RIGHT_UP_POWER = -0.9;
+  public static final double LEFT_UP_POWER = 1; 
+  public static final double RIGHT_UP_POWER = -1;
 
   public static final double LEFT_DOWN_POWER = -1;
   public static final double RIGHT_DOWN_POWER = 1; 
@@ -115,12 +115,15 @@ public class MoveClimb extends CommandBase {
 
     if (driverController.getLeftTriggerAxis() > 0.25) {
       // up
-      climbSubsystem.setHighClimbPower(-0.9);
+      climbSubsystem.setLHighClimbPower(-1);
+      climbSubsystem.setRHighClimbPower(1);
     } else if (driverController.getRightTriggerAxis() > 0.25) {
       // down
-      climbSubsystem.setHighClimbPower(1);
+      climbSubsystem.setLHighClimbPower(1);
+      climbSubsystem.setRHighClimbPower(-1);
     } else {
-      climbSubsystem.setHighClimbPower(0);
+      climbSubsystem.setLHighClimbPower(0);
+      climbSubsystem.setRHighClimbPower(0);
     }
   }
 

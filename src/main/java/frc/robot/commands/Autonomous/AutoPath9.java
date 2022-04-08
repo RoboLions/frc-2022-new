@@ -47,7 +47,7 @@ public class AutoPath9 extends SequentialCommandGroup {
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.35),
+      new AutoMove(driveSubsystem, -0.8),//move a distance of .35m
 
       new StopNWait(driveSubsystem, 0.55),
 
@@ -60,7 +60,7 @@ public class AutoPath9 extends SequentialCommandGroup {
       ),
       
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.6), //-0.55
+        new AutoMove(driveSubsystem, -0.16), //-0.55 move another 0.2 m
         new AutoIntake(intakeSubsystem).withTimeout(1.5),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
@@ -72,7 +72,7 @@ public class AutoPath9 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.1),
 
-      new AutoTurn(driveSubsystem, -90), //-89
+      new AutoTurn(driveSubsystem, -89), //-89
 
       new StopNWait(driveSubsystem, 0.1),
 
@@ -81,7 +81,7 @@ public class AutoPath9 extends SequentialCommandGroup {
       new StopNWait(driveSubsystem, 0.1),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.9),
+        new AutoMove(driveSubsystem, -0.2), //move another 0.2m
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootShort(shooterSubsystem).withTimeout(3),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)

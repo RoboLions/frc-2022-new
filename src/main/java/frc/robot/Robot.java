@@ -94,6 +94,8 @@ public class Robot extends TimedRobot {
     leftShooterMotor.configFactoryDefault();
     rightShooterMotor.configFactoryDefault();
 
+    m_robotContainer.climbSubsystem.moveServosIn();
+
     m_robotContainer.limelightSubsystem.setDriverCamera();
     m_robotContainer.limelightSubsystem.turn_LED_OFF();
 
@@ -167,9 +169,9 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Horizontal Distance FEET From Goal", limelightSubsystem.getHorizontalDistance());
     SmartDashboard.putBoolean("WITHIN 8 TO 14.5 FEET?", limelightSubsystem.isWithinDistance());
-    SmartDashboard.putBoolean("Intake Running", intakeSubsystem.isIntakeRunning());
-    SmartDashboard.putBoolean("Elevator Running", shooterSubsystem.isElevatorRunning());
-    SmartDashboard.putBoolean("Shooter Running", shooterSubsystem.isShooterRunning());
+    //SmartDashboard.putBoolean("Intake Running", intakeSubsystem.isIntakeRunning());
+    //SmartDashboard.putBoolean("Elevator Running", shooterSubsystem.isElevatorRunning());
+    //SmartDashboard.putBoolean("Shooter Running", shooterSubsystem.isShooterRunning());
     //SmartDashboard.putBoolean("IS SHOOTER RAMPED UP FOR UPPER HUB W/ LL", shooterSubsystem.isShooterRampedUp());
   }
 

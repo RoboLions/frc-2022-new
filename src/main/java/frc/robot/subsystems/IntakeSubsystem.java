@@ -38,13 +38,13 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(0);
   }
 
-  public boolean isIntakeRunning() {
+  /*public boolean isIntakeRunning() {
     if (intakeMotor.getMotorOutputPercent() > 0.1) {
       return true;
     } else {
       return false;
     }
-  }
+  }*/
 
   @Override
   public void periodic() {

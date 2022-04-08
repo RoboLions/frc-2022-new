@@ -288,7 +288,7 @@ public class ShooterSubsystem extends SubsystemBase {
     hoodMotor.set(hoodSpeed);
   }
 
-  public boolean isElevatorRunning() {
+  /*public boolean isElevatorRunning() {
     if (frontElevatorMotor.getMotorOutputPercent() > 0.1 && backElevatorMotor.getMotorOutputPercent() > 0.1) {
       return true;
     } else {
@@ -302,7 +302,7 @@ public class ShooterSubsystem extends SubsystemBase {
     } else {
       return false;
     }
-  }
+  }*/
 
   @Override
   public void periodic() {
