@@ -15,6 +15,7 @@ import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
+import frc.robot.commands.Autonomous.FiveBallAuto;
 import frc.robot.commands.Autonomous.TestMove;
 import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.Constants.OIConstants;
@@ -62,7 +63,8 @@ public class RobotContainer {
   public static final XboxController manipulatorController = new XboxController(1);
 
   //public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
-  public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
+  // public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
+  public static FiveBallAuto defaultAutoPath = new FiveBallAuto(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
   //public static AutoPath3 autoPath3 = new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
   //public static AutoPath4 autoPath4 = new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
 
