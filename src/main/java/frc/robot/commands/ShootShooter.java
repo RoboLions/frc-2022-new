@@ -126,10 +126,10 @@ public class ShootShooter extends CommandBase {
     else if (manipulatorController.getRightBumper()) {
       shooterSubsystem.steadyShoot(0.83);
     }
-    // shoot without limelight to upper hub from launchpad
+    // shoot without limelight to upper hub from 10 feet
     else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.steadyShoot(2.2); //2.2
-      shooterSubsystem.setHoodSpeed(hoodSpeed);
+      shooterSubsystem.steadyShoot(1.69); //2.2
+      shooterSubsystem.setHoodSpeed(0.4);
     }
     else {
       shooterSubsystem.stopShooter();
