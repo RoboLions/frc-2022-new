@@ -26,13 +26,19 @@ public class FiveBallAuto extends SequentialCommandGroup{
                 new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
             ),
             new FollowTrajectory(driveSubsystem, trajectories[0]).deadlineWith(new AutoIntake(intakeSubsystem)),
-            new ShootShooter(shooterSubsystem),
+            new ParallelCommandGroup(
+                new AutoShoot(shooterSubsystem),
+                new AutoMoveElevatorUp(shooterSubsystem)
+            ).withTimeout(4),
             new ParallelCommandGroup(
                 new FollowTrajectory(driveSubsystem, trajectories[1]),
                 new WaitCommand(2)
             ).deadlineWith(new AutoIntake(intakeSubsystem)),
             new FollowTrajectory(driveSubsystem, trajectories[2]),
-            new ShootShooter(shooterSubsystem)
+            new ParallelCommandGroup(
+                new AutoShoot(shooterSubsystem),
+                new AutoMoveElevatorUp(shooterSubsystem)
+            ).withTimeout(4)
         );
     }
 }
