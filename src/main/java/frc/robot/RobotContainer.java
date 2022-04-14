@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AlignShooter;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveClimb;

@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
@@ -44,7 +44,7 @@ public class AutoPath5 extends SequentialCommandGroup {
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.3),
+      new AutoMoveDistance(driveSubsystem, -0.3),
 
       new AutoShootAt6(shooterSubsystem).withTimeout(1.5),
 
@@ -52,7 +52,7 @@ public class AutoPath5 extends SequentialCommandGroup {
       new AutoShoot6Elevator(shooterSubsystem).withTimeout(1.5),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.6),
+        new AutoMoveDistance(driveSubsystem, -0.6),
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShoot6point9Elevator(shooterSubsystem).withTimeout(2),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
@@ -60,10 +60,10 @@ public class AutoPath5 extends SequentialCommandGroup {
 
       new AutoTurn(driveSubsystem, -80),
 
-      new AutoMove(driveSubsystem, -3),
+      new AutoMoveDistance(driveSubsystem, -3),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -3.5),
+        new AutoMoveDistance(driveSubsystem, -3.5),
         new AutoIntake(intakeSubsystem).withTimeout(3),
         new AutoMoveElevatorUp(shooterSubsystem).withTimeout(3),
         new AutoMoveArmDown(armSubsystem).withTimeout(3)
@@ -71,7 +71,7 @@ public class AutoPath5 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.5),
 
-      new AutoMove(driveSubsystem, -2),
+      new AutoMoveDistance(driveSubsystem, -2),
 
       new ParallelCommandGroup(
         new AutoMoveElevatorDown(shooterSubsystem).withTimeout(0.16),

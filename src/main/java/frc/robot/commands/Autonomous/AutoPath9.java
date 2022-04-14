@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
@@ -42,14 +42,17 @@ public class AutoPath9 extends SequentialCommandGroup {
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
       new ParallelCommandGroup(
-        new AutoMoveArmDown(armSubsystem).withTimeout(1), 
-        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1),
-        new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
+        new AutoMoveArmDown(armSubsystem).withTimeout(1), // move arm down to pick up next ball
+        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1), // reset drivetrain encoders to make auto path work correctly
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(1),
+        new AutoZeroYaw(driveSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.8),//move a distance of .35m
+      new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out
 
-      new StopNWait(driveSubsystem, 0.55),
+      new AutoMoveDistance(driveSubsystem, -0.7), //move a distance of 0.7m
+
+      new StopNWait(driveSubsystem, 0.5), 
 
       new AutoShoot(shooterSubsystem).withTimeout(1),
 
@@ -60,13 +63,13 @@ public class AutoPath9 extends SequentialCommandGroup {
       ),
       
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.16), //-0.55 move another 0.2 m
+        new AutoMoveDistance(driveSubsystem, -0.26), //move another 0.26 m
         new AutoIntake(intakeSubsystem).withTimeout(1.5),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
       ),
 
-      new StopNWait(driveSubsystem, 0.1),
+      new StopNWait(driveSubsystem, 0.25),
 
       new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
 
@@ -81,7 +84,7 @@ public class AutoPath9 extends SequentialCommandGroup {
       new StopNWait(driveSubsystem, 0.1),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.2), //move another 0.2m
+        new AutoMoveDistance(driveSubsystem, -0.2), //move another 0.2m
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootShort(shooterSubsystem).withTimeout(3),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)

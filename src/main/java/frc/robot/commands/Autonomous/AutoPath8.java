@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
@@ -42,33 +42,36 @@ public class AutoPath8 extends SequentialCommandGroup {
   LimelightSubsystem limelightSubsystem, ShooterSubsystem shooterSubsystem, ArmSubsystem armSubsystem) {
     super(
       new ParallelCommandGroup(
-        new AutoMoveArmDown(armSubsystem).withTimeout(1), 
-        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1),
-        new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
+        new AutoMoveArmDown(armSubsystem).withTimeout(1), // move arm down to pick up next ball
+        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1), // reset drivetrain encoders to make auto path work correctly
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(1), // keep LL on to keep shooter active
+        new AutoZeroYaw(driveSubsystem).withTimeout(1) // zero the yaw to start with known 0 heading to goal
       ),
 
-      new AutoMove(driveSubsystem, -0.7),//move 0.7m
+      new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out
 
-      new StopNWait(driveSubsystem, 0.5),
+      new AutoMoveDistance(driveSubsystem, -0.7), //move 0.7m and stop in front of the second cargo
 
-      new AutoShoot(shooterSubsystem).withTimeout(1),
+      new StopNWait(driveSubsystem, 0.5), 
+
+      new AutoShoot(shooterSubsystem).withTimeout(1), // ramp up the shooter
 
       // Shoot ball
       new ParallelCommandGroup(
-        new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5),
-        new AutoMoveArmDown(armSubsystem).withTimeout(1.5)
+        new AutoShootWithElevator(shooterSubsystem).withTimeout(1.5), // shoot the 1st ball
+        new AutoMoveArmDown(armSubsystem).withTimeout(1.5) // move the arm down to pick up the next ball
       ),
       
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.26), //move another 0.26 m
-        new AutoIntake(intakeSubsystem).withTimeout(1.5),
-        new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8),
-        new AutoMoveArmDown(armSubsystem).withTimeout(2)
+        new AutoMoveDistance(driveSubsystem, -0.26), // move another 0.26 m to pick up the 2nd ball
+        new AutoIntake(intakeSubsystem).withTimeout(1.5), // move the intake to pick up the 2nd ball
+        new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8), // to shoot the 2nd ball 
+        new AutoMoveArmDown(armSubsystem).withTimeout(2) // keep the arm down for teleop
       ),
 
       new StopNWait(driveSubsystem, 0.25),
 
-      new AutoMove(driveSubsystem, -0.7), //move another 0.5m
+      new AutoMoveDistance(driveSubsystem, -0.7), // move another 0.7m to make sure we are out of the tarmac
 
       new StopNWait(driveSubsystem, 0.25)
 

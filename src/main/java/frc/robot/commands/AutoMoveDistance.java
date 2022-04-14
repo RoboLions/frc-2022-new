@@ -9,24 +9,31 @@ import frc.robot.RobotContainer;
 import frc.robot.lib.RoboLionsPID;
 import frc.robot.subsystems.DriveSubsystem;
 
-
-public class AutoMove extends CommandBase {
+// this function is designed to move a specified distance forward/backward
+public class AutoMoveDistance extends CommandBase {
         private final DriveSubsystem drivesubsystem;
-        private double start_dist_meters;
-        private double target_distance;
+        private double start_absolute_position_meters; // this is our starting position on a move (the encoder reading)
+        private double target_absolute_position_meters; // this is our target position
+        private double distance_to_move; // because Dustin made us
 
-        public AutoMove(final DriveSubsystem subsystem, Mode mode, double distance_in_meters, double speed) {
+        public AutoMoveDistance(final DriveSubsystem subsystem, Mode mode, double distance_in_meters, double speed) {
                 drivesubsystem = subsystem;
                 addRequirements(drivesubsystem);
-                start_dist_meters = drivesubsystem.distanceTravelledinMeters();
-                target_distance = distance_in_meters;
+                start_absolute_position_meters = drivesubsystem.distanceTravelledinMeters();
+                //target_absolute_position_meters = distance_in_meters; DJK says to do this 4/13/22
+                target_absolute_position_meters = distance_in_meters + start_absolute_position_meters;
+                distance_to_move = distance_in_meters;
         }
 
-        public AutoMove(final DriveSubsystem subsystem, double distance) {
+        // this is the function we mainly use
+        public AutoMoveDistance(final DriveSubsystem subsystem, double distance) {
                 drivesubsystem = subsystem;
                 addRequirements(drivesubsystem);
-                start_dist_meters = drivesubsystem.distanceTravelledinMeters();
-                target_distance = distance;
+                // (start position in meters) this is absolute
+                start_absolute_position_meters = drivesubsystem.distanceTravelledinMeters(); 
+                //target_absolute_position_meters = distance; DJK says to do this 4/13/22
+                target_absolute_position_meters = distance + start_absolute_position_meters;
+                distance_to_move = distance;
         }
 
         @Override
@@ -35,7 +42,7 @@ public class AutoMove extends CommandBase {
                 //drivesubsystem.ZeroYaw();
                 drivesubsystem.positionPID.reset();
                 drivesubsystem.positionMotionProfile.reset();
-                start_dist_meters = drivesubsystem.distanceTravelledinMeters();
+                start_absolute_position_meters = drivesubsystem.distanceTravelledinMeters();
                 drivesubsystem.state_flag_motion_profile = true;
         }
 
@@ -46,7 +53,7 @@ public class AutoMove extends CommandBase {
                 //double position_profile_command = drivesubsystem.positionMotionProfile.execute();
                 //double feed_forward_rate = drivesubsystem.positionMotionProfile.velocity_feed_forward;                
                 //System.out.println("Command: " + position_profile_command + " , FF: " + feed_forward_rate);
-                drivesubsystem.autoDrive(target_distance, 0.0); //TODO pls check parameter
+                drivesubsystem.autoDrive(distance_to_move, 0.0); //TODO pls check parameter
                 // System.out.println("AUTO WORKS");
         }
 
@@ -55,8 +62,8 @@ public class AutoMove extends CommandBase {
                 // This function is constantly being called in the class at 50 Hz
                 // This helps to determine when you are done with the command
                 //boolean tempReturn = false;
-                double distance_driven = drivesubsystem.distanceTravelledinMeters() - start_dist_meters;
-                double positionError = Math.abs(target_distance - distance_driven);
+                double distance_driven = drivesubsystem.distanceTravelledinMeters() - start_absolute_position_meters;
+                double positionError = Math.abs(target_absolute_position_meters - distance_driven);
                 return(positionError < 0.01); // stop whenever we go the commanded distance within 1 cm
                 //return(tempReturn);
         } 

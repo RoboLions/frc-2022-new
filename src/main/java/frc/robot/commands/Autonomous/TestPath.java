@@ -6,7 +6,7 @@ package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoReverseShoot;
@@ -45,7 +45,7 @@ public class TestPath extends SequentialCommandGroup {
       ),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -4.8),
+        new AutoMoveDistance(driveSubsystem, -4.8),
         new AutoIntake(intakeSubsystem).withTimeout(5),
         new AutoMoveElevatorUp(shooterSubsystem).withTimeout(5),
         new AutoMoveArmDown(armSubsystem).withTimeout(5)

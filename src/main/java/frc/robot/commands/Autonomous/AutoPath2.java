@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoMoveElevatorDown;
@@ -46,7 +46,7 @@ public class AutoPath2 extends SequentialCommandGroup {
         new AutoTurnLLOn(limelightSubsystem).withTimeout(1)
       ),
 
-      new AutoMove(driveSubsystem, -0.3),
+      new AutoMoveDistance(driveSubsystem, -0.3),
 
       new StopNWait(driveSubsystem, 0.5),
 
@@ -59,7 +59,7 @@ public class AutoPath2 extends SequentialCommandGroup {
       ),
       
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -0.75),
+        new AutoMoveDistance(driveSubsystem, -0.75),
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2.5),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)

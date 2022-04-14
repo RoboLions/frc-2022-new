@@ -69,6 +69,9 @@ public class DriveSubsystem extends SubsystemBase {
   public RoboLionsPID limelightRotationPID = new RoboLionsPID();
   public RoboLionsMotionProfile positionMotionProfile = new RoboLionsMotionProfile();
   public RoboLionsMotionProfile headingMotionProfile = new RoboLionsMotionProfile();
+  
+  public double left_speed_feedback;
+  public double right_speed_feedback;
 
   public double left_speed_cmd;
   public double right_speed_cmd;
@@ -299,31 +302,37 @@ public class DriveSubsystem extends SubsystemBase {
     return ks * Math.signum(velocity) + kv * velocity + ka * acceleration;
   } 
 
+  // parameters left/rightSpeed are meters per second
   public void straightDrive(double leftSpeed, double rightSpeed) {
 
+    left_speed_feedback = getBackLeftEncoderVelocityMetersPerSecond();
+    right_speed_feedback = getBackRightEncoderVelocityMetersPerSecond();
+
     // actual speed command passed 
-    left_speed_cmd = leftSpeed; 
-    right_speed_cmd = rightSpeed;
+    left_speed_cmd = leftSpeed; // m/s
+    right_speed_cmd = rightSpeed; // m/s
     
-    // calculate rate feedforward term
+    // calculate rate feedforward term in meters per second
     final double leftFeedforward = calculateNew(leftSpeed, 0, 0.7*0.8, 2.5*1.15*0.95*1.1, 0); //0.7*0.8, 2.5*1.15*0.95*1.1
     final double rightFeedforward = calculateNew(rightSpeed, 0, 0.7*0.8, 2.5*0.95*1.1, 0); //0.7*0.8, 2.5*0.95*1.1
 
     double batteryVoltage = RobotController.getBatteryVoltage(); // getting battery voltage from PDP via the rio
 
+    // we do this to make sure our calculations do not go too high and prevent undef (divided by 0)
     if (batteryVoltage < 1) {
       batteryVoltage = 1;
     }
     
     // output to compensate for speed error, the PID block
-    double leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
-    double rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
+    double leftOutput = leftForwardPID.execute(leftSpeed, left_speed_feedback);
+    double rightOutput = rightForwardPID.execute(rightSpeed, right_speed_feedback);
 
     // double torque_bias = 0.1;
 
+    // this was meant to counter the penguin hop by lowering gain on both sides
     if (Math.abs(leftShooterMotor.getSelectedSensorVelocity()) > 0.1) {
-      leftOutput = leftForwardPID.execute(leftSpeed, getBackLeftEncoderVelocityMetersPerSecond());
-      rightOutput = rightForwardPID.execute(rightSpeed, getBackRightEncoderVelocityMetersPerSecond());
+      leftOutput = leftForwardPID.execute(leftSpeed, left_speed_feedback);
+      rightOutput = rightForwardPID.execute(rightSpeed, right_speed_feedback);
     } else {
       leftOutput = 0;
       rightOutput = 0;
@@ -415,8 +424,8 @@ public class DriveSubsystem extends SubsystemBase {
     // input speed is meters per second, input rotation is bot rotation 
     // speed in meters per second
 
-    double leftSpeed = 0;
-    double rightSpeed = 0;
+    double leftSpeed = 0; // meters per second
+    double rightSpeed = 0; // meters per second
 
     // Steps:
     // 1 - decide accel or decel rn
@@ -477,10 +486,13 @@ public class DriveSubsystem extends SubsystemBase {
       rotateSpeed = lastRotateVelocity - accelLimit*0.03;
     }
 
-    lastLinearVelocity = linearTravelSpeed;
+    lastLinearVelocity = linearTravelSpeed; //meters per second
     lastRotateVelocity = rotateSpeed;
     //System.out.println("Linear travel speed: " + linearTravelSpeed);
 
+    // this block is helping fix the "penguin hop" of the drivetrain
+    // operates on input from joystick
+    // pt. 2 A
     if (Math.abs(linearTravelSpeed) < 1.5 && linearTravelSpeed > 0.05) {
       
       if (rotateSpeed > 0.3) {
@@ -494,12 +506,85 @@ public class DriveSubsystem extends SubsystemBase {
         //leftSpeed = (linearTravelSpeed);
         //rightSpeed = (linearTravelSpeed - rotateSpeed);
       } else {
-        leftSpeed = (linearTravelSpeed + rotateSpeed);
+        // original way to do tank drive before trying to get rid of penguin
+        leftSpeed = (linearTravelSpeed + rotateSpeed); 
         rightSpeed = (linearTravelSpeed - rotateSpeed);
       }
     } else {
+      // original way to do tank drive before trying to get rid of penguin
       leftSpeed = (linearTravelSpeed + rotateSpeed);
       rightSpeed = (linearTravelSpeed - rotateSpeed);
+    }
+
+    // pt. 2 B
+    // now look at ground speed when moving forward. if we get rotate cmd that is positive, 
+    // the left speed should increase (go positive) while the right speed should go negative
+    // conversely, if we have a negative rotatation, the left speed should be negative (dec speed) and 
+    // the right speed should be positive (inc speed)
+    if (rotateSpeed > 0.1) { // this means we are trying to rotate right
+      // pt. 2 B1 - looking at forward, positive direction movement
+      if (right_speed_feedback > 0.05) { // reading the right speed feedback as positive
+        if (right_speed_cmd < 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute right speed = travel speed
+          rightSpeed = linearTravelSpeed;
+        }
+      }
+      if (left_speed_feedback > 0.05) { // reading the left speed feedback as positive
+        if (left_speed_cmd < 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute left speed = travel speed
+          leftSpeed = linearTravelSpeed;
+        }
+      }
+      // pt. 2 B2 - moving backwards, negative direction
+      if (right_speed_feedback < -0.05) { // reading the right speed feedback as negative
+        if (right_speed_cmd > 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute right speed = travel speed
+          rightSpeed = linearTravelSpeed;
+        }
+      }
+      if (left_speed_feedback < -0.05) { // reading the left speed feedback as negative
+        if (left_speed_cmd > 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute left speed = travel speed
+          leftSpeed = linearTravelSpeed;
+        }
+      }
+    } 
+
+    if (rotateSpeed < -0.1) { // we are rotating left
+      // pt. 2 B1 - looking at forward, positive direction movement
+      if (left_speed_feedback > 0.05) { // reading the left speed feedback as positive
+        if (left_speed_cmd < 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute left speed = travel speed
+          leftSpeed = linearTravelSpeed;
+        }
+      } 
+      if (right_speed_feedback > 0.05) { // reading the right speed feedback as positive
+        if (right_speed_cmd < 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute left speed = travel speed
+          rightSpeed = linearTravelSpeed;
+        }
+      } 
+      // pt. 2 B2 - moving backwards, negative direction
+      if (right_speed_feedback < -0.05) { // reading the right speed feedback as negative
+        if (right_speed_cmd > 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute right speed = travel speed
+          rightSpeed = linearTravelSpeed;
+        }
+      }
+      if (left_speed_feedback < -0.05) { // reading the left speed feedback as negative
+        if (left_speed_cmd > 0) { // cmd moving in the opposite direction
+          // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
+          // recompute left speed = travel speed
+          leftSpeed = linearTravelSpeed;
+        }
+      }
     }
 
     // part 3: reset speeds to 0 when throttle and rotate < 0.25
@@ -518,11 +603,11 @@ public class DriveSubsystem extends SubsystemBase {
   public void autoDrive(double distance, double heading) { // distance is in meters, heading is in degrees
     // double left_speed;
     // double right_speed;                                                                                                                                                                                                                                         
-    double start_dist = distanceTravelledinMeters();
-    if(state_flag_motion_profile) {
+    double start_position = distanceTravelledinMeters();
+    if(state_flag_motion_profile) { // if flag is true, needs to be restarting everything
         positionMotionProfile.init(
-          start_dist, //start position
-          distance + start_dist, // target position
+          start_position, //start position
+          distance + start_position, // target position
           1.2, // max vel //1.5 // 1 //1.2
           1.2, // max accel //1 // 0.5
           0.02, // execution period 
@@ -565,6 +650,74 @@ public class DriveSubsystem extends SubsystemBase {
     // Refer to the rate drive control diagram
     // We modulate our speed of the bot to close out the position error, making it eventually zero
     driveWithRotation(positionCmdOut, headingErrorMeters);
+    //driveWithRotation(0.0, headingErrorMeters);
+    //driveWithRotation(positionError, 0);
+    //System.out.println("Pos " + position_feedback + " PE " + positionError);
+    // System.out.println("TD " + distance + " // DT " + position_feedback);
+  }
+
+  // 4/13/22 keep the forward/backward movement separate from rotation
+  public void autoRotate(double finalHeading) { // finalHeading is in degrees
+    // double left_speed;
+    // double right_speed;                                                                                                                                                                                                                                         
+    double headingFeedback = getYaw(); // in degrees
+
+    if(state_flag_motion_profile) { // if flag is true, needs to be restarting everything
+        /*positionMotionProfile.init(
+          start_position, //start position
+          distance + start_position, // target position
+          1.2, // max vel //1.5 // 1 //1.2
+          1.2, // max accel //1 // 0.5
+          0.02, // execution period 
+          1.2 // deceleration //2 // 0.5
+        );*/
+        //double start_position = distanceTravelledinMeters();
+
+        headingMotionProfile.init(
+          headingFeedback, //starting heading
+          headingFeedback + finalHeading, // final heading
+          30, // max vel (in degrees per sec)
+          60, // max accel (degrees per sec squared)
+          0.02, // execution period 
+          60 // deceleration
+        );
+        state_flag_motion_profile = false;
+    }
+
+    /*double position_profile_command = positionMotionProfile.execute();
+    double feed_forward_rate = 0; //positionMotionProfile.velocity_feed_forward;*/
+    double heading_profile_command = headingMotionProfile.execute();
+
+    //System.out.println(feed_forward_rate);
+
+    
+    //double headingCommand = finalHeading;
+    double headingError = headingPID.execute(heading_profile_command, headingFeedback);
+    double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
+
+    //System.out.println(headingCommand + "," + headingFeedback);
+
+    //double position_feedback = distanceTravelledinMeters();
+    
+    //SmartDashboard.putNumber("Auto Distance", position_feedback);
+    // positionError is in meters per second
+    //double positionError = positionPID.execute(start_position, position_feedback);
+    //double positionCmdOut = (positionError+feed_forward_rate);
+
+    //System.out.println("position profile command: " + position_profile_command + ", " + 
+    //"bot position from encoder: " + position_feedback + ", PID output for position: " + positionError);
+
+    // System.out.println("Cmd: " + position_profile_command + " Fb: " + position_feedback + " Vel: " + getAverageEncoderVelocityMetersPerSecond());
+    // System.out.println("Feedback: " + position_feedback);
+    // System.out.println("PID Error: " + positionError);
+    //System.out.println("\n");
+
+    // left_speed = output;
+    // right_speed = output;
+
+    // Refer to the rate drive control diagram
+    // We modulate our speed of the bot to close out the position error, making it eventually zero
+    driveWithRotation(0, headingErrorMeters); // don't want to move forward/backward, just rotate in place
     //driveWithRotation(0.0, headingErrorMeters);
     //driveWithRotation(positionError, 0);
     //System.out.println("Pos " + position_feedback + " PE " + positionError);

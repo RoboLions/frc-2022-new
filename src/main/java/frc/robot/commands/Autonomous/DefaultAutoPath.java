@@ -5,7 +5,7 @@
 package frc.robot.commands.Autonomous;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DefaultAutoPath extends SequentialCommandGroup {
@@ -16,6 +16,6 @@ public class DefaultAutoPath extends SequentialCommandGroup {
   */
   
   public DefaultAutoPath(final DriveSubsystem driveSubsystem) {
-    super (new AutoMove(driveSubsystem, -1.5));
+    super (new AutoMoveDistance(driveSubsystem, -1.5));
   }
 }

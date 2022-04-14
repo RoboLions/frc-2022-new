@@ -11,7 +11,7 @@ import frc.robot.commands.AlignShooter;
 import frc.robot.commands.AutoIntake;
 //import frc.robot.commands.AlignWithLIDAR;
 //import frc.robot.commands.AutoIntake;
-import frc.robot.commands.AutoMove;
+import frc.robot.commands.AutoMoveDistance;
 import frc.robot.commands.AutoMoveArmDown;
 import frc.robot.commands.AutoMoveElevatorUp;
 import frc.robot.commands.AutoReverseShoot;
@@ -54,7 +54,7 @@ public class AutoPath3 extends SequentialCommandGroup {
       ),
 
       new ParallelCommandGroup(
-        new AutoMove(driveSubsystem, -1.8), //-1.7
+        new AutoMoveDistance(driveSubsystem, -1.8), //-1.7
         new AutoIntake(intakeSubsystem).withTimeout(2.5), //2.15
         new AutoMoveElevatorUp(shooterSubsystem).withTimeout(2.5),
         new AutoMoveArmDown(armSubsystem).withTimeout(2.5)
