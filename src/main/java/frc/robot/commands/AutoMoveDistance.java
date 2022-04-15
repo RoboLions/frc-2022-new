@@ -15,6 +15,7 @@ public class AutoMoveDistance extends CommandBase {
         private double start_absolute_position_meters; // this is our starting position on a move (the encoder reading)
         private double target_absolute_position_meters; // this is our target position
         private double distance_to_move; // because Dustin made us
+        private double currentHeading;
 
         public AutoMoveDistance(final DriveSubsystem subsystem, Mode mode, double distance_in_meters, double speed) {
                 drivesubsystem = subsystem;
@@ -34,6 +35,7 @@ public class AutoMoveDistance extends CommandBase {
                 //target_absolute_position_meters = distance; DJK says to do this 4/13/22
                 target_absolute_position_meters = distance + start_absolute_position_meters;
                 distance_to_move = distance;
+                currentHeading = drivesubsystem.getYaw();
         }
 
         @Override
@@ -44,6 +46,7 @@ public class AutoMoveDistance extends CommandBase {
                 drivesubsystem.positionMotionProfile.reset();
                 start_absolute_position_meters = drivesubsystem.distanceTravelledinMeters();
                 drivesubsystem.state_flag_motion_profile = true;
+                currentHeading = drivesubsystem.getYaw();
         }
 
         @Override
@@ -53,7 +56,7 @@ public class AutoMoveDistance extends CommandBase {
                 //double position_profile_command = drivesubsystem.positionMotionProfile.execute();
                 //double feed_forward_rate = drivesubsystem.positionMotionProfile.velocity_feed_forward;                
                 //System.out.println("Command: " + position_profile_command + " , FF: " + feed_forward_rate);
-                drivesubsystem.autoDrive(distance_to_move, 0.0); //TODO pls check parameter
+                drivesubsystem.autoDrive(distance_to_move, currentHeading); //TODO pls check parameter
                 // System.out.println("AUTO WORKS");
         }
 

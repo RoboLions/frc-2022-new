@@ -16,52 +16,44 @@ public class TestMove extends SequentialCommandGroup {
 
       new ParallelCommandGroup(
         //new AutoMoveArmDown(armSubsystem).withTimeout(1), // move arm down to pick up next ball
-        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1), // reset drivetrain encoders to make auto path work correctly
+        new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1) // reset drivetrain encoders to make auto path work correctly
         //new AutoTurnLLOn(limelightSubsystem).withTimeout(1),
-        new AutoZeroYaw(driveSubsystem).withTimeout(1)
+        //new AutoZeroYaw(driveSubsystem).withTimeout(1)
       ),
 
-      new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out
+      new StopNWait(driveSubsystem, 1), // allow all past commands to settle out
 
-      new AutoMoveDistance(driveSubsystem, 1), //move a distance of 0.7m
+      new AutoMoveDistance(driveSubsystem, 4),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
-      new AutoMoveDistance(driveSubsystem, 1),
+      new AutoTurn(driveSubsystem, -90),
 
-      new StopNWait(driveSubsystem, 0.5),
-
-      new AutoTurn(driveSubsystem, 90),
-
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
       new AutoMoveDistance(driveSubsystem, 1),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
-      new AutoTurn(driveSubsystem, 90),
+      new AutoTurn(driveSubsystem, -90),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
-      new AutoMoveDistance(driveSubsystem, 1),
+      new AutoMoveDistance(driveSubsystem, 4),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
-      new AutoMoveDistance(driveSubsystem, 1),
+      new AutoTurn(driveSubsystem, -90),
 
-      new StopNWait(driveSubsystem, 0.5),
-
-      new AutoTurn(driveSubsystem, 90),
-
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
       new AutoMoveDistance(driveSubsystem, 1),
 
-      new StopNWait(driveSubsystem, 0.5),
+      //new StopNWait(driveSubsystem, 0.5),
 
-      new AutoTurn(driveSubsystem, 90),
+      new AutoTurn(driveSubsystem, -90)
 
-      new StopNWait(driveSubsystem, 0.5)
+      //new StopNWait(driveSubsystem, 0.5)
       // should be back at the start now
     );
   }

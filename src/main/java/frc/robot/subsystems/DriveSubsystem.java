@@ -141,7 +141,7 @@ public class DriveSubsystem extends SubsystemBase {
       // 0.5 = 2.94, 28, 0.077
       3.375, // Proportional Gain 4.9, 7.5, 2.205, 3.375
       //.21 seconds
-      17.357*0.1, // Integral Gain //12.6 42.12 ZN w FF, 17.357
+      17.357, //*0.1, // Integral Gain //12.6 42.12 ZN w FF, 17.357
       0.0, // Derivative Gain //0
       0.0, // Cage Limit 0.3 //0
       0.0, // Deadband //0
@@ -155,7 +155,7 @@ public class DriveSubsystem extends SubsystemBase {
       //0, 0, 0, 0, 0, 12, false, false
       
       3.15, // 2.025 Proportional Gain 4.5, 7 //2.925 ZN w FF //2
-      16.2*0.1, // 10.2316 Integral Gain //42.12 ZN w FF //20
+      16.2, //*0.1, // 10.2316 Integral Gain //42.12 ZN w FF //20
       0, // Derivative Gain //0
       0.0, // Cage Limit //0.3
       0.0, // Deadband //0
@@ -178,13 +178,13 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Heading Command PID for Autonomous and 
     headingPID.initialize2(
-      2, // Proportional Gain //15 // 7.5
-      5, // Integral Gain // 10
+      4, // Proportional Gain //15 // 7.5
+      0, // Integral Gain // 5
       0.0, // Derivative Gain 
       10, // Cage Limit //0.3
       0.0, // Deadband
-      180, // MaxOutput Degrees/sec 0.25 //100 //180
-      true, //enableCage
+      1000, // MaxOutput Degrees/sec 0.25 //100 //180
+      false, //enableCage
       false //enableDeadband
     );
 
@@ -330,13 +330,13 @@ public class DriveSubsystem extends SubsystemBase {
     // double torque_bias = 0.1;
 
     // this was meant to counter the penguin hop by lowering gain on both sides
-    if (Math.abs(leftShooterMotor.getSelectedSensorVelocity()) > 0.1) {
+    /*if (Math.abs(leftShooterMotor.getSelectedSensorVelocity()) > 0.1) {
       leftOutput = leftForwardPID.execute(leftSpeed, left_speed_feedback);
       rightOutput = rightForwardPID.execute(rightSpeed, right_speed_feedback);
     } else {
       leftOutput = 0;
       rightOutput = 0;
-    }
+    }*/
 
     /*
     if (driverController.getBButton()) {
@@ -521,13 +521,14 @@ public class DriveSubsystem extends SubsystemBase {
     // the left speed should increase (go positive) while the right speed should go negative
     // conversely, if we have a negative rotatation, the left speed should be negative (dec speed) and 
     // the right speed should be positive (inc speed)
-    if (rotateSpeed > 0.1) { // this means we are trying to rotate right
+    /*if (rotateSpeed > 0.1) { // this means we are trying to rotate right
       // pt. 2 B1 - looking at forward, positive direction movement
       if (right_speed_feedback > 0.05) { // reading the right speed feedback as positive
         if (right_speed_cmd < 0) { // cmd moving in the opposite direction
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute right speed = travel speed
           rightSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
       if (left_speed_feedback > 0.05) { // reading the left speed feedback as positive
@@ -535,6 +536,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute left speed = travel speed
           leftSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
       // pt. 2 B2 - moving backwards, negative direction
@@ -543,6 +545,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute right speed = travel speed
           rightSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
       if (left_speed_feedback < -0.05) { // reading the left speed feedback as negative
@@ -550,6 +553,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute left speed = travel speed
           leftSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
     } 
@@ -561,6 +565,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute left speed = travel speed
           leftSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       } 
       if (right_speed_feedback > 0.05) { // reading the right speed feedback as positive
@@ -568,6 +573,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute left speed = travel speed
           rightSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       } 
       // pt. 2 B2 - moving backwards, negative direction
@@ -576,6 +582,7 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute right speed = travel speed
           rightSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
       if (left_speed_feedback < -0.05) { // reading the left speed feedback as negative
@@ -583,9 +590,10 @@ public class DriveSubsystem extends SubsystemBase {
           // we think this is the condition that causes the skip (moving forward, but turn in opposite direction)
           // recompute left speed = travel speed
           leftSpeed = linearTravelSpeed;
+          //System.out.println("PENGUIN HOP HAPPENING");
         }
       }
-    }
+    }*/
 
     // part 3: reset speeds to 0 when throttle and rotate < 0.25
     /*if ((Math.abs(linearTravelSpeed) < 0.5) && 
@@ -608,7 +616,7 @@ public class DriveSubsystem extends SubsystemBase {
         positionMotionProfile.init(
           start_position, //start position
           distance + start_position, // target position
-          1.2, // max vel //1.5 // 1 //1.2
+          2.4, // max vel //1.5 // 1 //1.2
           1.2, // max accel //1 // 0.5
           0.02, // execution period 
           1.2 // deceleration //2 // 0.5
@@ -617,7 +625,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     double position_profile_command = positionMotionProfile.execute();
-    double feed_forward_rate = 0; //positionMotionProfile.velocity_feed_forward;
+    double feed_forward_rate = positionMotionProfile.velocity_feed_forward;
 
 
     //System.out.println(feed_forward_rate);
@@ -676,10 +684,10 @@ public class DriveSubsystem extends SubsystemBase {
         headingMotionProfile.init(
           headingFeedback, //starting heading
           headingFeedback + finalHeading, // final heading
-          30, // max vel (in degrees per sec)
-          60, // max accel (degrees per sec squared)
+          360, // max vel (in degrees per sec)
+          360, // max accel (degrees per sec squared)
           0.02, // execution period 
-          60 // deceleration
+          360 // deceleration
         );
         state_flag_motion_profile = false;
     }
@@ -688,12 +696,14 @@ public class DriveSubsystem extends SubsystemBase {
     double feed_forward_rate = 0; //positionMotionProfile.velocity_feed_forward;*/
     double heading_profile_command = headingMotionProfile.execute();
 
+    //double heading_feed_forward_rate = headingMotionProfile.velocity_feed_forward;
+
     //System.out.println(feed_forward_rate);
 
     
     //double headingCommand = finalHeading;
     double headingError = headingPID.execute(heading_profile_command, headingFeedback);
-    double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;
+    double headingErrorMeters = HEADING_BOT_DEG_TO_BOT_WHEEL_DISTANCE * headingError;//+heading_feed_forward_rate);
 
     //System.out.println(headingCommand + "," + headingFeedback);
 

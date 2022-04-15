@@ -44,8 +44,8 @@ public class AutoPath8 extends SequentialCommandGroup {
       new ParallelCommandGroup(
         new AutoMoveArmDown(armSubsystem).withTimeout(1), // move arm down to pick up next ball
         new ResetDrivetrainEncoders(driveSubsystem).withTimeout(1), // reset drivetrain encoders to make auto path work correctly
-        new AutoTurnLLOn(limelightSubsystem).withTimeout(1), // keep LL on to keep shooter active
-        new AutoZeroYaw(driveSubsystem).withTimeout(1) // zero the yaw to start with known 0 heading to goal
+        new AutoTurnLLOn(limelightSubsystem).withTimeout(1) // keep LL on to keep shooter active
+        //new AutoZeroYaw(driveSubsystem).withTimeout(1) // zero the yaw to start with known 0 heading to goal
       ),
 
       new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out

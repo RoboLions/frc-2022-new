@@ -33,7 +33,9 @@ public class AutoTurn extends CommandBase {
   public void initialize() {
     //drivesubsystem.ZeroYaw();
     drivesubsystem.headingPID.reset();
+    drivesubsystem.headingMotionProfile.reset();
     initial_heading = drivesubsystem.getYaw();
+    drivesubsystem.state_flag_motion_profile = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
