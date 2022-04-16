@@ -48,11 +48,13 @@ public class AutoPath8 extends SequentialCommandGroup {
         //new AutoZeroYaw(driveSubsystem).withTimeout(1) // zero the yaw to start with known 0 heading to goal
       ),
 
-      new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out
+      new StopNWait(driveSubsystem, 1), // allow all past commands to settle out
 
       new AutoMoveDistance(driveSubsystem, -0.7), //move 0.7m and stop in front of the second cargo
 
-      new StopNWait(driveSubsystem, 0.5), 
+      new StopNWait(driveSubsystem, 0.3),
+
+      //new StopNWait(driveSubsystem, 0.5), 
 
       new AutoShoot(shooterSubsystem).withTimeout(1), // ramp up the shooter
 
@@ -70,6 +72,15 @@ public class AutoPath8 extends SequentialCommandGroup {
       ),
 
       new StopNWait(driveSubsystem, 0.25),
+
+      /*new ParallelCommandGroup(
+        new AutoMoveDistance(driveSubsystem, 0.2),
+        new AutoMoveElevatorUp(shooterSubsystem).withTimeout(0.7)
+      ),
+
+      new AutoShootWithElevator(shooterSubsystem).withTimeout(0.7),
+
+      new StopNWait(driveSubsystem, 0.25),*/
 
       new AutoMoveDistance(driveSubsystem, -0.7), // move another 0.7m to make sure we are out of the tarmac
 

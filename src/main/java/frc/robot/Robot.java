@@ -104,17 +104,17 @@ public class Robot extends TimedRobot {
     camera.setResolution(240, 180);
     camera.setFPS(12);
 
-    m_chooser.addOption("Testing" , new TestMove(driveSubsystem));
+    //m_chooser.addOption("Testing" , new TestMove(driveSubsystem));
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));
     m_chooser.addOption("Taxi 1", new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem));
-    m_chooser.addOption("Old Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("New Hangar 2", new AutoPath8(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    //m_chooser.addOption("Old Hangar 2", new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    m_chooser.addOption("Hangar 2", new AutoPath8(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
+    //m_chooser.addOption("Terminal 2", new AutoPath3(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 2", new AutoPath4(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
     //m_chooser.addOption("Hangar 4", new AutoPath5(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Terminal 4", new AutoPath6(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     //m_chooser.addOption("Guardrail 4", new AutoPath7(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
-    m_chooser.addOption("Terminal 3", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
+    m_chooser.addOption("Terminal 2", new TestPath(driveSubsystem, intakeSubsystem, shooterSubsystem, limelightSubsystem, armSubsystem));
     m_chooser.setDefaultOption("Rude Hangar 2", new AutoPath9(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem));
 
     SmartDashboard.putData(m_chooser);

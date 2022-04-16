@@ -48,11 +48,11 @@ public class AutoPath9 extends SequentialCommandGroup {
         //new AutoZeroYaw(driveSubsystem).withTimeout(1)
       ),
 
-      new StopNWait(driveSubsystem, 0.1), // allow all past commands to settle out
+      new StopNWait(driveSubsystem, 1), // allow all past commands to settle out
 
       new AutoMoveDistance(driveSubsystem, -0.7), //move a distance of 0.7m
 
-      new StopNWait(driveSubsystem, 0.5), 
+      //new StopNWait(driveSubsystem, 0.5), 
 
       new AutoShoot(shooterSubsystem).withTimeout(1),
 
@@ -71,20 +71,20 @@ public class AutoPath9 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.25),
 
-      new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
+      //new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
 
-      new StopNWait(driveSubsystem, 0.1),
+      //new StopNWait(driveSubsystem, 0.1),
 
       new AutoTurn(driveSubsystem, -89), //-89
 
-      new StopNWait(driveSubsystem, 0.1),
+      //new StopNWait(driveSubsystem, 0.1),
 
-      new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
+      //new AutoZeroYaw(driveSubsystem).withTimeout(0.2),
 
-      new StopNWait(driveSubsystem, 0.1),
+      //new StopNWait(driveSubsystem, 0.1),
 
       new ParallelCommandGroup(
-        new AutoMoveDistance(driveSubsystem, -0.2), //move another 0.2m
+        new AutoMoveDistance(driveSubsystem, -0.6), //move another 0.2m
         new AutoIntake(intakeSubsystem).withTimeout(2),
         new AutoShootShort(shooterSubsystem).withTimeout(3),
         new AutoMoveArmDown(armSubsystem).withTimeout(2)
