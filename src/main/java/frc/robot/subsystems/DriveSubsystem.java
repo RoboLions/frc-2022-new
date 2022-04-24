@@ -11,6 +11,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -29,6 +33,9 @@ public class DriveSubsystem extends SubsystemBase {
   private static final double IN_TO_M = .0254;
   
   private static final int timeoutMs = 10;
+
+  DifferentialDriveOdometry m_odometry;
+
   private static final int MOTOR_ENCODER_CODES_PER_REV = 2048; //4096 for CTRE Mag Encoders, 2048 for the Falcons
   private static final double DIAMETER_INCHES = 6.0; // wheels on prototype bot
   
@@ -198,6 +205,18 @@ public class DriveSubsystem extends SubsystemBase {
       true, //enableCage
       false //enableDeadband
     );
+
+
+    m_odometry = new DifferentialDriveOdometry(
+      getGyroHeading(), new Pose2d(8.21, 2.48, Rotation2d.fromDegrees(-65)));
+  }
+
+  public Rotation2d getGyroHeading() {
+    return Rotation2d.fromDegrees(imu.getYaw());
+  }
+
+  public Pose2d getPose() {
+    return m_odometry.getPoseMeters();
   }
 
   public void stop() {
@@ -764,6 +783,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_odometry.update(this.getGyroHeading(), this.leftDistanceTravelledInMeters(), this.rightDistanceTravelledInMeters());
     // This method will be called once per scheduler run
   }
 }
