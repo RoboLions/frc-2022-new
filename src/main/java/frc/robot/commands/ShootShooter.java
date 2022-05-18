@@ -78,33 +78,33 @@ public class ShootShooter extends CommandBase {
     //double hoodSpeed = 1; //0
     // -6.3 + 1.79x + -0.148x^2 + 4.07E-03x^3
     //double hoodSpeed = (-6.3) + (1.79 * x) + (-0.148 * Math.pow(x, 2)) + (0.00407 * Math.pow(x, 3));
-    double hoodSpeed = 0;
-    double speed = 0.0562*x + 1.13; //0.0581*x + 1.11;
-    if (x >= 7 && x <= 11) {
-      hoodSpeed = 0.4;
+    double hoodSpeed = 1; //0
+    double speed = 4; //0.0581*x + 1.11; 0.0592x + 1.13
+   /* if (x >= 7 && x <= 11) {
+      hoodSpeed = 0.4; //0.4
     } else if (x > 11 && x < 11.5) {
-      hoodSpeed = 0.2*x - 1.8;
+      hoodSpeed = 0.2*x - 1.8; //0.2x - 1.8
     } else if (x >= 11.5 && x <= 12) {
-      hoodSpeed = 0.5;
+      hoodSpeed = 0.5; //0.5
     } else if (x > 12 && x < 13) {
-      hoodSpeed = 0.2*x - 1.91;
+      hoodSpeed = 0.2*x - 1.91; //0.2x - 1.91
     } else if (x >= 13 && x <= 13.5) {
-      hoodSpeed = 0.7;
+      hoodSpeed = 0.7; //0.7
     } else if (x > 13.5 && x <= 14.5) { //14
-      hoodSpeed = 0.07*x - 0.243; //0.2*x - 2;
+      hoodSpeed = 0.07*x - 0.243; //0.2*x - 2; 
     } else {
       hoodSpeed = 0;
-    }
+    } */
     //double speed = 1.96;
     //hoodSpeed = 0.85;
 
     //System.out.println(speed + ", " + hoodSpeed);
 
-    if (hoodSpeed > 1) {
+   /* if (hoodSpeed > 1) {
       hoodSpeed = 1;
     } else if (hoodSpeed < -1) {
       hoodSpeed = -1;
-    }
+    } */
 
     if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
@@ -119,8 +119,8 @@ public class ShootShooter extends CommandBase {
     } 
     // shoot upper hub
     else if (manipulatorController.getRightTriggerAxis() > 0.25) {
-      shooterSubsystem.steadyShoot(speed); //0.94
-      shooterSubsystem.setHoodSpeed(hoodSpeed);
+      shooterSubsystem.steadyShoot(5); //0.94
+      shooterSubsystem.setHoodSpeed(0.75); //.65
     } 
     // shoot low goal
     else if (manipulatorController.getRightBumper()) {
@@ -128,8 +128,8 @@ public class ShootShooter extends CommandBase {
     }
     // shoot without limelight to upper hub from 10 feet
     else if (manipulatorController.getLeftBumper()) {
-      shooterSubsystem.steadyShoot(1.69); //2.2
-      shooterSubsystem.setHoodSpeed(0.4);
+      shooterSubsystem.steadyShoot(2.65); //2.2
+      shooterSubsystem.setHoodSpeed(0.75);
     }
     else {
       shooterSubsystem.stopShooter();

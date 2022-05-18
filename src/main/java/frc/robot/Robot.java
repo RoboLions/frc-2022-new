@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
 
     UsbCamera camera = CameraServer.startAutomaticCapture();
     camera.setResolution(240, 180);
-    camera.setFPS(12);
+    camera.setFPS(8); //12
 
     //m_chooser.addOption("Testing" , new TestMove(driveSubsystem));
     m_chooser.addOption("Taxi", new DefaultAutoPath(driveSubsystem));

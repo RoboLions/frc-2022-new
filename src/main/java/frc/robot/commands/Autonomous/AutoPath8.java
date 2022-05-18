@@ -65,7 +65,7 @@ public class AutoPath8 extends SequentialCommandGroup {
       ),
       
       new ParallelCommandGroup(
-        new AutoMoveDistance(driveSubsystem, -0.26), // move another 0.26 m to pick up the 2nd ball
+        new AutoMoveDistance(driveSubsystem, -0.28), // move another 0.28 m to pick up the 2nd ball
         new AutoIntake(intakeSubsystem).withTimeout(1.5), // move the intake to pick up the 2nd ball
         new AutoShootWithElevator(shooterSubsystem).withTimeout(2.8), // to shoot the 2nd ball 
         new AutoMoveArmDown(armSubsystem).withTimeout(2) // keep the arm down for teleop
@@ -82,7 +82,7 @@ public class AutoPath8 extends SequentialCommandGroup {
 
       new StopNWait(driveSubsystem, 0.25),*/
 
-      new AutoMoveDistance(driveSubsystem, -0.7), // move another 0.7m to make sure we are out of the tarmac
+      new AutoMoveDistance(driveSubsystem, -0.68), // move another 0.68m to make sure we are out of the tarmac
 
       new StopNWait(driveSubsystem, 0.25)
 
