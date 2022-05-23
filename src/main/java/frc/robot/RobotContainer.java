@@ -15,11 +15,12 @@ import frc.robot.commands.MoveClimb;
 import frc.robot.commands.RollIntake;
 import frc.robot.commands.ShootShooter;
 import frc.robot.commands.Autonomous.DefaultAutoPath;
-import frc.robot.commands.Autonomous.TestMove;
+//import frc.robot.commands.Autonomous.TestMove;
 import frc.robot.commands.Autonomous.TestPath;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.JoystickDrive;
 import frc.robot.commands.SimpleShootShooter;
+import frc.robot.commands.WindowUp;
 import frc.robot.commands.Autonomous.AutoPath1;
 import frc.robot.commands.Autonomous.AutoPath2;
 import frc.robot.commands.Autonomous.AutoPath3;
@@ -35,6 +36,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SimpleShooterSubsystem;
+import frc.robot.subsystems.WindowSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -60,6 +62,8 @@ public class RobotContainer {
 
   public static final XboxController driverController = new XboxController(0);
   public static final XboxController manipulatorController = new XboxController(1);
+
+  public static final WindowSubsystem windowSubsystem = new WindowSubsystem();
 
   //public static AutoPath1 autoPath1 = new AutoPath1(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem);
   public static AutoPath2 defaultAutoPath = new AutoPath2(driveSubsystem, intakeSubsystem, limelightSubsystem, shooterSubsystem, armSubsystem);
@@ -96,6 +100,9 @@ public class RobotContainer {
       new RollIntake(intakeSubsystem)
     );
 
+    windowSubsystem.setDefaultCommand(
+      new WindowUp(windowSubsystem)
+    );
   }
 
   /**

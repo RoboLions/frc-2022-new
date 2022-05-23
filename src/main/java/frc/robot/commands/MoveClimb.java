@@ -80,19 +80,19 @@ public class MoveClimb extends CommandBase {
     }
 
     // Pull down climber DURING COMPETITION (climbing)
-    if (left_bumper && 
+    /*if (left_bumper && 
        (rightCurrentPosition > R_CLIMB_TARGET_ENCODER_COUNT) && 
        (leftCurrentPosition > L_CLIMB_TARGET_ENCODER_COUNT)) {
       leftClimbPower = LEFT_DOWN_POWER; // moving inwards
       rightClimbPower = RIGHT_DOWN_POWER;
-    }
+    } */
     // Pull up climber to target position DURING COMPETITION
-    else if (right_bumper && 
+   /* else if (right_bumper && 
             (rightCurrentPosition < R_MID_TARGET_ENCODER_COUNT) &&
             (leftCurrentPosition < L_MID_TARGET_ENCODER_COUNT)) {
       leftClimbPower = LEFT_UP_POWER;
       rightClimbPower = RIGHT_UP_POWER;
-    } 
+    } */
     // Pull down climber to reset (home)
     else if (back_button) {
       leftClimbPower = LEFT_SLOW_DOWN_POWER;
@@ -102,10 +102,10 @@ public class MoveClimb extends CommandBase {
     else if (start_button) {
       climbSubsystem.moveServoOut();
     } 
-    else if (!left_bumper && !right_bumper ) {
+   /* else if (!left_bumper && !right_bumper ) {
       leftClimbPower = 0;
       rightClimbPower = 0;
-    } else {
+    } */ else {
       leftClimbPower = 0;
       rightClimbPower = 0;
     }

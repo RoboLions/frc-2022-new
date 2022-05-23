@@ -35,6 +35,8 @@ public class RobotMap {
 
     public static final int HOOD_MOTOR_PORT = 17;
 
+    public static final int WINDOW_MOTOR_PORT = 51;
+
     public static WPI_VictorSPX intakeRollerMotor = new WPI_VictorSPX(INTAKE_ROLLER_PORT);
     public static WPI_VictorSPX intakeArmMotor = new WPI_VictorSPX(INTAKE_ARM_PORT);
     public static Pigeon2 intakeIMU = new Pigeon2(INTAKE_ARM_IMU_PORT);
@@ -57,6 +59,8 @@ public class RobotMap {
     public static WPI_TalonFX highLeftClimbMotor = new WPI_TalonFX(HIGH_LEFT_CLIMB_PORT);
 
     public static WPI_TalonFX shooterHoodMotor = new WPI_TalonFX(HOOD_MOTOR_PORT);
+
+    public static WPI_VictorSPX windowHoodMotor = new WPI_VictorSPX(WINDOW_MOTOR_PORT);
 
     // public static DigitalInput elevatorSensor1 = new DigitalInput(3);
 
