@@ -109,24 +109,27 @@ public class ShootShooter extends CommandBase {
     if (driverController.getAButtonPressed()) {
       LimelightSubsystem.setVisionProcessor();
     } 
-    /*if (driverController.getYButtonPressed()) {
+    if (driverController.getYButtonPressed()) {
       LimelightSubsystem.setDriverCamera();
-    }*/
+    }
 
     // reverse
     if (manipulatorController.getLeftTriggerAxis() > 0.25) {
       shooterSubsystem.setSpeed(-0.35);
     } 
-    // shoot upper hub
+    // far ----- shoot upper hub
     else if (manipulatorController.getRightTriggerAxis() > 0.25) {
-      shooterSubsystem.steadyShoot(5); //0.94
+      shooterSubsystem.steadyShoot(3.4); //0.94, 5
       shooterSubsystem.setHoodSpeed(0.75); //.65
     } 
-    // shoot low goal
+    // middle ----- shoot low goal
     else if (manipulatorController.getRightBumper()) {
+      //shooterSubsystem.steadyShoot(3.2); //0.83); //0.83
+      //shooterSubsystem.setHoodSpeed(0.75); //0.2);
       shooterSubsystem.steadyShoot(0.83);
+      shooterSubsystem.setHoodSpeed(0.2);
     }
-    // shoot without limelight to upper hub from 10 feet
+    // close ------ shoot without limelight to upper hub from 10 feet
     else if (manipulatorController.getLeftBumper()) {
       shooterSubsystem.steadyShoot(2.65); //2.2
       shooterSubsystem.setHoodSpeed(0.75);
